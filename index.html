@@ -658,22 +658,22 @@
         kidNote: "<strong>Baby Gate Spot:</strong> Place the baby gate right at the top of the log stairs."
       },
       porch: {
-        id: "porch", name: "Front Porch & Fire Pit", floor: "Outside", level: 0, pos: [0.0, 2.2, 24.0],
-        photos: ["02fd2eee.jpg", "829de55c.jpg", "f0bd7529.jpg", "91ecdc7c.jpg"],
-        desc: "Full-width covered log porch with wooden rockers, lattice skirting, and 3 overhead shed dormers facing the stone fire pit, live-edge benches, and wooded corner lot.",
-        kidNote: "<strong>5-Min Walk to Speelyi Beach:</strong> Quiet dead-end street with beach chairs included."
+        id: "porch", name: "Front Porch & Fire Pit", floor: "Outside", level: 0, pos: [6.5, 2.5, 42.0],
+        photos: ["02fd2eee.jpg", "f0bd7529.jpg", "10e23541.jpg", "91ecdc7c.jpg", "4cf43c96.jpg"],
+        desc: "Full-width covered log porch with white lattice skirting, wooden rockers, and café lights facing a wide gravel courtyard and pine-grove boulder fire pit with live-edge benches, Adirondack chairs, hammock, and tree-strung bistro lights.",
+        kidNote: "<strong>5-Min Walk to Speelyi Beach:</strong> Wide flat gravel turnaround for bikes/strollers; beach chairs included."
       },
       patio: {
-        id: "patio", name: "Patio & Hot Tub", floor: "Outside", level: 0, pos: [-26.5, 2.2, -1.0],
-        photos: ["5995ae6a.jpg", "03ab48f8.jpg", "349036ba.jpg"],
-        desc: "Poured concrete patio along the West log gable wall with private hot tub near the front corner, cushioned blue lounge chairs in the center, and stainless BBQ grill.",
-        kidNote: "<strong>Evening Relax Spot:</strong> Tucked outside the West log wall."
+        id: "patio", name: "Patio & Hot Tub", floor: "Outside", level: 0, pos: [-29.0, 2.4, -2.0],
+        photos: ["0b337e52.jpg", "5995ae6a.jpg", "676349a8.jpg", "349036ba.jpg"],
+        desc: "Wide poured-concrete patio along the West log gable wall: private hot tub with steps & cover lifter under the rear window, black-and-white geometric rug, blue-cushioned wood loveseat & armchair, stump lantern table, and stainless BBQ grill.",
+        kidNote: "<strong>Wide Open Patio:</strong> Generous concrete & gravel clearance all around—well separated from the detached garage."
       },
       garage: {
-        id: "garage", name: "Garage (Ping-Pong)", floor: "Outside", level: 0, pos: [-36.0, 3.0, 19.0],
-        photos: ["2360520f.jpg", "10e23541.jpg"],
-        desc: "Detached wood-framed garage with overhead roll-up door, exposed stud interior, regulation ping-pong table, beach gear, and EV charger.",
-        kidNote: "<strong>Separate Game Space:</strong> Zero indoor noise."
+        id: "garage", name: "Garage (Ping-Pong)", floor: "Outside", level: 0, pos: [-42.5, 3.2, 25.5],
+        photos: ["2360520f.jpg", "10e23541.jpg", "f0bd7529.jpg"],
+        desc: "Detached vertical-wood gable-roof garage across the West gravel driveway: corrugated steel roll-up door, exposed 2×4 stud interior, regulation Master Indoor ping-pong table, firewood lean-to rack, beach gear, and EV charger.",
+        kidNote: "<strong>Separate Game Cabin:</strong> Across the driveway (~28 ft from the patio) so ping-pong noise never reaches bedrooms."
       }
     };
 
@@ -772,13 +772,20 @@
         for (let r = 0; r < rows; r++) {
           const y0 = (r * h) / rows, rh = h / rows;
           const grad = ctx.createLinearGradient(0, y0, 0, y0 + rh);
-          grad.addColorStop(0, "#75411c");
-          grad.addColorStop(0.22, "#c47e42");
-          grad.addColorStop(0.55, "#d58f50");
-          grad.addColorStop(0.88, "#915528");
-          grad.addColorStop(1, "#48260e");
+          grad.addColorStop(0, "#633515");
+          grad.addColorStop(0.18, "#c27b3c");
+          grad.addColorStop(0.46, "#db934e");
+          grad.addColorStop(0.78, "#9e5c29");
+          grad.addColorStop(0.95, "#42210b");
+          grad.addColorStop(1, "#ece6d9"); // Subtle chinking line!
           ctx.fillStyle = grad;
           ctx.fillRect(0, y0, w, rh);
+          // Subtle horizontal wood grain fibers & pine knots
+          ctx.fillStyle = "rgba(80,40,12,0.16)";
+          for (let g = 0; g < 5; g++) ctx.fillRect(0, y0 + ((g * 7 + r * 3) % (rh - 4)) + 2, w, 1);
+          const kx = (r * 79 + 33) % (w - 20) + 10, ky = y0 + rh * 0.48;
+          ctx.fillStyle = "rgba(74,36,12,0.42)";
+          ctx.beginPath(); ctx.ellipse(kx, ky, 5, 2.5, 0.1, 0, Math.PI * 2); ctx.fill();
         }
       }, 3, 2),
       carpet: makeTex(128, 128, (ctx, w, h) => {
@@ -873,13 +880,127 @@
           ctx.fillStyle = "rgba(0,0,0,0.22)"; ctx.fillRect(x + 2, 0, 2, h);
         }
       }, 8, 4),
-      grass: makeTex(256, 256, (ctx, w, h) => {
-        ctx.fillStyle = "#526942"; ctx.fillRect(0, 0, w, h);
-        for (let i = 0; i < 1600; i++) {
-          ctx.fillStyle = i % 3 === 0 ? "#485e39" : "#5e774c";
-          ctx.fillRect((i * 53) % w, (i * 97) % h, 3, 3);
+      grass: makeTex(1024, 1024, (ctx, w, h) => {
+        // Master 1024x1024 Seamless Property Terrain Map (maps world X=[-144..+136], Z=[-126..+154] with ZERO hard seams!):
+        // Blends mossy dark forest floor -> cinnamon pine-needle duff -> dappled wild grass -> compacted crushed gravel turnaround & driveway!
+        ctx.fillStyle = "#4c3e2d"; ctx.fillRect(0, 0, w, h);
+        // 1. Woodland moss & forest loam variation across the lot
+        for (let i = 0; i < 650; i++) {
+          const x = (i * 173 + 29) % w, y = (i * 293 + 47) % h, r = 18 + (i % 42);
+          const g = ctx.createRadialGradient(x, y, 2, x, y, r);
+          const col = i % 4 === 0 ? "rgba(62,84,43,0.46)" : (i % 3 === 0 ? "rgba(104,75,47,0.42)" : "rgba(54,43,31,0.40)");
+          g.addColorStop(0, col); g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
         }
-      }, 12, 12),
+        // Helper converting world (wx, wz) -> canvas (px, py) on 280x280 plane centered at (-4, 14)
+        const toUV = (wx, wz) => [((wx + 4) / 280 + 0.5) * w, ((wz - 14) / 280 + 0.5) * h];
+        const paintSoftZone = (wx, wz, rxFt, rzFt, innerCol, midCol) => {
+          const [cx, cy] = toUV(wx, wz);
+          const rx = (rxFt / 280) * w, ry = (rzFt / 280) * h;
+          ctx.save();
+          ctx.translate(cx, cy);
+          ctx.scale(1, ry / rx);
+          const g = ctx.createRadialGradient(0, 0, rx * 0.25, 0, 0, rx);
+          g.addColorStop(0, innerCol);
+          g.addColorStop(0.68, midCol);
+          g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g;
+          ctx.beginPath(); ctx.arc(0, 0, rx, 0, Math.PI * 2); ctx.fill();
+          ctx.restore();
+        };
+        // Warm cinnamon pine-needle clearing around Fire Pit Grove & sunny lawn edges
+        paintSoftZone(9, 55, 28, 22, "rgba(118,83,51,0.82)", "rgba(98,71,45,0.45)");
+        paintSoftZone(-12, 46, 22, 16, "rgba(78,96,52,0.52)", "rgba(72,88,48,0.22)");
+        paintSoftZone(32, 34, 20, 16, "rgba(82,98,54,0.48)", "rgba(72,88,48,0.20)");
+        // Softly feathered crushed-stone gravel driveway, front turnaround courtyard, garage apron & East shed turnaround!
+        paintSoftZone(2, 33, 36, 17, "rgba(148,140,127,0.95)", "rgba(136,128,115,0.62)");
+        paintSoftZone(-34, 25, 24, 16, "rgba(146,138,125,0.94)", "rgba(134,126,113,0.58)");
+        paintSoftZone(-48, 39, 17, 15, "rgba(144,136,123,0.90)", "rgba(132,124,111,0.50)");
+        paintSoftZone(29, 15, 19, 14, "rgba(145,137,124,0.90)", "rgba(132,124,111,0.48)");
+        paintSoftZone(-24, 64, 15, 30, "rgba(138,130,118,0.88)", "rgba(124,116,104,0.42)");
+        // Fine gravel grit, tire-track dust, fallen pine needles & pebble speckle across the entire 1024x1024 map!
+        const gritCols = ["rgba(182,174,160,0.36)", "rgba(88,76,62,0.38)", "rgba(118,92,62,0.35)", "rgba(62,78,44,0.32)", "rgba(48,38,28,0.36)"];
+        for (let i = 0; i < 18000; i++) {
+          ctx.fillStyle = gritCols[i % gritCols.length];
+          ctx.fillRect((i * 97 + 13) % w, (i * 193 + 29) % h, 1 + (i % 3), 1 + ((i >> 1) % 2));
+        }
+      }, 1, 1),
+      gravelDrive: makeTex(512, 512, (ctx, w, h) => {
+        // Compacted crushed grey-tan Cascade driveway gravel with natural stone grit & tire-track mottling
+        ctx.fillStyle = "#91897d"; ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 180; i++) {
+          const x = (i * 113) % w, y = (i * 197) % h, r = 18 + (i % 24);
+          const g = ctx.createRadialGradient(x, y, 2, x, y, r);
+          g.addColorStop(0, i % 2 === 0 ? "rgba(164,155,141,0.32)" : "rgba(116,109,98,0.30)");
+          g.addColorStop(1, "rgba(0,0,0,0)");
+          ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
+        }
+        const pCols = ["#aba396", "#7a7368", "#bfb7a9", "#69635a", "#8a8275"];
+        for (let i = 0; i < 5500; i++) {
+          ctx.fillStyle = pCols[i % pCols.length];
+          ctx.fillRect((i * 67 + 7) % w, (i * 131 + 13) % h, 2 + (i % 2), 2);
+        }
+      }, 9, 9),
+      concreteSlab: makeTex(256, 256, (ctx, w, h) => {
+        ctx.fillStyle = "#cbc5bb"; ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 1200; i++) {
+          ctx.fillStyle = i % 2 === 0 ? "rgba(255,255,255,0.08)" : "rgba(70,65,58,0.08)";
+          ctx.fillRect((i * 43) % w, (i * 89) % h, 3, 3);
+        }
+        ctx.strokeStyle = "rgba(85,80,72,0.42)"; ctx.lineWidth = 2;
+        ctx.strokeRect(1, 1, w - 2, h - 2);
+        ctx.beginPath(); ctx.moveTo(w / 2, 0); ctx.lineTo(w / 2, h); ctx.moveTo(0, h / 2); ctx.lineTo(w, h / 2); ctx.stroke();
+      }, 3, 4),
+      lattice: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#231c16"; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "#e8e3d9"; ctx.lineWidth = 5;
+        for (let d = -h; d < w + h; d += 22) {
+          ctx.beginPath(); ctx.moveTo(d, 0); ctx.lineTo(d + h, h); ctx.stroke();
+          ctx.beginPath(); ctx.moveTo(d + h, 0); ctx.lineTo(d, h); ctx.stroke();
+        }
+        ctx.strokeStyle = "#b57a45"; ctx.lineWidth = 8;
+        ctx.strokeRect(0, 0, w, h);
+      }, 12, 1),
+      verticalWood: makeTex(256, 256, (ctx, w, h) => {
+        ctx.fillStyle = "#b9854e"; ctx.fillRect(0, 0, w, h);
+        for (let x = 0; x < w; x += 16) {
+          ctx.fillStyle = (x / 16) % 2 === 0 ? "rgba(255,225,185,0.12)" : "rgba(70,42,18,0.12)";
+          ctx.fillRect(x, 0, 15, h);
+          ctx.fillStyle = "rgba(48,28,12,0.45)";
+          ctx.fillRect(x + 15, 0, 1.5, h);
+        }
+      }, 4, 2),
+      steelRollDoor: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#cfd5d4"; ctx.fillRect(0, 0, w, h);
+        for (let y = 0; y < h; y += 8) {
+          ctx.fillStyle = "rgba(255,255,255,0.35)"; ctx.fillRect(0, y, w, 2);
+          ctx.fillStyle = "rgba(60,68,68,0.28)"; ctx.fillRect(0, y + 4, w, 2);
+        }
+      }, 2, 3),
+      pineBark: makeTex(128, 256, (ctx, w, h) => {
+        ctx.fillStyle = "#5a3d28"; ctx.fillRect(0, 0, w, h);
+        const bCols = ["#754e32", "#3e291b", "#86593a", "#2d1e14"];
+        for (let i = 0; i < 260; i++) {
+          ctx.fillStyle = bCols[i % bCols.length];
+          ctx.fillRect((i * 19) % w, (i * 37) % h, 4 + (i % 5), 14 + (i % 18));
+        }
+      }, 2, 4),
+      patioRug: makeTex(256, 256, (ctx, w, h) => {
+        // High-contrast charcoal & crisp off-white geometric concentric diamond patio rug (exact match to Photos #17 & #18!)
+        ctx.fillStyle = "#2b2d30"; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "#efede6";
+        for (let r = 0; r < 4; r++) {
+          for (let c = 0; c < 4; c++) {
+            const cx = c * 64 + 32, cy = r * 64 + 32;
+            [27, 17, 7].forEach((rad, idx) => {
+              ctx.lineWidth = idx === 0 ? 5.5 : 4.5;
+              ctx.beginPath();
+              ctx.moveTo(cx, cy - rad); ctx.lineTo(cx + rad, cy); ctx.lineTo(cx, cy + rad); ctx.lineTo(cx - rad, cy); ctx.closePath();
+              ctx.stroke();
+            });
+          }
+        }
+      }, 2, 3),
       rug: makeTex(128, 128, (ctx, w, h) => {
         ctx.fillStyle = "#e2dcd0"; ctx.fillRect(0, 0, w, h);
         ctx.strokeStyle = "#58534d"; ctx.lineWidth = 5;
@@ -902,21 +1023,22 @@
     renderer.toneMappingExposure = 1.04;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.35, 480);
+    scene.fog = new THREE.FogExp2(0xd8e2e6, 0.0022);
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.35, 560);
 
-    const hemiLight = new THREE.HemisphereLight(0xfff8ed, 0x55624a, 0.82);
-    hemiLight.position.set(0, 70, 0);
+    const hemiLight = new THREE.HemisphereLight(0xfff8ed, 0x5d5343, 0.84);
+    hemiLight.position.set(0, 85, 0);
     scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xfff1d8, 0.88);
-    sunLight.position.set(44, 72, 52);
+    const sunLight = new THREE.DirectionalLight(0xfff1d8, 0.92);
+    sunLight.position.set(54, 88, 66);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.set(2048, 2048);
-    sunLight.shadow.camera.left = -65;
-    sunLight.shadow.camera.right = 65;
-    sunLight.shadow.camera.top = 65;
-    sunLight.shadow.camera.bottom = -65;
-    sunLight.shadow.bias = -0.0005;
+    sunLight.shadow.camera.left = -95;
+    sunLight.shadow.camera.right = 95;
+    sunLight.shadow.camera.top = 95;
+    sunLight.shadow.camera.bottom = -95;
+    sunLight.shadow.bias = -0.0004;
     scene.add(sunLight);
 
     const interiorLights = new THREE.Group();
@@ -931,15 +1053,22 @@
     });
     scene.add(interiorLights);
 
-    const fireLight = new THREE.PointLight(0xff8430, 1.15, 26);
-    fireLight.position.set(0, 2.5, 31.5);
+    const fireLight = new THREE.PointLight(0xff8430, 1.35, 34);
+    fireLight.position.set(8.5, 2.8, 53.5);
     scene.add(fireLight);
 
     const MAT = {
-      ground: new THREE.MeshLambertMaterial({ map: TEX.grass }),
-      gravel: new THREE.MeshStandardMaterial({ color: 0xa39b8e, roughness: 0.95 }),
-      road: new THREE.MeshStandardMaterial({ color: 0x62605c, roughness: 0.9 }),
-      concrete: new THREE.MeshStandardMaterial({ color: 0xc8c3ba, roughness: 0.85 }),
+      ground: new THREE.MeshStandardMaterial({ map: TEX.grass, roughness: 0.96 }),
+      gravel: new THREE.MeshStandardMaterial({ map: TEX.gravelDrive, roughness: 0.95 }),
+      road: new THREE.MeshStandardMaterial({ color: 0x62605c, roughness: 0.92 }),
+      concrete: new THREE.MeshStandardMaterial({ map: TEX.concreteSlab, roughness: 0.84 }),
+      lattice: new THREE.MeshStandardMaterial({ map: TEX.lattice, roughness: 0.82 }),
+      verticalWood: new THREE.MeshStandardMaterial({ map: TEX.verticalWood, roughness: 0.76 }),
+      steelDoor: new THREE.MeshStandardMaterial({ map: TEX.steelRollDoor, roughness: 0.45, metalness: 0.35 }),
+      patioRug: new THREE.MeshStandardMaterial({ map: TEX.patioRug, roughness: 0.90 }),
+      spaShell: new THREE.MeshStandardMaterial({ color: 0x5a5d62, roughness: 0.32 }),
+      spaCabinet: new THREE.MeshStandardMaterial({ color: 0x4b423b, roughness: 0.72 }),
+      adirondack: new THREE.MeshStandardMaterial({ color: 0x7d766d, roughness: 0.82 }),
       logWall: new THREE.MeshStandardMaterial({ map: TEX.logs, roughness: 0.72 }),
       logBeam: new THREE.MeshStandardMaterial({ color: 0xc58349, roughness: 0.60 }),
       knottyPine: new THREE.MeshStandardMaterial({ color: 0xc88b52, roughness: 0.58 }),
@@ -976,8 +1105,9 @@
       darkWood: new THREE.MeshStandardMaterial({ color: 0x3d2618, roughness: 0.6 }),
       cherryWood: new THREE.MeshStandardMaterial({ color: 0x8c4526, roughness: 0.55 }),
       iron: new THREE.MeshStandardMaterial({ color: 0x242424, roughness: 0.48, metalness: 0.5 }),
-      pineTrunk: new THREE.MeshLambertMaterial({ color: 0x593a25 }),
-      pineNeedles: new THREE.MeshLambertMaterial({ color: 0x2c4f30 }),
+      pineTrunk: new THREE.MeshStandardMaterial({ map: TEX.pineBark, roughness: 0.92 }),
+      pineNeedles: new THREE.MeshStandardMaterial({ color: 0x2b4b2c, roughness: 0.88 }),
+      pineNeedlesAlt: new THREE.MeshStandardMaterial({ color: 0x355834, roughness: 0.88 }),
       whiteAppliance: new THREE.MeshStandardMaterial({ color: 0xf5f5f5, roughness: 0.35 }),
       tvScreen: new THREE.MeshBasicMaterial({ color: 0x2d6a8e }),
       warmBulb: new THREE.MeshBasicMaterial({ color: 0xfff5dc })
@@ -1230,105 +1360,479 @@
       bedMeshes[b.id] = { group: g, mattress: runner };
     }
 
-    // ==================== 1. SITE & OUTDOOR GROUNDS ====================
-    box(122, 0.4, 102, MAT.ground, -2, -0.2, 6, siteGroup, null, false);
-    box(122, 0.42, 8.5, MAT.road, -2, -0.18, 50, siteGroup, null, false);
-    box(8.5, 0.42, 102, MAT.road, 52, -0.18, 6, siteGroup, null, false);
-    box(76, 0.44, 23, MAT.gravel, -8, -0.15, 31.5, siteGroup, null, false);
-    box(20, 0.44, 24, MAT.gravel, -36, -0.15, 22, siteGroup, null, false);
+    // ==================== 1. FORENSIC PHOTO-ACCURATE SITE, FOREST GROUNDS, PATIO, FIRE PIT & PING-PONG GARAGE ====================
+    // Seamless 280x280ft Master Property Terrain (feathered gravel turnaround, driveway, pine-needle fire-pit grove & mossy woods — zero hard seams!)
+    const forestBase = new THREE.Mesh(new THREE.PlaneGeometry(280, 280), MAT.ground);
+    forestBase.rotation.x = -Math.PI / 2;
+    forestBase.position.set(-4, 0.0, 14);
+    forestBase.receiveShadow = true;
+    siteGroup.add(forestBase);
 
-    // West Patio + Hot Tub + Blue Lounge Chairs + BBQ (A4, C9)
-    box(12.0, 0.32, 22, MAT.concrete, -27.2, 0.16, 0.0, siteGroup, "patio", false);
-    box(6.6, 2.9, 6.6, MAT.gravel, -25.6, 1.6, 5.8, siteGroup, "patio");
-    box(6.0, 0.3, 6.0, MAT.whiteAppliance, -25.6, 2.95, 5.8, siteGroup, "patio");
-    box(5.2, 0.32, 5.2, MAT.water, -25.6, 3.02, 5.8, siteGroup, "patio", false);
-    box(6.0, 0.05, 6.5, MAT.rug, -28.0, 0.34, -2.5, siteGroup, "patio", false);
-    box(4.4, 1.5, 2.4, MAT.patioBlue, -26.5, 1.05, -1.2, siteGroup, "patio");
-    box(2.3, 1.5, 2.3, MAT.patioBlue, -30.2, 1.05, -3.5, siteGroup, "patio");
-    box(3.4, 2.9, 2.0, MAT.stainless, -28.8, 1.65, -8.5, siteGroup, "patio");
+    // Subtle forest floor mounds, natural mossy nurse logs & scattered Cascade granite boulders around woods edge
+    [ [-68, -22, 18, 1.4], [58, -24, 16, 1.2], [-10, -34, 22, 1.1], [44, 58, 18, 1.0], [-66, 56, 16, 1.1] ].forEach(([mx, mz, mr, mh]) => {
+      const mound = new THREE.Mesh(new THREE.SphereGeometry(mr, 18, 10), MAT.ground);
+      mound.scale.set(1.2, mh / mr, 0.9);
+      mound.position.set(mx, -0.15, mz);
+      mound.receiveShadow = true;
+      siteGroup.add(mound);
+    });
+    // Curved stacked-granite boulder retaining wall along NE woods slope behind Propane Tank (Photos #2 right & #21!)
+    for (let bi = 0; bi < 14; bi++) {
+      const bx = 25.5 + bi * 1.45, bz = -11.5 + Math.sin(bi * 0.25) * 2.2;
+      const rk = new THREE.Mesh(new THREE.DodecahedronGeometry(0.75 + (bi % 3) * 0.18, 1), MAT.granite);
+      rk.scale.set(1.25, 0.85, 1.0);
+      rk.position.set(bx, 0.55, bz);
+      rk.rotation.set(bi * 0.4, bi * 0.7, 0);
+      rk.castShadow = true;
+      siteGroup.add(rk);
+      if (bi % 2 === 0) {
+        const rk2 = rk.clone();
+        rk2.position.set(bx + 0.4, 1.25, bz - 0.35);
+        rk2.scale.set(1.0, 0.72, 0.9);
+        siteGroup.add(rk2);
+      }
+    }
 
-    // Full-Width Covered Front Porch + White Lattice Skirting (A2, C12)
-    box(44, 0.65, 7.2, MAT.woodDeck, 0, 0.32, 17.6, siteGroup, "porch");
-    box(43.8, 0.55, 0.12, MAT.couchWhite, 0, 0.28, 21.1, siteGroup, "porch", false); // White lattice skirt
-    box(6.6, 0.44, 1.6, MAT.woodDeck, 6.5, 0.22, 21.9, siteGroup, "porch");
-    box(6.6, 0.22, 1.6, MAT.woodDeck, 6.5, 0.11, 23.4, siteGroup, "porch");
+    // --- WEST POURED-CONCRETE PATIO + PRIVATE HOT TUB + GEOMETRIC RUG + BLUE LOUNGE SEATING + BBQ (Photos #9, #10, #15, #17, #18, #20!) ---
+    // Wide 16.5ft x 27.5ft saw-cut poured concrete patio slab (X = -38.25..-21.75, Z = -13.75..+13.75) + SW stepped landing pad (#10 bottom-left!)
+    box(16.5, 0.26, 27.5, MAT.concrete, -30.0, 0.13, 0.0, siteGroup, "patio", false);
+    box(7.2, 0.18, 6.2, MAT.concrete, -26.2, 0.09, 16.6, siteGroup, "patio", false);
+
+    // Charcoal & Espresso-Panel Square Hot Tub under the North-West (Living Room) Window (X = -26.0, Z = -7.0 — Photos #10, #18, #19, #20!)
+    box(6.9, 3.0, 6.9, MAT.spaShell, -26.0, 1.63, -7.0, siteGroup, "patio");    // Molded charcoal-slate corner shell (#18, #20!)
+    box(5.4, 2.5, 7.02, MAT.spaCabinet, -26.0, 1.58, -7.0, siteGroup, "patio"); // Espresso wood-slat center panels
+    box(7.02, 2.5, 5.4, MAT.spaCabinet, -26.0, 1.58, -7.0, siteGroup, "patio");
+    box(7.15, 0.36, 7.15, MAT.spaShell, -26.0, 3.16, -7.0, siteGroup, "patio");
+    box(5.7, 0.18, 5.7, MAT.couchWhite, -26.0, 3.28, -7.0, siteGroup, "patio", false);
+    box(5.3, 0.22, 5.3, MAT.water, -26.0, 3.32, -7.0, siteGroup, "patio", false);
+    [[-2.2, -2.2], [2.2, -2.2], [-2.2, 2.2], [2.2, 2.2]].forEach(([hx, hz]) => {
+      box(0.85, 0.18, 0.55, MAT.iron, -26.0 + hx, 3.40, -7.0 + hz, siteGroup, "patio", false);
+    });
+    box(0.65, 0.12, 0.38, MAT.iron, -29.15, 3.38, -7.0, siteGroup, "patio", false);
+    // 2-Tier Brown Spa Entry Steps on West (-X) side facing across the open concrete patio (#18 & #20!)
+    box(1.15, 1.45, 3.1, MAT.darkWood, -30.0, 0.85, -7.0, siteGroup, "patio");
+    box(1.15, 0.75, 3.1, MAT.darkWood, -31.05, 0.50, -7.0, siteGroup, "patio");
+    // Folded Charcoal Thermal Spa Cover resting neatly along the South rim (#15 & #18 — horizontal folded half, never sticking up awkwardly!)
+    const spaCover = new THREE.Mesh(new THREE.BoxGeometry(7.0, 0.44, 2.35), MAT.spaShell);
+    spaCover.position.set(-26.0, 3.52, -3.55);
+    spaCover.rotation.x = 0.08;
+    siteGroup.add(spaCover);
+    addCollider(1, -29.8, -10.5, -22.4, -10.5);
+    addCollider(1, -29.8, -3.3, -22.4, -3.3);
+    addCollider(1, -29.8, -10.5, -29.8, -3.3);
+
+    // Black-and-White Geometric Diamond Outdoor Rug + Blue-Cushioned Wood Loveseat, Stump Table w/ Lantern & Armchair (#17, #18, #20!)
+    box(7.4, 0.04, 9.4, MAT.patioRug, -26.2, 0.28, 3.8, siteGroup, "patio", false);
+    // Dark-wood slatted 2-seat loveseat with blue cushions & lavender pillows backed against West log wall
+    box(2.5, 0.95, 4.8, MAT.darkWood, -23.6, 0.74, 2.2, siteGroup, "patio");
+    box(0.32, 1.85, 4.8, MAT.darkWood, -22.45, 1.55, 2.2, siteGroup, "patio");
+    box(2.5, 1.35, 0.24, MAT.darkWood, -23.6, 1.25, -0.15, siteGroup, "patio");
+    box(2.5, 1.35, 0.24, MAT.darkWood, -23.6, 1.25, 4.55, siteGroup, "patio");
+    box(2.2, 0.36, 4.4, MAT.patioBlue, -23.65, 1.32, 2.2, siteGroup, "patio");
+    box(0.42, 1.15, 2.1, MAT.patioBlue, -22.8, 1.92, 1.1, siteGroup, "patio");
+    box(0.42, 1.15, 2.1, MAT.patioBlue, -22.8, 1.92, 3.3, siteGroup, "patio");
+    box(0.35, 0.75, 0.85, new THREE.MeshStandardMaterial({ color: 0xa79ab8, roughness: 0.85 }), -23.1, 1.85, 1.5, siteGroup, "patio", false);
+    box(0.35, 0.75, 0.85, new THREE.MeshStandardMaterial({ color: 0xa79ab8, roughness: 0.85 }), -23.1, 1.85, 2.8, siteGroup, "patio", false);
+    // Natural peeled tree-stump side table + black metal lantern (#17, #18!)
+    const patioStump = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.82, 1.45, 14), MAT.knottyPine);
+    patioStump.position.set(-23.8, 0.98, 6.0);
+    siteGroup.add(patioStump);
+    box(0.48, 0.78, 0.48, MAT.iron, -23.8, 2.08, 6.0, siteGroup, "patio", false);
+    box(0.20, 0.32, 0.20, MAT.warmBulb, -23.8, 2.04, 6.0, siteGroup, "patio", false);
+    // Matching dark-wood & blue-cushion armchair near SW porch corner (#18 & #20!)
+    const patioChair = new THREE.Group();
+    patioChair.position.set(-24.8, 0.26, 8.8);
+    patioChair.rotation.y = -0.38;
+    box(2.4, 0.85, 2.4, MAT.darkWood, 0, 0.45, 0, patioChair, "patio");
+    box(2.4, 1.75, 0.28, MAT.darkWood, 0, 1.25, 1.08, patioChair, "patio");
+    box(2.1, 0.34, 2.1, MAT.patioBlue, 0, 0.98, -0.05, patioChair, "patio");
+    box(2.1, 1.05, 0.38, MAT.patioBlue, 0, 1.55, 0.82, patioChair, "patio");
+    siteGroup.add(patioChair);
+    // Stainless-steel & black propane BBQ grill + lidded bin at NW corner of concrete pad (#9 & #10!)
+    box(3.8, 1.9, 1.9, MAT.iron, -32.8, 1.22, -11.5, siteGroup, "patio");
+    box(2.4, 0.95, 1.8, MAT.stainless, -32.8, 2.62, -11.5, siteGroup, "patio");
+    box(2.0, 2.8, 1.9, MAT.darkDoor, -23.2, 1.65, -12.4, siteGroup, "patio");
+
+    // --- FULL-WIDTH COVERED FRONT PORCH + WHITE DIAGONAL LATTICE SKIRTING + PLANTERS + ROCKERS + FLAG + CAFÉ LIGHTS (Photos #2, #3, #4, #8, #10, #12!) ---
+    box(44.0, 0.28, 7.2, MAT.woodDeck, 0, 0.56, 17.6, siteGroup, "porch");
+    // Authentic white criss-cross lattice skirting panels along front & both ends of raised porch!
+    box(10.4, 1.15, 0.16, MAT.lattice, -16.4, -0.05, 21.1, siteGroup, "porch", false);
+    box(14.8, 1.15, 0.16, MAT.lattice, -3.6, -0.05, 21.1, siteGroup, "porch", false);
+    box(12.6, 1.15, 0.16, MAT.lattice, 15.5, -0.05, 21.1, siteGroup, "porch", false);
+    box(0.16, 1.15, 7.1, MAT.lattice, -21.85, -0.05, 17.6, siteGroup, "porch", false);
+    box(0.16, 1.15, 7.1, MAT.lattice, 21.85, -0.05, 17.6, siteGroup, "porch", false);
+    // Wide 4-tread open wooden porch stairs + plaid doormat + 2 flowering black square planters (#4, #8, #12!)
+    for (let st = 0; st < 4; st++) {
+      box(6.2, 0.16, 1.05, MAT.woodDeck, 6.5, 0.48 - st * 0.13, 21.65 + st * 0.95, siteGroup, "porch");
+    }
+    box(4.2, 0.03, 2.6, MAT.plaid, 6.5, 0.71, 15.2, siteGroup, "porch", false);
+    [3.55, 9.45].forEach(px => {
+      box(1.15, 1.15, 1.15, MAT.iron, px, 1.25, 20.4, siteGroup, "porch");
+      const bush = new THREE.Mesh(new THREE.DodecahedronGeometry(0.75, 1), MAT.pineNeedlesAlt);
+      bush.position.set(px, 2.05, 20.4);
+      siteGroup.add(bush);
+      [-0.25, 0.22].forEach(fx => box(0.22, 0.22, 0.22, MAT.redDoor, px + fx, 2.38, 20.45 - fx * 0.4, siteGroup, "porch", false));
+    });
     [-21.4, -13.0, -4.5, 3.0, 10.0, 15.8, 21.4].forEach(px => {
       box(0.55, 8.8, 0.55, MAT.logBeam, px, 5.0, 20.8, mainTallWallsGroup);
     });
     const addRailing = (x0, x1, z) => {
       const len = Math.abs(x1 - x0), cx = (x0 + x1) / 2;
-      box(len, 0.18, 0.22, MAT.logBeam, cx, 2.9, z, siteGroup, "porch");
-      box(len, 0.16, 0.22, MAT.logBeam, cx, 1.0, z, siteGroup, "porch");
-      for (let bx = x0 + 0.6; bx < x1; bx += 0.85) {
-        box(0.12, 1.9, 0.12, MAT.logBeam, bx, 1.95, z, siteGroup, "porch", false);
+      box(len, 0.18, 0.22, MAT.logBeam, cx, 3.1, z, siteGroup, "porch");
+      box(len, 0.16, 0.22, MAT.logBeam, cx, 1.05, z, siteGroup, "porch");
+      for (let bx = x0 + 0.6; bx < x1; bx += 0.72) {
+        box(0.11, 2.0, 0.11, MAT.logBeam, bx, 2.05, z, siteGroup, "porch", false);
       }
       addCollider(1, x0, z, x1, z);
     };
+    const addSideRailing = (x, z0, z1) => {
+      const len = Math.abs(z1 - z0), cz = (z0 + z1) / 2;
+      box(0.22, 0.18, len, MAT.logBeam, x, 3.1, cz, siteGroup, "porch");
+      box(0.22, 0.16, len, MAT.logBeam, x, 1.05, cz, siteGroup, "porch");
+      for (let bz = z0 + 0.6; bz < z1; bz += 0.72) {
+        box(0.11, 2.0, 0.11, MAT.logBeam, x, 2.05, bz, siteGroup, "porch", false);
+      }
+      addCollider(1, x, z0, x, z1);
+    };
     addRailing(-21.4, 3.0, 20.8);
     addRailing(10.0, 21.4, 20.8);
-    addCollider(1, -21.75, 13.75, -21.75, 20.8);
-    addCollider(1, 21.75, 13.75, 21.75, 20.8);
+    addSideRailing(-21.4, 14.0, 20.8);
+    addSideRailing(21.4, 14.0, 20.8);
+    // Warm Wooden Rocking Chairs + Log-Stump Drink Table on Front Porch (Photo #3 91ecdc7c!)
+    [-8.8, -2.4, 14.8].forEach(rx => {
+      const rg = new THREE.Group();
+      rg.position.set(rx, 0.70, 16.8);
+      rg.rotation.y = rx > 0 ? -0.25 : 0.22;
+      box(1.9, 0.16, 1.9, MAT.knottyPine, 0, 0.95, 0, rg, "porch");
+      box(1.9, 2.1, 0.16, MAT.knottyPine, 0, 1.95, -0.88, rg, "porch");
+      [-0.85, 0.85].forEach(sx => {
+        box(0.16, 0.14, 2.6, MAT.knottyPine, sx, 0.10, 0.05, rg, "porch", false); // Curved rocker runners!
+        box(0.18, 0.14, 1.9, MAT.knottyPine, sx, 1.45, -0.05, rg, "porch", false);
+      });
+      siteGroup.add(rg);
+    });
+    const porchStump = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.76, 1.4, 12), MAT.logBeam);
+    porchStump.position.set(-5.6, 1.4, 16.6);
+    siteGroup.add(porchStump);
+    // Angled Porch US Flag on Pole mounted to center-left post X = -4.5 (Photos #3, #4, #10!)
+    const flagPole = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 4.4, 8), MAT.whiteAppliance);
+    flagPole.position.set(-4.5, 6.2, 22.3);
+    flagPole.rotation.x = 0.72;
+    walkMainEnclosureGroup.add(flagPole);
+    const porchFlag = new THREE.Mesh(new THREE.PlaneGeometry(2.2, 1.35), new THREE.MeshStandardMaterial({ map: TEX.usFlag, side: THREE.DoubleSide, roughness: 0.8 }));
+    porchFlag.position.set(-4.5, 5.8, 22.8);
+    porchFlag.rotation.y = Math.PI / 2;
+    walkMainEnclosureGroup.add(porchFlag);
+    // Warm Glowing Edison Café String Bulbs along entire 44-ft Front Porch Beam (Photos #1, #8, #10, #14!)
+    for (let lx = -20.5; lx <= 20.5; lx += 2.9) {
+      const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.13, 8, 8), MAT.warmBulb);
+      bulb.position.set(lx, 9.05, 21.05);
+      walkMainEnclosureGroup.add(bulb);
+    }
 
-    [-16.5, -11.5, -1.0, 14.5].forEach(rx => {
-      box(2.0, 0.2, 2.0, MAT.darkWood, rx, 1.4, 18.4, siteGroup, "porch");
-      box(2.0, 2.0, 0.2, MAT.darkWood, rx, 2.3, 17.5, siteGroup, "porch");
+    // --- AUTHENTIC PINE-GROVE BOULDER FIRE PIT, LIVE-EDGE TIMBER BENCHES, ADIRONDACK CHAIRS, HAMMOCK & TREE STRING LIGHTS (Photos #1, #5, #11, #14!) ---
+    // Centered at (X = +8.5, Z = +53.5) — ~32 ft South of the Front Porch across the wide gravel turnaround!
+    const fpX = 8.5, fpZ = 53.5;
+    const ashBed = new THREE.Mesh(new THREE.CylinderGeometry(2.5, 2.6, 0.14, 20), MAT.iron);
+    ashBed.position.set(fpX, 0.08, fpZ);
+    siteGroup.add(ashBed);
+    // 18 rugged multi-toned Cascade fieldstone boulders forming the natural fire ring (#1, #5, #11!)
+    const boulderMats = [
+      new THREE.MeshStandardMaterial({ color: 0x6f6a63, roughness: 0.92 }),
+      new THREE.MeshStandardMaterial({ color: 0x847c71, roughness: 0.90 }),
+      new THREE.MeshStandardMaterial({ color: 0x58544e, roughness: 0.94 })
+    ];
+    for (let ri = 0; ri < 18; ri++) {
+      const ang = (ri / 18) * Math.PI * 2;
+      const rad = 2.45 + (ri % 3) * 0.10;
+      const stone = new THREE.Mesh(new THREE.DodecahedronGeometry(0.44 + (ri % 3) * 0.08, 0), boulderMats[ri % 3]);
+      stone.scale.set(1.30, 0.72, 1.05);
+      stone.position.set(fpX + Math.cos(ang) * rad, 0.28, fpZ + Math.sin(ang) * rad);
+      stone.rotation.set(ri * 0.7, ang, ri * 0.4);
+      stone.castShadow = true;
+      stone.userData.roomId = "porch";
+      pickables.push(stone);
+      siteGroup.add(stone);
+    }
+    // Stacked split firewood logs + multi-cone glowing campfire flames
+    [0, 1.05, 2.1].forEach((la, idx) => {
+      const flog = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.22, 2.4, 8), MAT.pineTrunk);
+      flog.position.set(fpX, 0.42 + idx * 0.14, fpZ);
+      flog.rotation.set(Math.PI / 2 - 0.22, la, 0.18);
+      siteGroup.add(flog);
+    });
+    const flameOuter = new THREE.Mesh(new THREE.ConeGeometry(1.15, 2.25, 9), new THREE.MeshBasicMaterial({ color: 0xff6a1a }));
+    flameOuter.position.set(fpX, 1.35, fpZ);
+    siteGroup.add(flameOuter);
+    const flameCore = new THREE.Mesh(new THREE.ConeGeometry(0.68, 1.55, 8), new THREE.MeshBasicMaterial({ color: 0xffd24c }));
+    flameCore.position.set(fpX + 0.1, 1.15, fpZ - 0.08);
+    siteGroup.add(flameCore);
+    // 2 Heavy Live-Edge Timber Slab Benches on Open-Frame Matte-Black Rectangular Steel Legs (#1 & #5 foreground!)
+    const addTimberBench = (bx, bz, len, rotY) => {
+      const bg = new THREE.Group();
+      bg.position.set(bx, 0, bz);
+      bg.rotation.y = rotY;
+      box(len, 0.28, 1.42, MAT.logBeam, 0, 1.52, 0, bg, "porch");
+      box(len, 0.24, 0.14, MAT.pineTrunk, 0, 1.50, 0.72, bg, "porch", false);
+      [-len * 0.36, len * 0.36].forEach(lx => {
+        box(0.22, 0.14, 1.32, MAT.iron, lx, 1.32, 0, bg, "porch");
+        box(0.22, 0.14, 1.32, MAT.iron, lx, 0.10, 0, bg, "porch");
+        box(0.22, 1.25, 0.16, MAT.iron, lx, 0.71, -0.58, bg, "porch");
+        box(0.22, 1.25, 0.16, MAT.iron, lx, 0.71, 0.58, bg, "porch");
+      });
+      siteGroup.add(bg);
+    };
+    addTimberBench(fpX + 1.8, fpZ + 6.2, 7.6, -0.18);
+    addTimberBench(fpX - 5.8, fpZ + 3.6, 6.0, 1.22);
+    // 3 Slatted Weathered Driftwood-Grey Adirondack Chairs + Stump Drink Rests (#1, #5, #11!)
+    [ [fpX - 2.4, fpZ - 6.0, 0.35], [fpX + 1.8, fpZ - 6.4, -0.15], [fpX + 5.6, fpZ - 4.5, -0.78] ].forEach(([ax, az, arot]) => {
+      const ag = new THREE.Group();
+      ag.position.set(ax, 0, az);
+      ag.rotation.y = arot;
+      const seat = box(1.95, 0.14, 2.0, MAT.adirondack, 0, 1.12, 0, ag, "porch");
+      seat.rotation.x = -0.18;
+      [-0.68, -0.34, 0, 0.34, 0.68].forEach((sx, si) => {
+        const sl = box(0.26, 2.35 - Math.abs(si - 2) * 0.16, 0.12, MAT.adirondack, sx, 2.12, -0.86, ag, "porch");
+        sl.rotation.x = -0.32;
+      });
+      [-0.95, 0.95].forEach(sx => {
+        box(0.34, 0.13, 2.2, MAT.adirondack, sx, 1.62, -0.05, ag, "porch");
+        box(0.15, 1.52, 0.20, MAT.adirondack, sx, 0.78, 0.65, ag, "porch");
+        box(0.15, 1.22, 0.20, MAT.adirondack, sx, 0.60, -0.75, ag, "porch");
+      });
+      siteGroup.add(ag);
+    });
+    const fpStump = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.68, 1.35, 10), MAT.pineTrunk);
+    fpStump.position.set(fpX - 0.4, 0.68, fpZ - 6.5);
+    siteGroup.add(fpStump);
+
+    // --- DETACHED WOOD-FRAMED PING-PONG GARAGE ("GAMING CABIN" — Photos #1, #4, #5, #7, #11!) ---
+    // Angled -28 deg (-0.48 rad) across the wide West gravel driveway at (X = -46.5, Z = +25.5) — 32+ ft clear of the Hot Tub,
+    // showing BOTH its white corrugated roll-up door on the left AND its golden vertical-board side wall on the right just like Photos #1 & #5!
+    const garX = -42.5, garZ = 25.5, garRot = 0.12;
+    const garageCutGrp = new THREE.Group();
+    garageCutGrp.position.set(garX, 0, garZ); garageCutGrp.rotation.y = garRot; siteGroup.add(garageCutGrp);
+    const garageTallGrp = new THREE.Group();
+    garageTallGrp.position.set(garX, 0, garZ); garageTallGrp.rotation.y = garRot; walkMainEnclosureGroup.add(garageTallGrp);
+    const garageRoofGrp = new THREE.Group();
+    garageRoofGrp.position.set(garX, 0, garZ); garageRoofGrp.rotation.y = garRot; roofGroup.add(garageRoofGrp);
+
+    box(16.4, 0.34, 21.4, MAT.concrete, 0, 0.17, 0, garageCutGrp, "garage");
+    buildWallAxis("x", -10.5, -8.0, 8.0, [], { level: 1, cutH: 4.8, fullH: 8.2, yBase: 0.34, thick: 0.38, mat: MAT.verticalWood, innerMat: MAT.knottyPine, innerSign: 1, cutParent: garageCutGrp, walkParent: garageTallGrp, collide: false, frameDoors: false, baseboard: false });
+    buildWallAxis("z", -8.0, -10.5, 10.5, [], { level: 1, cutH: 4.8, fullH: 8.2, yBase: 0.34, thick: 0.38, mat: MAT.verticalWood, innerMat: MAT.knottyPine, innerSign: 1, cutParent: garageCutGrp, walkParent: garageTallGrp, collide: false, frameDoors: false, baseboard: false });
+    buildWallAxis("z", 8.0, -10.5, 10.5, [], { level: 1, cutH: 4.8, fullH: 8.2, yBase: 0.34, thick: 0.38, mat: MAT.verticalWood, innerMat: MAT.knottyPine, innerSign: -1, cutParent: garageCutGrp, walkParent: garageTallGrp, collide: false, frameDoors: false, baseboard: false });
+    buildWallAxis("x", 10.5, -8.0, 8.0, [[-5.0, 5.0]], { level: 1, cutH: 4.8, fullH: 8.2, yBase: 0.34, thick: 0.38, mat: MAT.verticalWood, innerMat: MAT.knottyPine, innerSign: -1, cutParent: garageCutGrp, walkParent: garageTallGrp, collide: false, frameDoors: false, baseboard: false });
+    // Rotated world-space wall colliders leaving the 10-ft front roll-up doorway wide open to walk inside!
+    const addRotGarCol = (lx1, lz1, lx2, lz2) => {
+      const c = Math.cos(garRot), s = Math.sin(garRot);
+      const wx1 = garX + lx1 * c + lz1 * s, wz1 = garZ - lx1 * s + lz1 * c;
+      const wx2 = garX + lx2 * c + lz2 * s, wz2 = garZ - lx2 * s + lz2 * c;
+      addCollider(1, wx1, wz1, wx2, wz2);
+    };
+    addRotGarCol(-8.0, -10.5, 8.0, -10.5);
+    addRotGarCol(-8.0, -10.5, -8.0, 10.5);
+    addRotGarCol(8.0, -10.5, 8.0, 10.5);
+    addRotGarCol(-8.0, 10.5, -5.0, 10.5);
+    addRotGarCol(5.0, 10.5, 8.0, 10.5);
+
+    box(10.6, 0.24, 0.46, MAT.whiteAppliance, 0, 7.35, 10.5, garageTallGrp, "garage", false);
+    box(0.24, 7.1, 0.46, MAT.whiteAppliance, -5.1, 3.85, 10.5, garageTallGrp, "garage", false);
+    box(0.24, 7.1, 0.46, MAT.whiteAppliance, 5.1, 3.85, 10.5, garageTallGrp, "garage", false);
+    for (let sz = -9.0; sz <= 9.0; sz += 2.2) {
+      box(0.18, 4.6, 0.14, MAT.logBeam, -7.7, 2.65, sz, garageCutGrp, null, false);
+      box(0.18, 4.6, 0.14, MAT.logBeam, 7.7, 2.65, sz, garageCutGrp, null, false);
+      box(15.6, 0.22, 0.14, MAT.logBeam, 0, 8.35, sz, garageTallGrp, null, false);
+    }
+    const garageRollCurtain = box(10.0, 6.9, 0.22, MAT.steelDoor, 0, 3.80, 10.42, garageTallGrp, "garage", false);
+    const doorCoil = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 9.9, 14), MAT.steelDoor);
+    doorCoil.rotation.z = Math.PI / 2;
+    doorCoil.position.set(0, 7.85, 9.7);
+    garageTallGrp.add(doorCoil);
+    // Regulation Green Ping-Pong Table inside rotated garage
+    box(5.0, 0.16, 9.0, new THREE.MeshStandardMaterial({ color: 0x1d6847, roughness: 0.42 }), 0, 2.84, 0, garageCutGrp, "garage");
+    box(5.06, 0.17, 0.08, MAT.whiteAppliance, 0, 2.85, -4.46, garageCutGrp, "garage", false);
+    box(5.06, 0.17, 0.08, MAT.whiteAppliance, 0, 2.85, 4.46, garageCutGrp, "garage", false);
+    box(0.08, 0.17, 9.0, MAT.whiteAppliance, -2.46, 2.85, 0, garageCutGrp, "garage", false);
+    box(0.08, 0.17, 9.0, MAT.whiteAppliance, 2.46, 2.85, 0, garageCutGrp, "garage", false);
+    box(0.05, 0.17, 9.0, MAT.whiteAppliance, 0, 2.85, 0, garageCutGrp, "garage", false);
+    box(5.4, 0.52, 0.05, MAT.whiteAppliance, 0, 3.18, 0, garageCutGrp, "garage", false);
+    [[-1.9, -3.2], [1.9, -3.2], [-1.9, 3.2], [1.9, 3.2]].forEach(([lx, lz]) => {
+      box(0.16, 2.45, 0.16, MAT.iron, lx, 1.56, lz, garageCutGrp, "garage");
+    });
+    box(0.55, 0.05, 0.85, MAT.redDoor, -0.8, 2.95, 2.2, garageCutGrp, "garage", false);
+    box(0.55, 0.05, 0.85, MAT.redDoor, 0.5, 2.95, 2.5, garageCutGrp, "garage", false);
+    const garGable = new THREE.Shape();
+    garGable.moveTo(0, 3.2); garGable.lineTo(-8.4, 0); garGable.lineTo(8.4, 0); garGable.closePath();
+    const garWallTri = new THREE.ExtrudeGeometry(garGable, { depth: 0.36, bevelEnabled: false });
+    const gFrontTri = new THREE.Mesh(garWallTri, MAT.verticalWood);
+    gFrontTri.position.set(0, 8.5, 10.32); garageRoofGrp.add(gFrontTri);
+    const gBackTri = gFrontTri.clone();
+    gBackTri.position.set(0, 8.5, -10.68); garageRoofGrp.add(gBackTri);
+    const garRoofShell = new THREE.Shape();
+    garRoofShell.moveTo(0, 3.55); garRoofShell.lineTo(-9.1, -0.15); garRoofShell.lineTo(-8.7, -0.38);
+    garRoofShell.lineTo(0, 3.15); garRoofShell.lineTo(8.7, -0.38); garRoofShell.lineTo(9.1, -0.15); garRoofShell.closePath();
+    const garRoofGeo = new THREE.ExtrudeGeometry(garRoofShell, { depth: 22.8, bevelEnabled: false });
+    const garRoofMesh = new THREE.Mesh(garRoofGeo, MAT.greenRoof);
+    garRoofMesh.position.set(0, 8.5, -11.4);
+    garRoofMesh.castShadow = true;
+    garageRoofGrp.add(garRoofMesh);
+    box(3.2, 4.2, 8.5, MAT.pineTrunk, -9.4, 2.2, -1.0, garageCutGrp);
+    const woodRoof = new THREE.Mesh(new THREE.BoxGeometry(4.2, 0.18, 9.6), MAT.greenRoof);
+    woodRoof.position.set(-9.5, 5.1, -1.0);
+    woodRoof.rotation.z = 0.28;
+    garageCutGrp.add(woodRoof);
+
+    // --- EAST YARD: STEEP-GABLE RED-DOOR SHED, ROUNDED PROPANE TANK & UTILITY METER POST (Photos #2, #10, #14, #19, #21!) ---
+    // Positioned accurately across the East gravel turnaround at (X = +45.5, Z = +10.5), ~24 ft East of the house!
+    const shX = 45.5, shZ = 10.5;
+    const shedGrp = new THREE.Group();
+    shedGrp.position.set(shX, 0, shZ);
+    shedGrp.rotation.y = -0.22; // Angled slightly toward front driveway just like Photos #14, #19, #21!
+    box(8.4, 7.6, 9.2, MAT.darkWood, 0, 3.9, 0, shedGrp);
+    box(3.1, 6.1, 0.16, MAT.couchWhite, 0, 3.25, 4.62, shedGrp, null, false); // White door casing (#21!)
+    box(2.7, 5.8, 0.22, MAT.redDoor, 0, 3.15, 4.66, shedGrp);                  // Bright Red 6-panel shed door!
+    box(0.55, 0.55, 0.26, MAT.couchWhite, 0, 4.55, 4.70, shedGrp, null, false); // Star wreath ornament on red door (#21!)
+    const shTri = new THREE.Shape();
+    shTri.moveTo(0, 4.4); shTri.lineTo(-4.3, 0); shTri.lineTo(4.3, 0); shTri.closePath();
+    const shTriMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(shTri, { depth: 9.2, bevelEnabled: false }), MAT.darkWood);
+    shTriMesh.position.set(0, 7.7, -4.6); shedGrp.add(shTriMesh);
+    const shRoofS = new THREE.Shape();
+    shRoofS.moveTo(0, 4.8); shRoofS.lineTo(-5.3, -0.35); shRoofS.lineTo(-4.9, -0.6);
+    shRoofS.lineTo(0, 4.35); shRoofS.lineTo(4.9, -0.6); shRoofS.lineTo(5.3, -0.35); shRoofS.closePath();
+    const shRoofM = new THREE.Mesh(new THREE.ExtrudeGeometry(shRoofS, { depth: 10.6, bevelEnabled: false }), MAT.greenRoof);
+    shRoofM.position.set(0, 7.7, -5.3); shRoofM.castShadow = true; shedGrp.add(shRoofM);
+    siteGroup.add(shedGrp);
+    addCollider(1, shX - 4.5, shZ - 4.8, shX + 4.5, shZ - 4.8);
+    addCollider(1, shX - 4.5, shZ + 4.8, shX + 4.5, shZ + 4.8);
+    addCollider(1, shX - 4.5, shZ - 4.8, shX - 4.5, shZ + 4.8);
+    addCollider(1, shX + 4.5, shZ - 4.8, shX + 4.5, shZ + 4.8);
+
+    // White Horizontal Cylindrical Propane Tank w/ Rounded Ends + Weathered Utility Meter Post (#2, #4, #5, #10, #19, #21!)
+    const propX = 29.8, propZ = -3.8;
+    const propBody = new THREE.Mesh(new THREE.CylinderGeometry(1.35, 1.35, 5.4, 18), MAT.whiteAppliance);
+    propBody.rotation.z = Math.PI / 2; propBody.position.set(propX, 1.75, propZ); propBody.castShadow = true; siteGroup.add(propBody);
+    [-2.7, 2.7].forEach(dx => {
+      const cap = new THREE.Mesh(new THREE.SphereGeometry(1.35, 16, 12), MAT.whiteAppliance);
+      cap.position.set(propX + dx, 1.75, propZ); siteGroup.add(cap);
+    });
+    box(0.85, 0.55, 0.85, MAT.whiteAppliance, propX, 3.25, propZ, siteGroup);
+    // Utility / Electrical Meter Wood Post in SE driveway (#2, #4, #5, #10, #21!)
+    box(0.52, 5.4, 0.52, MAT.pineTrunk, 22.8, 2.7, 26.2, siteGroup);
+    box(0.85, 1.55, 0.45, MAT.stainless, 22.8, 3.8, 26.52, siteGroup);
+
+    // --- TOWERING EASTERN-CASCADE PONDEROSA PINES (Feathery jagged conifer boughs — zero lollipop spheres!) ---
+    const deepFoliageMats = [
+      new THREE.MeshStandardMaterial({ color: 0x1f3a21, roughness: 0.92, flatShading: true }),
+      new THREE.MeshStandardMaterial({ color: 0x29492a, roughness: 0.90, flatShading: true }),
+      new THREE.MeshStandardMaterial({ color: 0x315530, roughness: 0.90, flatShading: true })
+    ];
+    function makeFeatheryBough(rad, h, seed) {
+      const geo = new THREE.ConeGeometry(rad, h, 9, 2, false);
+      const pos = geo.attributes.position;
+      for (let i = 0; i < pos.count; i++) {
+        const vx = pos.getX(i), vy = pos.getY(i), vz = pos.getZ(i);
+        const r = Math.hypot(vx, vz);
+        if (r > 0.05) {
+          const ang = Math.atan2(vz, vx);
+          const jag = 0.72 + 0.46 * Math.abs(Math.sin(ang * 3.5 + seed * 1.7 + vy));
+          pos.setXYZ(i, vx * jag, vy - (r / rad) * 0.45 * ((i + seed) % 2), vz * jag);
+        }
+      }
+      geo.computeVertexNormals();
+      return geo;
+    }
+    const BOUGH_GEOS = [0, 1, 2, 3].map(k => makeFeatheryBough(1.0, 1.0, k + 1));
+
+    function addPonderosaPine(x, z, s = 1, isFir = false) {
+      const h = (isFir ? 48 : 60) * s;
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.32 * s, 0.94 * s, h, 9), MAT.pineTrunk);
+      trunk.position.set(x, h / 2, z);
+      trunk.rotation.z = (((Math.round(x * 7 + z * 3) % 5) - 2) * 0.011);
+      trunk.castShadow = true;
+      trunk.receiveShadow = true;
+      siteGroup.add(trunk);
+      // Slender, feathery, naturally tapering Pacific Northwest conifer spires (keeps bottom 26-32ft bare furrowed bark just like Photos #1, #2, #4, #5!)
+      const startFrac = isFir ? 0.36 : 0.52;
+      const whorls = isFir ? 10 : 8;
+      for (let wi = 0; wi < whorls; wi++) {
+        const t = wi / (whorls - 1);
+        const frac = startFrac + t * (0.98 - startFrac);
+        const taper = Math.pow(1.0 - t * 0.82, 0.85);
+        const rad = taper * (isFir ? 4.3 : 3.9) * s;
+        const bh = (isFir ? 8.2 : 7.4) * (1.0 - t * 0.45) * s;
+        const ang = wi * 2.35 + x * 0.4;
+        const off = (1.0 - t) * 0.32 * s;
+        const bough = new THREE.Mesh(BOUGH_GEOS[(wi + Math.abs(Math.round(z))) % 4], deepFoliageMats[(wi + Math.abs(Math.round(x))) % 3]);
+        bough.scale.set(rad, bh, rad);
+        bough.position.set(x + Math.cos(ang) * off, h * frac, z + Math.sin(ang) * off);
+        bough.rotation.y = ang;
+        bough.castShadow = true;
+        siteGroup.add(bough);
+      }
+      if (Math.hypot(x, z - 20) < 65) addCollider(1, x - 0.55, z - 0.55, x + 0.55, z + 0.55);
+    }
+
+    // 6 Anchor Ponderosa Pines framing the Fire Pit Grove & Supporting the Overhead String Lights + Hammock (Photos #1, #6, #11, #14!)
+    const grovePines = [
+      [-7.2, 58.5, 1.12],  // G0: Front-left foreground pine trunk framing Fire Pit without blocking Garage!
+      [21.5, 57.5, 1.15],  // G1: Front-right foreground pine trunk in Photo #1!
+      [24.5, 45.0, 1.08],  // G2: East grove pine (#14 right!)
+      [14.5, 65.5, 1.18],  // G3: South-East grove pine (hammock left anchor, #11!)
+      [3.5,  66.5, 1.10],  // G4: South grove pine (hammock right anchor, #11!)
+      [-7.5, 47.5, 1.04]   // G5: West grove pine
+    ];
+    grovePines.forEach(([tx, tz, ts]) => addPonderosaPine(tx, tz, ts, false));
+
+    // Draping Golden Edison String Lights slung 12-13.5ft high between the Fire Pit Grove Pine Trunks (Photos #1, #11, #14!)
+    const stringSpans = [[0, 5], [5, 2], [2, 1], [1, 3], [3, 4], [4, 0]];
+    const wireMat = new THREE.LineBasicMaterial({ color: 0x222222 });
+    stringSpans.forEach(([i0, i1]) => {
+      const [x0, z0] = grovePines[i0], [x1, z1] = grovePines[i1];
+      const pts = [];
+      const steps = 10;
+      for (let k = 0; k <= steps; k++) {
+        const t = k / steps;
+        const sag = Math.sin(t * Math.PI) * 1.35;
+        const px = x0 + (x1 - x0) * t, pz = z0 + (z1 - z0) * t, py = 13.2 - sag;
+        pts.push(new THREE.Vector3(px, py, pz));
+        if (k > 0 && k < steps) {
+          const b = new THREE.Mesh(new THREE.SphereGeometry(0.14, 7, 7), MAT.warmBulb);
+          b.position.set(px, py - 0.14, pz);
+          siteGroup.add(b);
+        }
+      }
+      siteGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), wireMat));
     });
 
-    // Fire Pit
-    const fireRing = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.8, 0.95, 18), MAT.stone);
-    fireRing.position.set(0, 0.5, 31.5);
-    fireRing.userData.roomId = "porch";
-    pickables.push(fireRing);
-    siteGroup.add(fireRing);
-    const flame = new THREE.Mesh(new THREE.ConeGeometry(1.25, 2.1, 9), new THREE.MeshBasicMaterial({ color: 0xff7722 }));
-    flame.position.set(0, 1.55, 31.5);
-    siteGroup.add(flame);
-    box(6.4, 0.25, 1.4, MAT.logBeam, -4.8, 1.3, 34.2, siteGroup, "porch");
-    box(6.4, 0.25, 1.4, MAT.logBeam, 4.8, 1.3, 34.2, siteGroup, "porch");
-
-    // Detached Garage
-    box(16, 0.4, 16, MAT.concrete, -36, 0.2, 19, siteGroup, "garage");
-    buildWallAxis("x", 11, -44, -28, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
-    buildWallAxis("z", -44, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
-    buildWallAxis("z", -28, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
-    buildWallAxis("x", 27, -44, -28, [[-41.5, -30.5]], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
-    box(5.0, 0.18, 9.0, new THREE.MeshStandardMaterial({ color: 0x1d6847, roughness: 0.45 }), -36, 2.65, 19, siteGroup, "garage");
-    box(5.2, 0.48, 0.06, MAT.whiteAppliance, -36, 2.98, 19, siteGroup, "garage");
-    const gRoof = new THREE.Mesh(new THREE.ConeGeometry(12.2, 4.4, 4), MAT.greenRoof);
-    gRoof.rotation.y = Math.PI / 4;
-    gRoof.position.set(-36, 10.2, 19);
-    roofGroup.add(gRoof);
-
-    // East Shed + Propane
-    box(7, 6.4, 7, MAT.darkWood, 33.5, 3.3, -2, siteGroup);
-    box(2.6, 5.1, 0.2, MAT.redDoor, 33.5, 2.75, 1.55, siteGroup);
-    const shedRoof = new THREE.Mesh(new THREE.ConeGeometry(5.6, 3.4, 4), MAT.greenRoof);
-    shedRoof.rotation.y = Math.PI / 4;
-    shedRoof.position.set(33.5, 8.2, -2);
-    siteGroup.add(shedRoof);
-    const propane = new THREE.Mesh(new THREE.CylinderGeometry(1.25, 1.25, 5.6, 14), MAT.whiteAppliance);
-    propane.rotation.z = Math.PI / 2;
-    propane.position.set(27.2, 1.55, -2);
-    siteGroup.add(propane);
-
-    function addPine(x, z, s = 1) {
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.55 * s, 0.85 * s, 17 * s, 9), MAT.pineTrunk);
-      trunk.position.set(x, 8.5 * s, z);
-      trunk.castShadow = true;
-      siteGroup.add(trunk);
-      [9.5, 14.0, 18.2, 22.0].forEach((hy, idx) => {
-        const cone = new THREE.Mesh(new THREE.ConeGeometry((5.6 - idx * 1.05) * s, 7.6 * s, 9), MAT.pineNeedles);
-        cone.position.set(x, hy * s, z);
-        cone.castShadow = true;
-        siteGroup.add(cone);
-      });
+    // Woven Tan Rope Hammock slung between Pines G3 (14.5, 65.5) & G4 (3.5, 66.5) behind the Fire Pit (Photo #11 center!)
+    const hamPts = [];
+    for (let k = 0; k <= 12; k++) {
+      const t = k / 12;
+      hamPts.push(new THREE.Vector3(14.5 + (3.5 - 14.5) * t, 4.4 - Math.sin(t * Math.PI) * 1.45, 65.5 + (66.5 - 65.5) * t));
     }
-    // Trees placed around all 4 sides so real green trees are visible outside EVERY cut-out window!
+    const hamCurve = new THREE.CatmullRomCurve3(hamPts);
+    const hamMesh = new THREE.Mesh(new THREE.TubeGeometry(hamCurve, 14, 0.55, 6, false), MAT.couchBeige);
+    hamMesh.scale.set(1, 0.25, 1.35);
+    hamMesh.position.y = 3.1;
+    siteGroup.add(hamMesh);
+
+    // Full 360-Degree Dense Eastern-Cascade Forest Ring around the Cabin, Backyard, Shed & Garage (clear of driveway & patio!)
     [
-      [-46, -22, 1.15], [-31, -24, 1.15], [-15, -22, 1.32], [-4, -24, 1.2], [14, -22, 1.32], [24, -23, 1.2],
-      [29, -2, 1.35], [32, -9, 1.25], [34, 8, 1.15], [43, 18, 1.05], [-30, 0, 1.32], [-38, -14, 1.15], [-46, 4, 1.05],
-      [-28, 42, 1.0], [29, 42, 1.05], [-43, 38, 0.95]
-    ].forEach(([tx, tz, ts]) => addPine(tx, tz, ts));
+      // North backyard dense pine wall (visible through Kitchen, Bath, Bedroom & Upstairs North windows!)
+      [-56, -24, 1.15, true], [-42, -25, 1.18, false], [-28, -24, 1.22, false], [-16, -23, 1.28, false],
+      [-5, -25, 1.16, true],  [6, -23, 1.26, false],   [17, -24, 1.22, false],  [29, -22, 1.18, true],
+      [42, -20, 1.15, false], [-48, -36, 1.25, false], [-22, -35, 1.30, true],  [2, -36, 1.28, false],
+      [24, -34, 1.25, false], [48, -32, 1.20, true],
+      // East woods behind Propane Tank & Red-Door Shed (#2, #14, #19, #21!)
+      [38, -8, 1.20, false],  [52, -4, 1.24, true],    [57, 8, 1.18, false],    [56, 22, 1.22, false],
+      [46, 32, 1.12, true],   [38, 46, 1.15, false],   [54, 42, 1.25, false],   [34, 64, 1.18, true],
+      // West woods beyond Concrete Patio & Ping-Pong Garage (#5, #9, #10!)
+      [-46, -12, 1.16, false],[-49, 2, 1.14, true],    [-62, -8, 1.24, false],  [-72, 12, 1.22, false],
+      [-74, 28, 1.26, true],  [-70, 44, 1.18, false],  [-56, 54, 1.15, false],  [-38, 66, 1.20, true],
+      // South foreground forest perimeter behind Fire Pit Grove (#6 b92a05c9!)
+      [-18, 68, 1.18, false], [-6, 74, 1.24, true],    [10, 76, 1.22, false],   [26, 74, 1.20, false],
+      [-48, 70, 1.22, false], [48, 66, 1.18, true]
+    ].forEach(([tx, tz, ts, isFir]) => addPonderosaPine(tx, tz, ts, isFir));
 
     const guideMat = new THREE.LineDashedMaterial({ color: 0x8a8279, dashSize: 0.8, gapSize: 0.6 });
     [[-21, -12], [21, -12], [-21, 12], [21, 12]].forEach(([gx, gz]) => {
@@ -1405,21 +1909,26 @@
       windows: [[10.8, 14.0, 1.8, 6.2, 1, true], [15.0, 18.2, 1.8, 6.2, 1, true]]
     });
 
-    // WEST GABLE WALL (-X = -21.75 — Living Room rear window + Foosball front window, Photo #10!)
+    // WEST GABLE WALL (-X = -21.75 — Living Room rear window + Foosball front window cleanly above Hot Tub rim just like Photo #18 0b337e52!)
     buildWallAxis("z", -21.75, -13.75, 13.75, [], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: 1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
-      windows: [[-9.8, -4.8, 2.7, 6.1, 1, true], [5.4, 9.6, 2.7, 6.1, 1, true]]
+      windows: [[-9.6, -4.6, 3.55, 6.65, 1, true], [5.4, 9.6, 3.55, 6.65, 1, true]]
     });
 
-    // EAST GABLE WALL (+X = +21.75) WITH 2 HIGH SQUARE WINDOWS FLANKING THE RIVER-ROCK FIREPLACE (A1, A9)!
+    // EAST GABLE WALL (+X = +21.75) WITH LOG FIREPLACE CHASE BUMP-OUT, SLOPED GREEN METAL CAP & FLANKING SQUARE WINDOWS (Photo #2 829de55c!)
     buildWallAxis("z", 21.75, -13.75, 13.75, [], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
-      windows: [[0.8, 3.0, 4.4, 6.2, 0, false], [8.6, 10.8, 4.4, 6.2, 0, false]]
+      windows: [[0.6, 2.8, 4.4, 6.2, 0, false], [8.8, 11.0, 4.4, 6.2, 0, false]]
     });
-    box(2.0, FULL_H1, 5.2, MAT.logWall, 22.8, 0.6 + FULL_H1 / 2, 5.8, mainTallWallsGroup);
-    box(2.0, WALL_H, 5.2, MAT.logWall, 22.8, 0.6 + WALL_H / 2, 5.8, mainFloorGroup);
+    box(2.3, FULL_H1 - 0.8, 5.4, MAT.logWall, 23.0, 0.6 + (FULL_H1 - 0.8) / 2, 5.8, mainTallWallsGroup);
+    box(2.3, WALL_H, 5.4, MAT.logWall, 23.0, 0.6 + WALL_H / 2, 5.8, mainFloorGroup);
+    const chaseRoof = new THREE.Mesh(new THREE.BoxGeometry(2.8, 0.24, 5.9), MAT.greenRoof);
+    chaseRoof.position.set(23.05, 9.55, 5.8);
+    chaseRoof.rotation.z = -0.45;
+    roofGroup.add(chaseRoof);
+    box(0.32, 0.75, 0.75, MAT.stainless, 24.22, 4.2, 5.8, mainFloorGroup, null, false); // Stainless direct-vent fireplace cap (#2!)
     [[-21.75, -13.75], [21.75, -13.75], [-21.75, 13.75], [21.75, 13.75]].forEach(([cx, cz]) => addLogCorners(cx, cz, WALL_H, 0.6, mainFloorGroup));
 
     // Craftsman Double Front Doors with Upper Glass Panes (A5, A8, C12)
@@ -1528,17 +2037,15 @@
       box(0.32, 0.45, 0.32, MAT.warmBulb, 0, 0, 0, cg, null, false);
       walkMainEnclosureGroup.add(cg);
     });
-    // 1st-Floor Ceiling Panels + Center Shed Dormer Interior White Ceiling over Stairwell (zero green roof visible from downstairs or outside!)
+    // 1st-Floor Ceiling Panels + Stairwell Interior Ceiling tucked strictly INSIDE roof & center dormer (NEVER pokes outside roof!)
     box(22.7, 0.25, 27.4, MAT.ceilingWhite, -10.35, 9.65, 0, walkMainEnclosureGroup, null, false);
     box(17.3, 0.25, 27.4, MAT.ceilingWhite, 13.05, 9.65, 0, walkMainEnclosureGroup, null, false);
     box(3.4, 0.25, 16.2, MAT.ceilingWhite, 2.7, 9.65, -5.6, walkMainEnclosureGroup, null, false);
-    const stairDormerCeil = new THREE.Mesh(new THREE.BoxGeometry(4.8, 0.32, 12.6), MAT.ceilingWhite);
-    stairDormerCeil.position.set(2.7, 15.6, 8.0);
-    stairDormerCeil.rotation.x = 0.36;
+    const stairDormerCeil = new THREE.Mesh(new THREE.BoxGeometry(4.0, 0.24, 6.8), MAT.ceilingWhite);
+    stairDormerCeil.position.set(2.5, 14.3, 7.2);
+    stairDormerCeil.rotation.x = 0.24;
     walkMainEnclosureGroup.add(stairDormerCeil);
-    box(11.0, 0.25, 16.0, MAT.ceilingWhite, 0.5, 18.2, 4.0, walkMainEnclosureGroup, null, false);
-    box(0.28, 7.5, 11.2, MAT.ceilingWhite, 0.85, 13.4, 8.3, walkMainEnclosureGroup, null, false);
-    box(0.28, 7.5, 11.2, MAT.ceilingWhite, 4.45, 13.4, 8.3, walkMainEnclosureGroup, null, false);
+    box(10.5, 0.25, 9.2, MAT.ceilingWhite, 0.5, 17.6, 0.2, walkMainEnclosureGroup, null, false);
     box(44.0, 0.25, 7.2, MAT.woodDeck, 0, 9.5, 17.6, walkMainEnclosureGroup, null, false);
 
     // K-Braced (`>`) White & Wood Sliding Barn Door (Open = X: -15.65 leaving exposed horizontal shiplap on its left; Closed = X: -19.6 over West opening, exact match to Photo #6!)
@@ -1875,20 +2382,24 @@
     const mainRoofMesh = new THREE.Mesh(gableExtrude, MAT.greenRoof);
     mainRoofMesh.castShadow = true;
     roofGroup.add(mainRoofMesh);
-    // Log gable end triangles under roof slopes (A1, A4!)
+    // Smooth log gable end triangles with normalized log UVs + crisp dark-pane Upstairs Double Gable Windows (Photo #2 829de55c & Photo #9 5995ae6a!)
     const gableTri = new THREE.Shape();
-    gableTri.moveTo(0, 10.7);
-    gableTri.lineTo(-14.2, 0);
-    gableTri.lineTo(14.2, 0);
-    gableTri.closePath();
+    gableTri.moveTo(0, 10.7); gableTri.lineTo(-14.2, 0); gableTri.lineTo(14.2, 0); gableTri.closePath();
     const gableWallGeo = new THREE.ExtrudeGeometry(gableTri, { depth: 0.55, bevelEnabled: false });
+    const gUv = gableWallGeo.attributes.uv;
+    for (let ui = 0; ui < gUv.count; ui++) gUv.setXY(ui, gUv.getX(ui) * 0.04, gUv.getY(ui) * 0.09);
     gableWallGeo.rotateY(Math.PI / 2);
     const westGableTop = new THREE.Mesh(gableWallGeo, MAT.logWall);
-    westGableTop.position.set(-22.0, 12.5, 0);
-    roofGroup.add(westGableTop);
+    westGableTop.position.set(-22.02, 12.5, 0); roofGroup.add(westGableTop);
     const eastGableTop = westGableTop.clone();
-    eastGableTop.position.set(21.45, 12.5, 0);
-    roofGroup.add(eastGableTop);
+    eastGableTop.position.set(21.48, 12.5, 0); roofGroup.add(eastGableTop);
+    const gableGlassMat = new THREE.MeshStandardMaterial({ color: 0x1d2830, roughness: 0.38 });
+    [[-22.42, -0.4], [22.42, 0.0]].forEach(([gx, gz]) => {
+      box(0.28, 3.8, 5.4, MAT.knottyPine, gx, 16.5, gz, roofGroup, null, false);
+      box(0.34, 3.3, 4.9, MAT.whiteAppliance, gx, 16.5, gz, roofGroup, null, false);
+      box(0.42, 2.9, 2.1, gableGlassMat, gx, 16.5, gz - 1.18, roofGroup, null, false);
+      box(0.42, 2.9, 2.1, gableGlassMat, gx, 16.5, gz + 1.18, roofGroup, null, false);
+    });
 
     const porchRoof = new THREE.Mesh(new THREE.BoxGeometry(45.4, 0.42, 8.4), MAT.greenRoof);
     porchRoof.position.set(0, 10.1, 17.6);
@@ -1925,7 +2436,7 @@
     };
 
     const SPAWNS = {
-      front_yard:    { x: 6.5,   z: 28.0, floor: 1, yaw: 0.0,   pitch: 0.04 },
+      front_yard:    { x: 9.5,   z: 61.0, floor: 1, yaw: 0.08,  pitch: 0.03 },
       entry:         { x: 6.5,   z: 11.2, floor: 1, yaw: 0.35,  pitch: -0.02 },
       dining:        { x: 9.5,   z: 6.2,  floor: 1, yaw: -1.52, pitch: -0.04 },
       kitchen:       { x: 15.5,  z: 1.5,  floor: 1, yaw: 0.12,  pitch: -0.04 },
@@ -1938,8 +2449,8 @@
       up_west:       { x: -8.0,  z: 0.8,  floor: 2, yaw: 0.72,  pitch: -0.04 },
       up_east:       { x: 8.0,   z: 0.8,  floor: 2, yaw: -1.38, pitch: -0.05 },
       up_bath:       { x: -0.8,  z: -3.6, floor: 2, yaw: -0.25, pitch: -0.06 },
-      patio:         { x: -30.5, z: -3.5, floor: 1, yaw: -1.25, pitch: 0.02 },
-      garage:        { x: -36.0, z: 25.0, floor: 1, yaw: 0.0,   pitch: -0.04 }
+      patio:         { x: -34.5, z: 11.0, floor: 1, yaw: -0.55, pitch: -0.02 },
+      garage:        { x: -41.0, z: 40.0, floor: 1, yaw: 0.12,  pitch: -0.04 }
     };
 
     let fpvWalkGoal = null; // Optional tap/click-on-floor target in Walk Mode
@@ -1954,29 +2465,24 @@
       detectFPVRoom();
     }
 
-    window.__setTestCam = (x, y, z, lx, ly, lz, fov = 68, isUpper = false) => {
+    window.__setTestCam = (x, y, z, lx, ly, lz, fov = 68, isUpper = false, cutaway = false) => {
       appMode = "explore";
       barnDoorGroup.scale.y = 1.0;
       barnDoorGroup.position.y = 3.55;
       mainFloorGroup.visible = true;
-      upperFloorGroup.visible = true;
+      upperFloorGroup.visible = !cutaway;
       upperFloorGroup.position.y = upperGoalY = 9.8;
-      mainTallWallsGroup.visible = true;
-      walkMainEnclosureGroup.visible = true; // ALWAYS true so outside-looking-in matches inside 100%!
-      walkUpperEnclosureGroup.visible = isUpper;
-      upperExteriorCutawayGroup.visible = isUpper;
-      roofGroup.visible = !isUpper;
+      mainTallWallsGroup.visible = !cutaway;
+      walkMainEnclosureGroup.visible = !cutaway;
+      walkUpperEnclosureGroup.visible = isUpper && !cutaway;
+      upperExteriorCutawayGroup.visible = isUpper && !cutaway;
+      roofGroup.visible = !isUpper && !cutaway;
       explodedGuidesGroup.visible = false;
       camera.fov = fov;
       camera.updateProjectionMatrix();
       camera.position.set(x, y, z);
       camera.lookAt(lx, ly, lz);
       testCamOverride = { x, y, z, lx, ly, lz };
-      if (!isUpper && y > 14) {
-        walkMainEnclosureGroup.visible = false;
-        upperFloorGroup.visible = false;
-        roofGroup.visible = false;
-      }
       renderer.render(scene, camera);
     };
     window.__testWalkRoute = (route) => {
@@ -2016,7 +2522,7 @@
           }
         }
       }
-      return [Math.max(-52, Math.min(48, px)), Math.max(-28, Math.min(46, pz))];
+      return [Math.max(-72, Math.min(62, px)), Math.max(-34, Math.min(72, pz))];
     }
 
     function stepFPVToward(nx, nz) {
@@ -2113,9 +2619,9 @@
           else if (x >= 1.0) rId = z >= -2.0 ? "entry" : "down_bath";
           else if (x >= -9.2) rId = z < -2.0 ? "down_bed" : "entry";
           else rId = (z >= 2.8 && x < -11.8) ? "game" : "living";
-        } else if (x < -22 && z < 10) {
+        } else if (x < -22 && x > -42 && z < 15) {
           rId = "patio";
-        } else if (x < -26 && z >= 10) {
+        } else if (x <= -42 && z >= 15) {
           rId = "garage";
         } else {
           rId = "porch";
@@ -2793,6 +3299,12 @@
         walkUpperEnclosureGroup.visible = onUpper;
         upperExteriorCutawayGroup.visible = onUpper;
         roofGroup.visible = !onUpper;
+        // Smoothly roll up the Ping-Pong Garage steel curtain when walking within 14 ft so it looks authentic closed from the yard AND opens automatically as you approach!
+        const garDoorW = [garX + 10.5 * Math.sin(garRot), garZ + 10.5 * Math.cos(garRot)];
+        const distGar = Math.hypot(fpv.x - garDoorW[0], fpv.z - garDoorW[1]);
+        const targetDoorH = distGar < 15.5 ? 1.1 : 6.9;
+        garageRollCurtain.scale.y += ((targetDoorH / 6.9) - garageRollCurtain.scale.y) * 0.14;
+        garageRollCurtain.position.y = 7.25 - (6.9 * garageRollCurtain.scale.y) / 2;
         const eyeY = fpv.y + fpv.eyeHeight;
         camera.position.set(fpv.x, eyeY, fpv.z);
         const lookDist = 10;
