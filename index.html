@@ -1352,12 +1352,19 @@
     box(7.5, 0.6, 11.75, MAT.slate, 4.75, 0.3, -7.88, mainFloorGroup, "down_bath", false);
     // Downstairs Bedroom (Rear-Center-West, Z = -13.75..-2.0, X = -9.2..+1.0)
     box(10.2, 0.55, 11.75, MAT.carpet, -4.1, 0.28, -7.88, mainFloorGroup, "down_bed", false);
-    // Under-Stair Enclosed Storage Closet Zone (Z = +1.8..+13.75, X = -9.2..+1.0)
-    box(10.2, 0.55, 11.95, MAT.hardwood, -4.1, 0.28, 7.78, mainFloorGroup, "entry", false);
+    // Closed Owner's / Utility Closet Zone (tucked between Foosball Teal Wall X=-11.8, Hallway Z=+1.8/+2.8, & Main Log Stairs X=+1.0)
+    box(10.2, 0.55, 11.95, MAT.hardwood, -4.1, 0.28, 7.78, mainFloorGroup, null, false);
+    box(2.6, 0.55, 10.95, MAT.hardwood, -10.5, 0.28, 8.28, mainFloorGroup, null, false);
+    // Subtle interior utility/storage closet details (visible from top-down Planning Mode so the closed closet makes instant visual sense!)
+    box(5.6, 0.14, 1.4, MAT.knottyPine, -6.5, 2.2, 3.6, mainFloorGroup, null, false);
+    box(5.6, 0.14, 1.4, MAT.knottyPine, -6.5, 3.5, 3.6, mainFloorGroup, null, false);
+    const waterHeater = new THREE.Mesh(new THREE.CylinderGeometry(0.85, 0.85, 4.3, 16), MAT.whiteAppliance);
+    waterHeater.position.set(-1.2, 2.7, 4.2);
+    mainFloorGroup.add(waterHeater);
     // Sunken Rectangular Living Room (X = -21.75..-9.2, Z = -13.75..+2.8, Floor top Y = 0.24 — 2 steps lower, Photo #5 & #6!)
     box(12.55, 0.28, 16.55, MAT.carpet, -15.48, 0.10, -5.48, mainFloorGroup, "living", false);
-    // Foosball Game Room (X = -21.75..-9.2, Z = +2.8..+13.75, Floor top Y = 0.24, Photo #7!)
-    box(12.55, 0.28, 10.95, MAT.carpet, -15.48, 0.10, 8.28, mainFloorGroup, "game", false);
+    // Foosball Game Room (X = -21.75..-11.8, Z = +2.8..+13.75, Floor top Y = 0.24 — 10ft wide matching 3 front windows in Photo #7!)
+    box(9.95, 0.28, 10.95, MAT.carpet, -16.78, 0.10, 8.28, mainFloorGroup, "game", false);
 
     const WALL_H = 4.6, FULL_H1 = 9.2;
 
@@ -1383,13 +1390,13 @@
     box(2.0, 5.4, 0.20, MAT.glass, 1.35, 0.2, 0, backDoorPiv, "kitchen", false);
     walkMainEnclosureGroup.add(backDoorPiv);
 
-    // SOUTH FRONT PORCH WALL (+Z = +13.75 — 3 Foosball high windows + 1 small closet window + solid flag wall + Double Doors + 2 Dining windows, Photo #9!)
+    // SOUTH FRONT PORCH WALL (+Z = +13.75 — 3 Foosball high windows spanning X=-20.6..-12.8 + 1 small utility closet window + Double Doors + 2 Dining windows, Photo #9!)
     buildWallAxis("x", 13.75, -21.75, 1.0, [], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: -1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
       windows: [
-        [-19.8, -17.6, 5.1, 6.8, 0, false], [-17.0, -14.8, 5.1, 6.8, 0, false], [-14.2, -12.0, 5.1, 6.8, 0, false],
-        [-7.8, -5.6, 5.1, 6.8, 0, false]
+        [-20.4, -18.2, 5.1, 6.8, 0, false], [-17.8, -15.6, 5.1, 6.8, 0, false], [-15.2, -13.0, 5.1, 6.8, 0, false],
+        [-6.8, -4.6, 5.1, 6.8, 0, false]
       ]
     });
     buildWallAxis("x", 13.75, 1.0, 21.75, [[4.5, 8.5]], {
@@ -1447,25 +1454,37 @@
     //    Holds Beige Sofa (Z=-13..-6), Knotty-Pine Bedroom Door (Z=-5.5..-2.2), and Wood-Trimmed Hallway Opening w/ 2 Carpeted Steps (Z=-1.8..+1.6)! Exact match to Photo #5!
     buildWallAxis("z", -9.2, -13.75, 2.8, [[-5.5, -2.2], [-1.8, 1.6]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.35, mat: MAT.shiplapV, innerMat: MAT.shiplapH, innerSign: 1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
     addOpenPineDoor(-9.05, 0.55, -2.25, 1.54, walkMainEnclosureGroup);
-    // 2 Carpeted Step-Down Treads + Short 3-Spindle Knotty-Pine Railing at Living Room Entrance (exact match to Photo #5 far-right & Photo #6 bottom-left!)
+    // 2 Carpeted Step-Down Treads + Thick Round Peeled-Log Post & Log Railing at Living Room Entrance (exact match to user's closeup photo!)
     box(1.1, 0.38, 3.2, MAT.carpet, -9.75, 0.42, -0.1, mainFloorGroup, "living");
-    box(1.9, 0.20, 3.2, MAT.carpet, -10.15, 0.30, -0.1, mainFloorGroup, "living");
-    box(1.9, 0.14, 0.16, MAT.knottyPine, -10.15, 3.05, 1.55, mainFloorGroup, "living"); // Short step handrail!
-    box(0.22, 2.9, 0.22, MAT.knottyPine, -11.0, 1.7, 1.55, mainFloorGroup, "living");   // Short step post!
-    [-9.5, -10.0, -10.5].forEach(sx => box(0.08, 2.6, 0.08, MAT.knottyPine, sx, 1.65, 1.55, mainFloorGroup, "living", false));
-    // 8. Foosball Game Room East Teal Wood Wall + Rustic US Flag (X = -9.2, Z = +2.8..+13.75, Photo #7!)
-    buildWallAxis("z", -9.2, 2.8, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.35, mat: MAT.shiplapH, innerMat: MAT.shiplapTeal, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    box(0.10, 2.2, 4.0, MAT.usFlag, -9.44, 5.4, 8.2, walkMainEnclosureGroup, null, false);
-    // 9. Living Room South Wall (Z = +2.8, X = -21.75..-9.2 — Photo #6!):
-    //    4 exact zones L->R: Narrow Rich-Pine Closet Door (-11.35..-9.45) | Exposed White Horizontal Shiplap (-14.4..-11.35) | K-Braced (>) Barn Door (-18.5..-14.4) | Open Foosball Entry (-21.55..-18.0)!
-    buildWallAxis("x", 2.8, -21.75, -9.2, [[-21.55, -18.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup, frameDoors: true });
-    // Narrow 1-Panel Rich Knotty-Pine Under-Stair Closet Door + Trim proud of South wall (exact match to Photo #6 far-left!)
-    box(2.15, 6.95, 0.12, MAT.logBeam, -10.4, 3.72, 2.55, walkMainEnclosureGroup, null, false);
-    box(1.75, 6.60, 0.14, MAT.knottyPine, -10.4, 3.55, 2.50, walkMainEnclosureGroup, null, false);
-    box(1.28, 2.55, 0.16, MAT.logBeam, -10.4, 5.15, 2.47, walkMainEnclosureGroup, null, false);
-    box(1.28, 2.55, 0.16, MAT.logBeam, -10.4, 2.05, 2.47, walkMainEnclosureGroup, null, false);
-    box(0.13, 0.13, 0.24, MAT.iron, -9.72, 3.35, 2.43, walkMainEnclosureGroup, null, false);
-    box(1.95, 4.2, 0.14, MAT.knottyPine, -10.4, 2.35, 2.50, mainFloorGroup, "living", false);
+    box(1.95, 0.22, 3.2, MAT.carpet, -10.18, 0.30, -0.1, mainFloorGroup, "living");
+    const stepLogPost = new THREE.Mesh(new THREE.CylinderGeometry(0.19, 0.21, 3.15, 12), MAT.logBeam);
+    stepLogPost.position.set(-10.85, 1.92, 1.48);
+    mainFloorGroup.add(stepLogPost);
+    const stepTopRail = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 1.65, 10), MAT.logBeam);
+    stepTopRail.rotation.z = Math.PI / 2; stepTopRail.position.set(-10.0, 3.05, 1.48); mainFloorGroup.add(stepTopRail);
+    const stepBotRail = new THREE.Mesh(new THREE.CylinderGeometry(0.09, 0.09, 1.65, 10), MAT.logBeam);
+    stepBotRail.rotation.z = Math.PI / 2; stepBotRail.position.set(-10.0, 0.95, 1.48); mainFloorGroup.add(stepBotRail);
+    [-9.55, -10.0, -10.42].forEach(sx => {
+      const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.065, 2.05, 8), MAT.logBeam);
+      sp.position.set(sx, 2.0, 1.48);
+      mainFloorGroup.add(sp);
+    });
+    // 8. Foosball Game Room East Teal Wood Wall + Rustic US Flag AT X = -11.8 (separating Foosball Room on West from Closed Utility Closet on East!)
+    buildWallAxis("z", -11.8, 2.8, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.35, mat: MAT.drywall, innerMat: MAT.shiplapTeal, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    box(0.10, 2.2, 4.0, MAT.usFlag, -12.04, 5.4, 8.2, walkMainEnclosureGroup, null, false);
+    // 9. Living Room South Wall (Z = +2.8, X = -21.75..-9.2 — Exact 4-zone match to Photo #6!):
+    //    BOTH openings ([-21.55, -17.7] Open Barn Doorway AND [-11.35, -9.55] Narrow Closed Closet Doorway) are REAL cut-out framed doorways — zero wall baking/overlap!
+    buildWallAxis("x", 2.8, -21.75, -9.2, [[-21.55, -17.7], [-11.35, -9.55]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.24, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup, frameDoors: true });
+    addCollider(1, -11.4, 2.8, -9.5, 2.8); // Closed closet door stays solid in Walk Inside mode!
+    // Crisp 3D Closed 6-Panel Knotty-Pine Closet Door cleanly mounted INSIDE the [-11.35, -9.55] cut-out frame (cutaway lower + full-height upper!)
+    box(1.62, 4.32, 0.14, MAT.knottyPine, -10.45, 2.40, 2.80, mainFloorGroup, null, false);
+    box(1.62, 2.55, 0.14, MAT.knottyPine, -10.45, 5.83, 2.80, walkMainEnclosureGroup, null, false);
+    [ [1.35, mainFloorGroup], [3.35, mainFloorGroup], [5.65, walkMainEnclosureGroup] ].forEach(([py, grp]) => {
+      box(0.46, 1.35, 0.20, MAT.logBeam, -10.76, py, 2.80, grp, null, false);
+      box(0.46, 1.35, 0.20, MAT.logBeam, -10.14, py, 2.80, grp, null, false);
+    });
+    box(0.11, 0.11, 0.28, MAT.stainless, -9.80, 3.35, 2.74, mainFloorGroup, null, false); // Silver closet doorknob on right!
+    [1.4, 3.8].forEach(hy => box(0.05, 0.24, 0.22, MAT.stainless, -11.24, hy, 2.74, mainFloorGroup, null, false)); // Left hinges!
     // Knotty-pine ceiling crown trim around Living Room walls (Photo #5!)
     box(12.6, 0.22, 0.22, MAT.knottyPine, -15.5, 9.42, -13.4, walkMainEnclosureGroup, null, false);
     box(0.22, 0.22, 16.6, MAT.knottyPine, -21.4, 9.42, -5.5, walkMainEnclosureGroup, null, false);
@@ -1474,6 +1493,7 @@
     // Overhead Beams, Chandeliers, Pendants & 1st-Floor Ceiling
     box(0.68, 0.78, 27.0, MAT.logBeam, 12.2, 9.05, 0, walkMainEnclosureGroup, null, false);
     box(12.6, 0.72, 0.55, MAT.knottyPine, -15.5, 8.85, 2.60, walkMainEnclosureGroup, null, false); // Heavy pine beam above Barn Door (Photo #6!)
+    box(0.18, 0.62, 0.20, MAT.iron, -9.55, 8.82, 2.32, walkMainEnclosureGroup, null, false); // Black iron beam bracket on far-left!
     const dinChand = new THREE.Mesh(new THREE.ConeGeometry(0.95, 1.3, 12), MAT.couchBeige);
     dinChand.position.set(15.2, 7.6, 6.2);
     walkMainEnclosureGroup.add(dinChand);
@@ -1483,19 +1503,27 @@
       dome.position.set(px, 7.4, -1.0);
       walkMainEnclosureGroup.add(dome);
     });
-    // 2 Open-Frame Black-Iron & Wood Cage Chandeliers + Warm Edison Bulbs in Living Room (Photos #5 & #6!)
+    // 2 Open-Frame X-Braced Iron & Wood Cage Chandeliers + Warm Candle Bulbs in Living Room (exact match to user's screenshot!)
     [ [-15.2, -6.5], [-13.4, -0.4] ].forEach(([cx, cz]) => {
       const cg = new THREE.Group();
       cg.position.set(cx, 7.85, cz);
       box(0.08, 1.4, 0.08, MAT.iron, 0, 1.15, 0, cg, null, false);
       [-0.52, 0.52].forEach(ry => {
-        box(1.1, 0.09, 0.09, MAT.knottyPine, 0, ry, -0.52, cg, null, false);
-        box(1.1, 0.09, 0.09, MAT.knottyPine, 0, ry, 0.52, cg, null, false);
-        box(0.09, 0.09, 1.1, MAT.knottyPine, -0.52, ry, 0, cg, null, false);
-        box(0.09, 0.09, 1.1, MAT.knottyPine, 0.52, ry, 0, cg, null, false);
+        box(1.1, 0.09, 0.09, MAT.iron, 0, ry, -0.52, cg, null, false);
+        box(1.1, 0.09, 0.09, MAT.iron, 0, ry, 0.52, cg, null, false);
+        box(0.09, 0.09, 1.1, MAT.iron, -0.52, ry, 0, cg, null, false);
+        box(0.09, 0.09, 1.1, MAT.iron, 0.52, ry, 0, cg, null, false);
       });
       [[-0.52, -0.52], [0.52, -0.52], [-0.52, 0.52], [0.52, 0.52]].forEach(([vx, vz]) => {
         box(0.07, 1.05, 0.07, MAT.iron, vx, 0, vz, cg, null, false);
+      });
+      [-0.50, 0.50].forEach(fz => {
+        [-0.78, 0.78].forEach(ang => {
+          const xb = new THREE.Mesh(new THREE.BoxGeometry(1.38, 0.07, 0.05), MAT.knottyPine);
+          xb.position.set(0, 0, fz); xb.rotation.z = ang; cg.add(xb);
+          const xb2 = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.07, 1.38), MAT.knottyPine);
+          xb2.position.set(fz, 0, 0); xb2.rotation.x = ang; cg.add(xb2);
+        });
       });
       box(0.32, 0.45, 0.32, MAT.warmBulb, 0, 0, 0, cg, null, false);
       walkMainEnclosureGroup.add(cg);
@@ -1513,22 +1541,23 @@
     box(0.28, 7.5, 11.2, MAT.ceilingWhite, 4.45, 13.4, 8.3, walkMainEnclosureGroup, null, false);
     box(44.0, 0.25, 7.2, MAT.woodDeck, 0, 9.5, 17.6, walkMainEnclosureGroup, null, false);
 
-    // K-Braced (`>`) White & Wood Sliding Barn Door (Open = X: -16.1 leaving 3.2ft exposed horizontal shiplap on its left; Closed = X: -19.8 over West opening, exact match to Photo #6!)
+    // K-Braced (`>`) White & Wood Sliding Barn Door (Open = X: -15.65 leaving exposed horizontal shiplap on its left; Closed = X: -19.6 over West opening, exact match to Photo #6!)
     const barnDoorGroup = new THREE.Group();
-    barnDoorGroup.position.set(-16.1, 3.65, 2.46);
-    box(4.1, 6.7, 0.16, MAT.shiplapH, 0, 0, 0, barnDoorGroup, "game");
-    box(4.1, 0.25, 0.22, MAT.logBeam, 0, 3.23, 0, barnDoorGroup, "game");
-    box(4.1, 0.25, 0.22, MAT.logBeam, 0, -3.23, 0, barnDoorGroup, "game");
-    box(4.1, 0.23, 0.22, MAT.logBeam, 0, 0, 0, barnDoorGroup, "game");
-    box(0.25, 6.7, 0.22, MAT.logBeam, -1.93, 0, 0, barnDoorGroup, "game");
-    box(0.25, 6.7, 0.22, MAT.logBeam, 1.93, 0, 0, barnDoorGroup, "game");
-    // Diagonal braces forming `>` pointing RIGHT (top-left -> center-right & bottom-left -> center-right, exact match to Photo #6!)
-    const kTop = new THREE.Mesh(new THREE.BoxGeometry(4.7, 0.22, 0.23), MAT.logBeam);
-    kTop.position.set(0, 1.60, 0); kTop.rotation.z = -0.64; barnDoorGroup.add(kTop);
-    const kBot = new THREE.Mesh(new THREE.BoxGeometry(4.7, 0.22, 0.23), MAT.logBeam);
-    kBot.position.set(0, -1.60, 0); kBot.rotation.z = 0.64; barnDoorGroup.add(kBot);
-    box(9.2, 0.14, 0.18, MAT.iron, -17.1, 7.18, 2.44, walkMainEnclosureGroup);
-    [-17.7, -14.6].forEach(hx => box(0.14, 0.65, 0.22, MAT.iron, hx, 7.05, 2.42, walkMainEnclosureGroup, null, false));
+    barnDoorGroup.position.set(-15.65, 3.65, 2.46);
+    box(4.0, 6.7, 0.16, MAT.shiplapH, 0, 0, 0, barnDoorGroup, "game");
+    box(4.0, 0.25, 0.22, MAT.logBeam, 0, 3.23, 0, barnDoorGroup, "game");
+    box(4.0, 0.25, 0.22, MAT.logBeam, 0, -3.23, 0, barnDoorGroup, "game");
+    box(4.0, 0.23, 0.22, MAT.logBeam, 0, 0, 0, barnDoorGroup, "game");
+    box(0.25, 6.7, 0.22, MAT.logBeam, -1.88, 0, 0, barnDoorGroup, "game");
+    box(0.25, 6.7, 0.22, MAT.logBeam, 1.88, 0, 0, barnDoorGroup, "game");
+    box(0.08, 0.68, 0.28, MAT.iron, -1.88, -0.05, -0.08, barnDoorGroup, "game", false); // Black iron handle on right (-X) edge when looking South!
+    // Diagonal braces forming `>` pointing RIGHT (-X) to meet at the handle (exact match to user's screenshot!)
+    const kTop = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.22, 0.23), MAT.logBeam);
+    kTop.position.set(0, 1.60, 0); kTop.rotation.z = 0.65; barnDoorGroup.add(kTop);
+    const kBot = new THREE.Mesh(new THREE.BoxGeometry(4.6, 0.22, 0.23), MAT.logBeam);
+    kBot.position.set(0, -1.60, 0); kBot.rotation.z = -0.65; barnDoorGroup.add(kBot);
+    box(8.8, 0.14, 0.18, MAT.iron, -17.1, 7.18, 2.44, walkMainEnclosureGroup);
+    [-17.2, -14.1].forEach(hx => box(0.14, 0.65, 0.22, MAT.iron, hx, 7.05, 2.42, walkMainEnclosureGroup, null, false));
     mainFloorGroup.add(barnDoorGroup);
 
     // --- Forensic-Exact Closed-Corner Main Peeled-Log Staircase + Sloped Drywall Soffit & Basket (Photos #2 & #3!) ---
@@ -1667,23 +1696,23 @@
     });
     box(2.2, 1.15, 3.4, MAT.darkWood, -15.4, 0.82, -6.8, mainFloorGroup, "living");
 
-    // Foosball Game Room (X = -21.75..-9.2, Z = +2.8..+13.75 — Photo #7 & visible through Right Barn-Door Entry in Photo #6!)
-    box(2.9, 0.9, 4.6, new THREE.MeshStandardMaterial({ color: 0x5c1f1a, roughness: 0.5 }), -18.8, 2.35, 7.6, mainFloorGroup, "game");
-    box(2.5, 0.12, 4.1, new THREE.MeshStandardMaterial({ color: 0x297549 }), -18.8, 2.83, 7.6, mainFloorGroup, "game");
-    [[-1.2, -2.0], [1.2, -2.0], [-1.2, 2.0], [1.2, 2.0]].forEach(([lx, lz]) => {
-      box(0.22, 1.9, 0.22, MAT.darkWood, -18.8 + lx, 1.2, 7.6 + lz, mainFloorGroup, "game");
+    // Foosball Game Room (X = -21.75..-11.8, Z = +2.8..+13.75 — Blue Cabinet on Teal East Wall X=-12.7 peeks out right behind open Barn Door just like Photo #6!)
+    box(2.8, 0.9, 4.5, new THREE.MeshStandardMaterial({ color: 0x5c1f1a, roughness: 0.5 }), -17.0, 2.35, 8.2, mainFloorGroup, "game");
+    box(2.4, 0.12, 4.0, new THREE.MeshStandardMaterial({ color: 0x297549 }), -17.0, 2.83, 8.2, mainFloorGroup, "game");
+    [[-1.15, -1.95], [1.15, -1.95], [-1.15, 1.95], [1.15, 1.95]].forEach(([lx, lz]) => {
+      box(0.22, 1.9, 0.22, MAT.darkWood, -17.0 + lx, 1.2, 8.2 + lz, mainFloorGroup, "game");
     });
-    box(1.5, 2.5, 5.2, MAT.turquoiseCab, -10.2, 1.5, 8.2, mainFloorGroup, "game");
+    box(1.5, 2.5, 5.0, MAT.turquoiseCab, -12.75, 1.5, 7.6, mainFloorGroup, "game");
     [-1.6, -0.8, 0, 0.8, 1.6].forEach(rz => {
-      box(3.8, 0.06, 0.06, MAT.stainless, -18.8, 2.87, 7.6 + rz, mainFloorGroup, "game", false);
+      box(3.7, 0.06, 0.06, MAT.stainless, -17.0, 2.87, 8.2 + rz, mainFloorGroup, "game", false);
     });
     // Warm Corner Floor Lamp in Foosball Room (visible in Photo #6 right & Photo #7 far-right!)
-    box(0.10, 4.6, 0.10, MAT.iron, -20.8, 2.6, 12.2, mainFloorGroup, "game", false);
+    box(0.10, 4.6, 0.10, MAT.couchWhite, -20.6, 2.6, 12.2, mainFloorGroup, "game", false);
     const gameLamp = new THREE.Mesh(new THREE.ConeGeometry(0.65, 0.65, 14), MAT.warmBulb);
-    gameLamp.position.set(-20.8, 5.1, 12.2);
+    gameLamp.position.set(-20.6, 5.1, 12.2);
     mainFloorGroup.add(gameLamp);
-    box(2.2, 2.4, 2.2, MAT.iron, -12.6, 1.45, 11.8, mainFloorGroup, "game");
-    box(2.2, 1.4, 1.8, MAT.darkWood, -18.8, 0.95, 12.2, mainFloorGroup, "game");
+    box(2.0, 2.4, 2.0, MAT.iron, -13.6, 1.45, 12.0, mainFloorGroup, "game");
+    box(2.0, 1.4, 1.7, MAT.darkWood, -19.2, 0.95, 12.1, mainFloorGroup, "game");
 
     // ==================== 3. PHOTO-VERIFIED UPSTAIRS (SOLID 6FT HALLWAY CLEAR OF STAIRWELL!) ====================
     box(15.0, 0.5, 23.6, MAT.carpet, -13.0, 0.25, 0, upperFloorGroup, "up_west", false);
@@ -1943,6 +1972,11 @@
       camera.position.set(x, y, z);
       camera.lookAt(lx, ly, lz);
       testCamOverride = { x, y, z, lx, ly, lz };
+      if (!isUpper && y > 14) {
+        walkMainEnclosureGroup.visible = false;
+        upperFloorGroup.visible = false;
+        roofGroup.visible = false;
+      }
       renderer.render(scene, camera);
     };
     window.__testWalkRoute = (route) => {
@@ -2078,7 +2112,7 @@
           if (x >= 8.5) rId = z >= -0.8 ? "dining" : "kitchen";
           else if (x >= 1.0) rId = z >= -2.0 ? "entry" : "down_bath";
           else if (x >= -9.2) rId = z < -2.0 ? "down_bed" : "entry";
-          else rId = z >= 2.8 ? "game" : "living";
+          else rId = (z >= 2.8 && x < -11.8) ? "game" : "living";
         } else if (x < -22 && z < 10) {
           rId = "patio";
         } else if (x < -26 && z >= 10) {
@@ -2251,7 +2285,7 @@
 
     // ==================== 7. DUAL MODES & VIEW SWITCHING ====================
     let upperGoalY = 21.0;
-    let barnGoalX = -16.1;
+    let barnGoalX = -15.65;
 
     const VIEW_INFO = {
       both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  upperY: 21.0, cam: { theta: 0.34, phi: 0.96, radius: 80, target: [0, 10.5, 2] } },
@@ -2354,7 +2388,7 @@
 
     function setBarnDoor(open) {
       barnDoorOpen = open;
-      barnGoalX = barnDoorOpen ? -16.1 : -19.8;
+      barnGoalX = barnDoorOpen ? -15.65 : -19.6;
       document.getElementById("btn-barn-door").textContent = barnDoorOpen ? "Game Door: Open" : "Game Door: Closed";
     }
     document.getElementById("btn-barn-door").addEventListener("click", () => setBarnDoor(!barnDoorOpen));
