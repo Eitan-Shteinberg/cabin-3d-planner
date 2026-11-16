@@ -1339,32 +1339,33 @@
     });
 
     // ==================== 2. PHOTO-VERIFIED DOWNSTAIRS WITH REAL CUT-OUT WINDOWS ====================
+    // Floors:
     box(13.0, 0.6, 14.2, MAT.hardwood, 15.0, 0.3, 6.65, mainFloorGroup, "dining", false);
     box(13.0, 0.6, 13.3, MAT.hardwood, 15.0, 0.3, -7.1, mainFloorGroup, "kitchen", false);
     box(7.5, 0.6, 15.2, MAT.hardwood, 4.75, 0.3, 6.15, mainFloorGroup, "entry", false);
     box(5.2, 0.62, 4.0, MAT.slate, 6.5, 0.32, 11.7, mainFloorGroup, "entry", false);
     box(7.5, 0.6, 12.3, MAT.slate, 4.75, 0.3, -7.6, mainFloorGroup, "down_bath", false);
-    box(10.0, 0.6, 15.2, MAT.carpet, -4.0, 0.3, -6.15, mainFloorGroup, "down_bed", false);
-    box(12.8, 0.6, 16.2, MAT.carpet, -15.4, 0.3, -5.65, mainFloorGroup, "living", false);
-    box(12.8, 0.6, 11.3, MAT.carpet, -15.4, 0.3, 8.1, mainFloorGroup, "game", false);
-    box(10.0, 0.6, 11.3, MAT.carpet, -4.0, 0.3, 8.1, mainFloorGroup, "living", false);
+    box(9.0, 0.6, 11.8, MAT.carpet, -3.5, 0.3, -7.85, mainFloorGroup, "down_bed", false);
+    box(13.8, 0.6, 18.0, MAT.carpet, -14.9, 0.3, -4.75, mainFloorGroup, "living", false);
+    box(10.2, 0.6, 9.6, MAT.carpet, -16.65, 0.3, 8.95, mainFloorGroup, "game", false);
+    box(12.5, 0.6, 15.8, MAT.carpet, -5.25, 0.3, 5.85, mainFloorGroup, "living", false);
 
     const WALL_H = 4.6, FULL_H1 = 9.2;
 
     // NORTH BACK WALL (-Z = -13.75) WITH REAL CUT-OUT WINDOWS & GLASS KITCHEN BACK DOOR!
-    buildWallAxis("x", -13.75, -21.75, -9.0, [], {
+    buildWallAxis("x", -13.75, -21.75, -8.0, [], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: 1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup
     });
-    buildWallAxis("x", -13.75, -9.0, 1.0, [], {
+    buildWallAxis("x", -13.75, -8.0, 1.0, [], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.birchWall, innerSign: 1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
-      windows: [[-8.2, -6.0, 4.8, 6.6, 0, false], [-2.0, 0.2, 4.8, 6.6, 0, false]] // 2 high bedroom windows flanking birch bed (B4!)
+      windows: [[-7.4, -5.4, 4.8, 6.6, 0, false], [-1.8, 0.2, 4.8, 6.6, 0, false]]
     });
-    buildWallAxis("x", -13.75, 1.0, 21.75, [[9.1, 11.9]], {
+    buildWallAxis("x", -13.75, 1.0, 21.75, [[8.9, 12.3]], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: 1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
-      windows: [[4.0, 6.4, 3.4, 5.6, 0, false], [14.0, 17.6, 3.4, 5.8, 1, false]] // Bath window (B6) + Kitchen sink double window (A10)!
+      windows: [[4.0, 6.4, 3.4, 5.6, 0, false], [14.0, 17.6, 3.4, 5.8, 1, false]]
     });
     // Dark-wood framed Full-Glass Kitchen Back Door (A10 far left — ajar outward so walkable & sunlit!)
     const backDoorPiv = new THREE.Group();
@@ -1383,10 +1384,10 @@
         [-7.8, -4.0, 2.2, 5.8, 1, true] // Front hall/living window
       ]
     });
-    buildWallAxis("x", 13.75, 1.0, 21.75, [[4.6, 8.4]], {
+    buildWallAxis("x", 13.75, 1.0, 21.75, [[4.5, 8.5]], {
       level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
       cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
-      windows: [[10.8, 14.0, 1.8, 6.2, 1, true], [15.0, 18.2, 1.8, 6.2, 1, true]] // 2 tall curtained Dining windows (A8, A9)!
+      windows: [[10.8, 14.0, 1.8, 6.2, 1, true], [15.0, 18.2, 1.8, 6.2, 1, true]]
     });
 
     // WEST GABLE WALL (-X = -21.75) WITH LIVING ROOM & FOOSBALL CURTAINED WINDOWS (A4, B1, B3)!
@@ -1407,28 +1408,28 @@
     [[-21.75, -13.75], [21.75, -13.75], [-21.75, 13.75], [21.75, 13.75]].forEach(([cx, cz]) => addLogCorners(cx, cz, WALL_H, 0.6, mainFloorGroup));
 
     // Craftsman Double Front Doors with Upper Glass Panes (A5, A8, C12)
-    [ [4.7, 1.25], [8.3, -1.25] ].forEach(([dx, rot]) => {
+    // Craftsman Double Front Doors swung flush open so 4ft entry is completely clear!
+    [ [4.55, 1.50], [8.45, -1.50] ].forEach(([dx, rot]) => {
       const dg = new THREE.Group();
-      dg.position.set(dx, 2.75, 12.9);
+      dg.position.set(dx, 2.75, 12.75);
       dg.rotation.y = rot;
       box(1.85, 4.3, 0.22, MAT.darkDoor, 0, 0, 0, dg, "entry");
       box(1.3, 1.1, 0.25, MAT.glassBlock, 0, 1.2, 0, dg, "entry", false);
       mainFloorGroup.add(dg);
     });
 
-    // --- Downstairs Interior Partitions (Photo-Matched) ---
+    // --- Downstairs Interior Partitions (Wide 3.4-4.6ft Walkable Doorways & Open East-West Passage!) ---
     buildWallAxis("z", 8.5, -13.75, -1.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("x", -1.5, 1.0, 8.5, [[4.4, 7.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("z", 1.0, -13.75, 9.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, innerMat: MAT.shiplapH, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    // Downstairs Bedroom West Wall (X = -9.0, with Knotty-Pine Door near South corner Z = -0.2 .. +2.3 so Left wall has full room for Bi-Fold Closet, B2 & B4!)
-    buildWallAxis("z", -9.0, -13.75, 2.5, [[-0.2, 2.3]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapV, innerMat: MAT.shiplapH, innerSign: 1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    addOpenPineDoor(-8.8, 0.6, 2.2, 1.35, walkMainEnclosureGroup);
-    buildWallAxis("x", 2.5, -9.0, 1.0, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    // Foosball Game Room East Teal Wood Wall + Raised Rustic US Flag (B3!)
-    buildWallAxis("z", -9.0, 2.5, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, innerMat: MAT.shiplapTeal, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    box(0.10, 2.2, 4.0, MAT.usFlag, -9.24, 5.4, 8.0, walkMainEnclosureGroup, null, false);
-    // Living Room | Foosball Barn-Door Wall (Z = +2.5: solid white shiplap X=-16.0..-9.0, open doorway on RIGHT X=-20.8..-16.0, exact match to B2!)
-    buildWallAxis("x", 2.5, -21.75, -9.0, [[-20.8, -16.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup, frameDoors: true });
+    buildWallAxis("x", -1.5, 1.0, 8.5, [[4.1, 7.6]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    buildWallAxis("z", 1.0, -13.75, 9.2, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, innerMat: MAT.shiplapH, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    // Downstairs Bedroom (X = -8.0..+1.0, Z = -13.75..-2.0, with wide 3.4ft doorway on West wall Z = -5.4..-2.0!)
+    buildWallAxis("z", -8.0, -13.75, -2.0, [[-5.4, -2.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapV, innerMat: MAT.shiplapH, innerSign: 1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    addOpenPineDoor(-7.82, 0.6, -2.05, 1.54, walkMainEnclosureGroup);
+    buildWallAxis("x", -2.0, -8.0, 1.0, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    // Foosball Game Room (X = -21.75..-11.5, Z = +4.2..+13.75) — leaves a wide 6.2ft open corridor Z = -2.0..+4.2 straight from Entry/Stairs into Living Room!
+    buildWallAxis("z", -11.5, 4.2, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, innerMat: MAT.shiplapTeal, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    box(0.10, 2.2, 4.0, MAT.usFlag, -11.74, 5.4, 8.8, walkMainEnclosureGroup, null, false);
+    buildWallAxis("x", 4.2, -21.75, -11.5, [[-21.0, -16.4]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup, frameDoors: true });
 
     // Overhead Beams, Chandeliers, Pendants & 1st-Floor Ceiling
     box(0.68, 0.78, 27.0, MAT.logBeam, 12.2, 9.05, 0, walkMainEnclosureGroup, null, false);
@@ -1454,46 +1455,45 @@
 
     // K-Braced (`>`) White & Wood Sliding Barn Door (Open = centered at X=-13.4 over middle wall; Closed = X=-18.4 over West opening, exact match to B2!)
     const barnDoorGroup = new THREE.Group();
-    barnDoorGroup.position.set(-13.4, 3.7, 2.20);
-    box(5.0, 6.2, 0.18, MAT.shiplapH, 0, 0, 0, barnDoorGroup, "game");
-    box(5.0, 0.24, 0.22, MAT.knottyPine, 0, 2.98, 0, barnDoorGroup, "game");
-    box(5.0, 0.24, 0.22, MAT.knottyPine, 0, -2.98, 0, barnDoorGroup, "game");
-    box(5.0, 0.22, 0.22, MAT.knottyPine, 0, 0, 0, barnDoorGroup, "game");
-    box(0.24, 6.2, 0.22, MAT.knottyPine, -2.38, 0, 0, barnDoorGroup, "game");
-    box(0.24, 6.2, 0.22, MAT.knottyPine, 2.38, 0, 0, barnDoorGroup, "game");
-    const kTop = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.20, 0.23), MAT.knottyPine);
+    barnDoorGroup.position.set(-14.0, 3.7, 3.90);
+    box(4.8, 6.2, 0.18, MAT.shiplapH, 0, 0, 0, barnDoorGroup, "game");
+    box(4.8, 0.24, 0.22, MAT.knottyPine, 0, 2.98, 0, barnDoorGroup, "game");
+    box(4.8, 0.24, 0.22, MAT.knottyPine, 0, -2.98, 0, barnDoorGroup, "game");
+    box(4.8, 0.22, 0.22, MAT.knottyPine, 0, 0, 0, barnDoorGroup, "game");
+    box(0.24, 6.2, 0.22, MAT.knottyPine, -2.28, 0, 0, barnDoorGroup, "game");
+    box(0.24, 6.2, 0.22, MAT.knottyPine, 2.28, 0, 0, barnDoorGroup, "game");
+    const kTop = new THREE.Mesh(new THREE.BoxGeometry(5.3, 0.20, 0.23), MAT.knottyPine);
     kTop.position.set(0, 1.48, 0); kTop.rotation.z = -0.52; barnDoorGroup.add(kTop);
-    const kBot = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.20, 0.23), MAT.knottyPine);
+    const kBot = new THREE.Mesh(new THREE.BoxGeometry(5.3, 0.20, 0.23), MAT.knottyPine);
     kBot.position.set(0, -1.48, 0); kBot.rotation.z = 0.52; barnDoorGroup.add(kBot);
-    box(11.6, 0.14, 0.16, MAT.iron, -15.8, 7.0, 2.20, walkMainEnclosureGroup);
+    box(10.2, 0.14, 0.16, MAT.iron, -16.4, 7.0, 3.90, walkMainEnclosureGroup);
     mainFloorGroup.add(barnDoorGroup);
 
-    // --- Detailed L-Shaped Peeled-Log Staircase with Newel Post, Stringer & Spindles (A6, A7!) ---
+    // --- Detailed L-Shaped Peeled-Log Staircase (Ends cleanly at Z=+3.5 upstairs, leaving a 4.5ft front passage Z=9.2..13.75 downstairs!) ---
     for (let s = 0; s < 3; s++) {
       box(0.85, 0.24, 2.8, MAT.logBeam, -1.2 + s * 0.8, 1.05 + s * 0.52, 11.2, mainFloorGroup, "entry");
     }
     box(3.1, 1.9, 3.0, MAT.logBeam, 2.6, 1.55, 11.1, mainFloorGroup, "entry");
-    // Tall Peeled-Log Corner Newel Post (A6!)
     const newel = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.26, 5.6, 10), MAT.logBeam);
-    newel.position.set(4.02, 3.4, 9.55);
+    newel.position.set(4.02, 3.4, 9.45);
     mainFloorGroup.add(newel);
-    // Diagonal Log Stringer + 10 Treads + Vertical Log Spindles + Handrail
-    const stringer = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.65, 10.6), MAT.logBeam);
-    stringer.rotation.x = 0.74;
-    stringer.position.set(3.92, 5.8, 5.5);
+    const stringer = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.65, 9.4), MAT.logBeam);
+    stringer.rotation.x = 0.85;
+    stringer.position.set(3.92, 5.9, 6.3);
     mainFloorGroup.add(stringer);
-    for (let s = 0; s < 10; s++) {
-      const ty = 3.05 + s * 0.72, tz = 9.1 - s * 0.8;
-      box(2.9, 0.24, 0.85, MAT.logBeam, 2.6, ty, tz, mainFloorGroup, "entry");
+    for (let s = 0; s < 9; s++) {
+      const ty = 3.15 + s * 0.80, tz = 9.1 - s * 0.72;
+      box(2.9, 0.24, 0.78, MAT.logBeam, 2.6, ty, tz, mainFloorGroup, "entry");
       const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 2.8, 6), MAT.logBeam);
       sp.position.set(4.02, ty + 1.4, tz);
       mainFloorGroup.add(sp);
     }
-    const stairRail = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 10.4, 8), MAT.logBeam);
-    stairRail.rotation.x = -0.82;
-    stairRail.position.set(4.02, 7.2, 5.5);
+    const stairRail = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 9.4, 8), MAT.logBeam);
+    stairRail.rotation.x = -0.72;
+    stairRail.position.set(4.02, 7.2, 6.3);
     mainFloorGroup.add(stairRail);
-    addCollider(1, 4.15, 2.0, 4.15, 12.6);
+    // Stop stair guardrail at Z = +9.2 so Z = +9.2..+13.75 (4.55ft wide!) is wide open to walk between Entry & Living Room!
+    addCollider(1, 4.15, 3.2, 4.15, 9.2);
     // Detailed Black Slatted Bench + Striped Pillow + Pedestal Table under Stairs (A6!)
     box(1.5, 0.18, 3.6, MAT.darkDoor, 2.2, 1.55, 4.8, mainFloorGroup, "entry");
     box(0.18, 1.7, 3.6, MAT.darkDoor, 1.5, 2.4, 4.8, mainFloorGroup, "entry");
@@ -1554,63 +1554,62 @@
     box(3.2, 2.1, 5.4, MAT.whiteAppliance, 2.8, 1.65, -10.5, mainFloorGroup, "down_bath");
     box(2.4, 0.25, 4.6, MAT.water, 2.8, 2.58, -10.5, mainFloorGroup, "down_bath", false);
 
-    // Downstairs Bedroom: Knotty-Pine Bi-Fold Closet + 4 Wood Plaques on LEFT (X = -8.7) & Wood Tripod Lamp on RIGHT (B4!)
-    box(0.35, 6.4, 4.4, MAT.knottyPine, -8.68, 3.8, -6.8, walkMainEnclosureGroup, null, false);
-    box(0.35, 4.1, 4.4, MAT.knottyPine, -8.68, 2.65, -6.8, mainFloorGroup, "down_bed");
-    // 4 square dark-wood plaques on left wall beside closet (B4!)
-    [ [-2.8, 5.2], [-1.5, 5.2], [-2.8, 3.9], [-1.5, 3.9] ].forEach(([pz, py]) => {
-      box(0.12, 1.05, 1.05, MAT.darkWood, -8.76, py, pz, walkMainEnclosureGroup, null, false);
+    // Downstairs Bedroom: Knotty-Pine Bi-Fold Closet + 4 Wood Plaques on LEFT (X = -7.7) & Wood Tripod Lamp on RIGHT
+    box(0.35, 6.4, 4.0, MAT.knottyPine, -7.68, 3.8, -8.2, walkMainEnclosureGroup, null, false);
+    box(0.35, 4.1, 4.0, MAT.knottyPine, -7.68, 2.65, -8.2, mainFloorGroup, "down_bed");
+    [ [-5.8, 5.2], [-10.8, 5.2], [-5.8, 3.9], [-10.8, 3.9] ].forEach(([pz, py]) => {
+      box(0.12, 1.0, 1.0, MAT.darkWood, -7.76, py, pz, walkMainEnclosureGroup, null, false);
     });
-    // Wood Tripod Floor Lamp with White Drum Shade in NE corner (B4 right!)
     const lampShade = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.85, 1.0, 16), MAT.whiteAppliance);
-    lampShade.position.set(-0.6, 4.8, -12.0);
+    lampShade.position.set(-0.2, 4.8, -12.0);
     mainFloorGroup.add(lampShade);
     [-0.25, 0, 0.25].forEach((off, idx) => {
       const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 4.4, 6), MAT.logBeam);
-      leg.position.set(-0.6 + off, 2.4, -12.0 + (idx === 1 ? 0.25 : -0.15));
+      leg.position.set(-0.2 + off, 2.4, -12.0 + (idx === 1 ? 0.25 : -0.15));
       leg.rotation.z = off * 0.45;
       mainFloorGroup.add(leg);
     });
 
     // Living Room (B1, B2)
-    box(8.8, 0.05, 8.8, MAT.rug, -15.4, 0.63, -5.5, mainFloorGroup, "living", false);
-    box(4.6, 2.3, 1.5, MAT.darkWood, -15.4, 1.75, -12.6, mainFloorGroup, "living");
-    box(3.8, 2.2, 0.16, MAT.iron, -15.4, 3.85, -12.8, mainFloorGroup, "living");
-    box(3.5, 1.95, 0.18, MAT.tvScreen, -15.4, 3.85, -12.76, mainFloorGroup, "living", false);
-    box(2.7, 1.4, 6.8, MAT.couchBeige, -10.6, 1.3, -6.8, mainFloorGroup, "living");
-    box(0.6, 1.5, 6.8, MAT.couchBeige, -9.6, 2.2, -6.8, mainFloorGroup, "living");
+    box(8.8, 0.05, 8.8, MAT.rug, -15.0, 0.63, -6.2, mainFloorGroup, "living", false);
+    box(4.6, 2.3, 1.5, MAT.darkWood, -15.0, 1.75, -12.6, mainFloorGroup, "living");
+    box(3.8, 2.2, 0.16, MAT.iron, -15.0, 3.85, -12.8, mainFloorGroup, "living");
+    box(3.5, 1.95, 0.18, MAT.tvScreen, -15.0, 3.85, -12.76, mainFloorGroup, "living", false);
+    box(2.7, 1.4, 5.6, MAT.couchBeige, -9.6, 1.3, -9.2, mainFloorGroup, "living");
+    box(0.6, 1.5, 5.6, MAT.couchBeige, -8.6, 2.2, -9.2, mainFloorGroup, "living");
     box(2.6, 1.4, 5.2, MAT.couchWhite, -20.0, 1.3, -6.8, mainFloorGroup, "living");
     box(0.6, 1.5, 5.2, MAT.couchWhite, -21.0, 2.2, -6.8, mainFloorGroup, "living");
     [-16.8, -13.6].forEach(ax => {
-      box(2.4, 1.4, 2.4, MAT.couchWhite, ax, 1.3, -1.2, mainFloorGroup, "living");
-      box(2.4, 1.4, 0.55, MAT.couchWhite, ax, 2.1, -0.2, mainFloorGroup, "living");
+      box(2.3, 1.4, 2.3, MAT.couchWhite, ax, 1.3, -1.8, mainFloorGroup, "living");
+      box(2.3, 1.4, 0.55, MAT.couchWhite, ax, 2.1, -0.8, mainFloorGroup, "living");
     });
-    box(2.2, 1.2, 3.4, MAT.darkWood, -15.4, 1.2, -6.5, mainFloorGroup, "living");
+    box(2.2, 1.2, 3.4, MAT.darkWood, -15.0, 1.2, -6.5, mainFloorGroup, "living");
 
     // Foosball Game Room (B3)
-    box(2.9, 0.9, 4.8, MAT.darkWood, -15.2, 2.7, 7.6, mainFloorGroup, "game");
-    box(2.5, 0.12, 4.3, new THREE.MeshStandardMaterial({ color: 0x297549 }), -15.2, 3.18, 7.6, mainFloorGroup, "game");
-    [[-1.2, -2.1], [1.2, -2.1], [-1.2, 2.1], [1.2, 2.1]].forEach(([lx, lz]) => {
-      box(0.22, 1.9, 0.22, MAT.darkWood, -15.2 + lx, 1.55, 7.6 + lz, mainFloorGroup, "game");
+    box(2.9, 0.9, 4.6, MAT.darkWood, -16.8, 2.7, 8.8, mainFloorGroup, "game");
+    box(2.5, 0.12, 4.1, new THREE.MeshStandardMaterial({ color: 0x297549 }), -16.8, 3.18, 8.8, mainFloorGroup, "game");
+    [[-1.2, -2.0], [1.2, -2.0], [-1.2, 2.0], [1.2, 2.0]].forEach(([lx, lz]) => {
+      box(0.22, 1.9, 0.22, MAT.darkWood, -16.8 + lx, 1.55, 8.8 + lz, mainFloorGroup, "game");
     });
-    box(1.5, 2.5, 5.4, MAT.turquoiseCab, -10.0, 1.85, 8.0, mainFloorGroup, "game");
+    box(1.4, 2.5, 5.0, MAT.turquoiseCab, -12.5, 1.85, 8.8, mainFloorGroup, "game");
     [-1.6, -0.8, 0, 0.8, 1.6].forEach(rz => {
-      box(3.8, 0.06, 0.06, MAT.stainless, -15.2, 3.22, 7.6 + rz, mainFloorGroup, "game", false);
+      box(3.8, 0.06, 0.06, MAT.stainless, -16.8, 3.22, 8.8 + rz, mainFloorGroup, "game", false);
     });
-    box(2.2, 2.4, 2.2, MAT.iron, -12.6, 1.8, 12.0, mainFloorGroup, "game");
-    box(2.2, 1.4, 1.8, MAT.darkWood, -18.8, 1.3, 11.8, mainFloorGroup, "game");
+    box(2.0, 2.4, 2.0, MAT.iron, -14.2, 1.8, 12.2, mainFloorGroup, "game");
+    box(2.0, 1.4, 1.8, MAT.darkWood, -19.6, 1.3, 12.2, mainFloorGroup, "game");
 
-    // ==================== 3. PHOTO-VERIFIED UPSTAIRS WITH CUT-OUT DORMER WINDOWS & FULL SLATE SHOWER ====================
+    // ==================== 3. PHOTO-VERIFIED UPSTAIRS (SOLID 6FT HALLWAY CLEAR OF STAIRWELL!) ====================
     box(15.0, 0.5, 23.6, MAT.carpet, -13.0, 0.25, 0, upperFloorGroup, "up_west", false);
     box(15.0, 0.5, 23.6, MAT.carpet, 13.0, 0.25, 0, upperFloorGroup, "up_east", false);
     box(4.8, 0.5, 6.3, MAT.carpet, -7.9, 0.25, -8.65, upperFloorGroup, "up_closet", false);
     box(10.0, 0.5, 9.3, MAT.slate, 0.5, 0.25, -7.15, upperFloorGroup, "up_bath", false);
-    box(11.0, 0.5, 4.3, MAT.carpet, 0.0, 0.25, -0.35, upperFloorGroup, "up_hall", false);
-    box(6.5, 0.5, 10.0, MAT.carpet, -2.25, 0.25, 6.8, upperFloorGroup, "up_hall", false);
-    box(1.3, 0.5, 10.0, MAT.carpet, 4.85, 0.25, 6.8, upperFloorGroup, "up_hall", false);
-    box(0.2, 3.0, 9.8, MAT.logBeam, 0.95, 1.9, 6.8, upperFloorGroup, "up_hall");
-    addCollider(2, 0.95, 1.9, 0.95, 11.8);
-    addCollider(2, 4.2, 1.9, 4.2, 11.8);
+    // Solid 6.0ft-wide East-West Upstairs Hallway (Z = -2.5..+3.5) completely North of the Stairwell (Z = +3.5..+11.8)!
+    box(11.0, 0.5, 6.0, MAT.carpet, 0.0, 0.25, 0.5, upperFloorGroup, "up_hall", false);
+    box(6.5, 0.5, 8.3, MAT.carpet, -2.25, 0.25, 7.65, upperFloorGroup, "up_hall", false);
+    box(1.3, 0.5, 8.3, MAT.carpet, 4.85, 0.25, 7.65, upperFloorGroup, "up_hall", false);
+    box(0.2, 3.0, 8.3, MAT.logBeam, 0.95, 1.9, 7.65, upperFloorGroup, "up_hall");
+    addCollider(2, 0.95, 3.5, 0.95, 11.8);
+    addCollider(2, 4.2, 3.5, 4.2, 11.8);
 
     const UWALL_H = 4.2, FULL_H2 = 8.4;
     // Upstairs Perimeter Walls (Placed in upperExteriorCutawayGroup so Outside Roof Mode NEVER gets poked!)
@@ -1643,19 +1642,16 @@
       windows: [[-4.8, 1.4, 2.8, 6.4, 1, false]]
     });
 
-    // Upstairs Interior Partitions & Open Knotty-Pine 6-Panel Doors (C2, B7, B8)
-    // West Bedroom East Wall (X = -5.5, Door at Z = +1.5 .. +4.3 matching C2 left!)
-    buildWallAxis("z", -5.5, -5.5, 11.8, [[1.5, 4.3]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    addOpenPineDoor(-5.6, 0.5, 4.2, -2.2, walkUpperEnclosureGroup);
-    // East 2-Queen Bedroom West Wall (X = +5.5, Door at Z = -1.6 .. +1.2)
-    buildWallAxis("z", 5.5, -11.8, 11.8, [[-1.6, 1.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    // Upstairs Bathroom Wall (Z = -2.5, Door at X = -1.4 .. +1.4)
-    buildWallAxis("x", -2.5, -4.5, 5.5, [[-1.4, 1.4]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    addOpenPineDoor(-1.4, 0.5, -2.6, -1.3, walkUpperEnclosureGroup);
-    // Walk-In Closet Walls (NW of Hallway)
+    // Upstairs Interior Partitions: All 4 Upstairs Doors Are 3.4-3.6ft Wide & Completely Clear of the Stairwell!
+    buildWallAxis("z", -5.5, -5.5, 11.8, [[-1.0, 2.6]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    addOpenPineDoor(-5.65, 0.5, 2.55, -1.56, walkUpperEnclosureGroup);
+    buildWallAxis("z", 5.5, -11.8, 11.8, [[-1.0, 2.6]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("x", -2.5, -4.5, 5.5, [[-1.7, 1.7]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    addOpenPineDoor(-1.7, 0.5, -2.65, -1.55, walkUpperEnclosureGroup);
+    // Walk-In Closet Walls (3.4ft wide doorway directly off Upstairs West Bedroom at Z = -5.5, X = -9.2..-5.8!)
     buildWallAxis("z", -10.3, -11.8, -5.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("z", -4.5, -11.8, -2.5, [[-5.2, -2.8]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("x", -5.5, -10.3, -4.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("z", -4.5, -11.8, -2.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("x", -5.5, -10.3, -4.5, [[-9.2, -5.8]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
 
     // South Built-In Twin Bed Wood-Framed Alcove in Upstairs West Bedroom (exact match to C2 center!)
     buildWallAxis("z", -8.8, 6.0, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.30, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
@@ -1804,21 +1800,24 @@
       entry:         { x: 6.5,   z: 11.2, floor: 1, yaw: 0.35,  pitch: -0.02 },
       dining:        { x: 9.5,   z: 6.2,  floor: 1, yaw: -1.52, pitch: -0.04 },
       kitchen:       { x: 15.5,  z: 1.5,  floor: 1, yaw: 0.12,  pitch: -0.04 },
-      living:        { x: -15.0, z: -8.5, floor: 1, yaw: -3.05, pitch: -0.03 },
-      game:          { x: -16.8, z: 4.0,  floor: 1, yaw: 3.0,   pitch: -0.03 },
-      down_bed:      { x: -4.2,  z: 0.8,  floor: 1, yaw: 0.08,  pitch: -0.05 },
-      down_bath:     { x: 5.2,   z: -3.2, floor: 1, yaw: 0.15,  pitch: -0.06 },
+      living:        { x: -13.5, z: -4.5, floor: 1, yaw: -3.05, pitch: -0.03 },
+      game:          { x: -17.5, z: 6.2,  floor: 1, yaw: 3.0,   pitch: -0.03 },
+      down_bed:      { x: -5.8,  z: -3.8, floor: 1, yaw: -0.95, pitch: -0.05 },
+      down_bath:     { x: 5.8,   z: -3.4, floor: 1, yaw: 0.15,  pitch: -0.06 },
       stairs_bottom: { x: 2.6,   z: 10.8, floor: 1, yaw: 0.0,   pitch: 0.12 },
-      up_hall:       { x: 0.0,   z: 0.0,  floor: 2, yaw: 1.57,  pitch: -0.04 },
-      up_west:       { x: -8.0,  z: 2.5,  floor: 2, yaw: 0.72,  pitch: -0.04 },
-      up_east:       { x: 7.5,   z: 1.5,  floor: 2, yaw: -1.38, pitch: -0.05 },
+      up_hall:       { x: 0.0,   z: 0.8,  floor: 2, yaw: 1.57,  pitch: -0.04 },
+      up_west:       { x: -8.0,  z: 0.8,  floor: 2, yaw: 0.72,  pitch: -0.04 },
+      up_east:       { x: 8.0,   z: 0.8,  floor: 2, yaw: -1.38, pitch: -0.05 },
       up_bath:       { x: -0.8,  z: -3.6, floor: 2, yaw: -0.25, pitch: -0.06 },
       patio:         { x: -30.5, z: -3.5, floor: 1, yaw: -1.25, pitch: 0.02 },
       garage:        { x: -36.0, z: 25.0, floor: 1, yaw: 0.0,   pitch: -0.04 }
     };
 
+    let fpvWalkGoal = null; // Optional tap/click-on-floor target in Walk Mode
+
     function spawnFPV(key) {
       testCamOverride = null;
+      fpvWalkGoal = null;
       const s = SPAWNS[key] || SPAWNS.front_yard;
       fpv.x = s.x; fpv.z = s.z; fpv.floor = s.floor;
       fpv.yaw = s.yaw; fpv.pitch = s.pitch;
@@ -1844,9 +1843,9 @@
     window.__clearTestCam = () => { testCamOverride = null; };
 
     function resolveFPVCollisions(nx, nz, level) {
-      const r = 0.76;
+      const r = 0.48; // Nimble shoulder radius so every 3.4-4.6ft doorway glides effortlessly
       let px = nx, pz = nz;
-      for (let pass = 0; pass < 2; pass++) {
+      for (let pass = 0; pass < 3; pass++) {
         for (let i = 0; i < COLLIDERS.length; i++) {
           const c = COLLIDERS[i];
           if (c.level !== level) continue;
@@ -1866,6 +1865,21 @@
       return [Math.max(-52, Math.min(48, px)), Math.max(-28, Math.min(46, pz))];
     }
 
+    function stepFPVToward(nx, nz) {
+      // Staircase transition: North-bound stairs sit in X = +1.05..+4.10, Z = +3.3..+12.6
+      const inNorthStair = (nx >= 1.05 && nx <= 4.10 && nz >= 3.0 && nz <= 12.6);
+      if (inNorthStair) {
+        if (fpv.floor === 1 && nz < 3.7) fpv.floor = 2;
+        else if (fpv.floor === 2 && nz > 4.0) fpv.floor = 1;
+      }
+
+      if (fpv.floor === 1 && !barnDoorOpen && Math.abs(nz - 4.2) < 2.6 && nx < -15.8 && nx > -21.2) {
+        setBarnDoor(true);
+      }
+
+      [fpv.x, fpv.z] = resolveFPVCollisions(nx, nz, fpv.floor);
+    }
+
     function updateFPVPhysics(dt = 0.016) {
       let moveFwd = 0, moveStrafe = 0, turnYaw = 0;
       if (keysDown.has("ArrowUp") || keysDown.has("KeyW")) moveFwd += 1;
@@ -1878,28 +1892,30 @@
       if (turnYaw !== 0) fpv.yaw += turnYaw * 1.25 * dt;
 
       if (moveFwd !== 0 || moveStrafe !== 0) {
+        fpvWalkGoal = null;
         const len = Math.hypot(moveFwd, moveStrafe) || 1;
         const spd = 4.5 * dt;
         const fx = -Math.sin(fpv.yaw), fz = -Math.cos(fpv.yaw);
         const rx = Math.cos(fpv.yaw), rz = -Math.sin(fpv.yaw);
-        let nx = fpv.x + (fx * (moveFwd / len) + rx * (moveStrafe / len)) * spd;
-        let nz = fpv.z + (fz * (moveFwd / len) + rz * (moveStrafe / len)) * spd;
-
-        const inNorthStair = (nx >= 1.05 && nx <= 4.12 && nz >= 1.2 && nz <= 12.6);
-        if (inNorthStair) {
-          if (fpv.floor === 1 && nz < 2.2) fpv.floor = 2;
-          else if (fpv.floor === 2 && nz > 2.4) fpv.floor = 1;
+        stepFPVToward(
+          fpv.x + (fx * (moveFwd / len) + rx * (moveStrafe / len)) * spd,
+          fpv.z + (fz * (moveFwd / len) + rz * (moveStrafe / len)) * spd
+        );
+      } else if (fpvWalkGoal) {
+        const dx = fpvWalkGoal.x - fpv.x, dz = fpvWalkGoal.z - fpv.z;
+        const dist = Math.hypot(dx, dz);
+        if (dist < 0.35) {
+          fpvWalkGoal = null;
+        } else {
+          const prevX = fpv.x, prevZ = fpv.z;
+          const step = Math.min(dist, 4.8 * dt);
+          stepFPVToward(fpv.x + (dx / dist) * step, fpv.z + (dz / dist) * step);
+          if (Math.hypot(fpv.x - prevX, fpv.z - prevZ) < step * 0.15) fpvWalkGoal = null; // Stop cleanly if against a wall
         }
-
-        if (fpv.floor === 1 && !barnDoorOpen && Math.abs(nz - 2.5) < 2.5 && nx < -15.5 && nx > -21.0) {
-          setBarnDoor(true);
-        }
-
-        [fpv.x, fpv.z] = resolveFPVCollisions(nx, nz, fpv.floor);
       }
 
-      if (fpv.x >= 1.05 && fpv.x <= 4.15 && fpv.z >= 1.6 && fpv.z <= 9.6 && (fpv.floor === 1 || fpv.z > 2.0)) {
-        const prog = Math.max(0, Math.min(1, (9.6 - fpv.z) / 7.8));
+      if (fpv.x >= 1.05 && fpv.x <= 4.15 && fpv.z >= 3.4 && fpv.z <= 9.6 && (fpv.floor === 1 || fpv.z > 3.7)) {
+        const prog = Math.max(0, Math.min(1, (9.6 - fpv.z) / 6.1));
         fpv.goalY = 2.5 + prog * (9.85 - 2.5);
       } else if (fpv.floor === 1 && fpv.x >= 1.05 && fpv.x <= 4.15 && fpv.z > 9.6 && fpv.z <= 12.7) {
         fpv.goalY = 2.5;
@@ -1923,7 +1939,7 @@
     function detectFPVRoom() {
       let rId = "porch";
       const x = fpv.x, z = fpv.z;
-      if (fpv.floor === 2 && fpv.y > 6.5) {
+      if (fpv.floor === 2) {
         if (x < -5.5 && x > -10.3 && z < -5.5) rId = "up_closet";
         else if (x < -5.5) rId = "up_west";
         else if (x > 5.5) rId = "up_east";
@@ -1933,8 +1949,8 @@
         if (x >= -22 && x <= 22 && z >= -14 && z <= 13.8) {
           if (x >= 8.5) rId = z >= -0.8 ? "dining" : "kitchen";
           else if (x >= 1.0) rId = z >= -1.5 ? "entry" : "down_bath";
-          else if (x >= -9.0 && z < 2.5) rId = "down_bed";
-          else if (x < -9.0 && z >= 2.5) rId = "game";
+          else if (x >= -8.0 && z < -2.0) rId = "down_bed";
+          else if (x < -11.5 && z >= 4.2) rId = "game";
           else rId = "living";
         } else if (x < -22 && z < 10) {
           rId = "patio";
@@ -2058,8 +2074,20 @@
         camCtrl.dragging = false;
         lastPinchDist = 0;
         const moved = Math.hypot(e.clientX - camCtrl.downX, e.clientY - camCtrl.downY);
-        if (wasSingle && moved < 8 && (e.button === 0 || e.pointerType === "touch") && appMode === "planning") {
-          handleCanvasClick(e);
+        if (wasSingle && moved < 8 && (e.button === 0 || e.pointerType === "touch")) {
+          if (appMode === "planning") {
+            handleCanvasClick(e);
+          } else {
+            // In Walk Mode, tapping/clicking on a visible floor spot glides smoothly toward it!
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+            raycaster.setFromCamera(mouse, camera);
+            const hits = raycaster.intersectObjects(pickables, false);
+            if (hits.length > 0 && hits[0].point.y < fpv.y + 2.8 && hits[0].point.y > fpv.y - 2.8) {
+              fpvWalkGoal = { x: hits[0].point.x, z: hits[0].point.z };
+            }
+          }
         }
       } else if (activePointers.size === 1) {
         const rem = Array.from(activePointers.values())[0];
@@ -2199,7 +2227,7 @@
 
     function setBarnDoor(open) {
       barnDoorOpen = open;
-      barnGoalX = barnDoorOpen ? -13.4 : -18.4;
+      barnGoalX = barnDoorOpen ? -14.0 : -18.7;
       document.getElementById("btn-barn-door").textContent = barnDoorOpen ? "Game Door: Open" : "Game Door: Closed";
     }
     document.getElementById("btn-barn-door").addEventListener("click", () => setBarnDoor(!barnDoorOpen));
