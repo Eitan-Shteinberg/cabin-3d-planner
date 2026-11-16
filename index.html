@@ -69,407 +69,158 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body {
-      width: 100%;
-      max-width: 100vw;
-      height: 100%;
-      overflow: hidden;
-      overscroll-behavior: none;
-      background: var(--cp-bg);
-      color: var(--cp-text);
+      width: 100%; max-width: 100vw; height: 100%; overflow: hidden; overscroll-behavior: none;
+      background: var(--cp-bg); color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
-      font-size: 13px;
-      line-height: 1.4;
+      font-size: 13px; line-height: 1.4;
     }
 
     .app-layout {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      max-width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
+      display: flex; flex-direction: column; width: 100%; max-width: 100vw;
+      height: 100vh; height: 100dvh; overflow: hidden;
     }
 
-    /* Top Header Bar */
     .topbar {
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding: 8px 12px;
-      background: var(--cp-surface);
-      border-bottom: 1px solid var(--cp-border);
-      z-index: 20;
-      width: 100%;
-      min-width: 0;
+      flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
+      gap: 8px; padding: 8px 12px; background: var(--cp-surface);
+      border-bottom: 1px solid var(--cp-border); z-index: 20; width: 100%; min-width: 0;
     }
-    .top-row-main {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      flex-shrink: 0;
-    }
+    .top-row-main { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
     .mode-switch {
-      display: inline-flex;
-      background: var(--cp-bg-elevated);
-      border: 1px solid var(--cp-border-strong);
-      border-radius: 0.625rem;
-      padding: 2px;
-      gap: 2px;
+      display: inline-flex; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem; padding: 2px; gap: 2px;
     }
     .mode-btn {
-      appearance: none;
-      border: none;
-      background: transparent;
-      color: var(--cp-text-muted);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 700;
-      padding: 5px 11px;
-      border-radius: 7px;
-      cursor: pointer;
-      white-space: nowrap;
+      appearance: none; border: none; background: transparent; color: var(--cp-text-muted);
+      font-family: inherit; font-size: 12px; font-weight: 700; padding: 5px 11px;
+      border-radius: 7px; cursor: pointer; white-space: nowrap;
     }
-    .mode-btn.active {
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-    }
+    .mode-btn.active { background: var(--cp-accent); color: var(--cp-accent-fg); }
 
-    .top-quick-actions {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
+    .top-quick-actions { display: flex; align-items: center; gap: 6px; }
     .view-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      min-width: 0;
-      overflow-x: auto;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
+      display: flex; align-items: center; gap: 6px; min-width: 0;
+      overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
     }
     .view-controls::-webkit-scrollbar { display: none; }
 
     .btn {
-      appearance: none;
-      border: 1px solid var(--cp-border);
-      background: var(--cp-surface-soft);
-      color: var(--cp-text);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 0.625rem;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
+      appearance: none; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
+      color: var(--cp-text); font-family: inherit; font-size: 12px; font-weight: 600;
+      padding: 5px 10px; border-radius: 0.625rem; cursor: pointer; white-space: nowrap; flex-shrink: 0;
     }
-    .btn:hover {
-      border-color: var(--cp-border-strong);
-      background: var(--cp-bg-elevated);
-    }
-    .btn.active {
-      background: var(--cp-accent);
-      border-color: var(--cp-accent);
-      color: var(--cp-accent-fg);
-    }
-    .btn-outline-accent {
-      border-color: var(--cp-accent);
-      color: var(--cp-accent);
-      background: var(--cp-accent-soft);
-    }
-    .btn-outline-accent:hover {
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-    }
+    .btn:hover { border-color: var(--cp-border-strong); background: var(--cp-bg-elevated); }
+    .btn.active { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+    .btn-outline-accent { border-color: var(--cp-accent); color: var(--cp-accent); background: var(--cp-accent-soft); }
+    .btn-outline-accent:hover { background: var(--cp-accent); color: var(--cp-accent-fg); }
 
-    /* Main Workspace (Desktop side-by-side, Mobile stacked w/ collapsible sheet) */
     .workspace {
-      flex: 1;
-      min-height: 0;
-      min-width: 0;
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 372px;
-      position: relative;
-      overflow: hidden;
-      width: 100%;
+      flex: 1; min-height: 0; min-width: 0; display: grid;
+      grid-template-columns: minmax(0, 1fr) 372px; position: relative; overflow: hidden; width: 100%;
     }
 
     .viewport-wrap {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      min-width: 0;
-      min-height: 0;
-      overflow: hidden;
-      background: var(--cp-bg);
-      outline: none;
+      position: relative; width: 100%; height: 100%; min-width: 0; min-height: 0;
+      overflow: hidden; background: var(--cp-bg); outline: none;
     }
-    #webgl-canvas {
-      width: 100%;
-      height: 100%;
-      display: block;
-      cursor: grab;
-      touch-action: none;
-    }
+    #webgl-canvas { width: 100%; height: 100%; display: block; cursor: grab; touch-action: none; }
     #webgl-canvas:active { cursor: grabbing; }
 
-    /* FPV Badge, Reticle & Thumb D-Pad */
     .fpv-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: var(--cp-panel-strong);
-      border: 1px solid var(--cp-border-strong);
-      border-radius: 0.625rem;
-      padding: 5px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--cp-text);
+      position: absolute; top: 10px; left: 10px; background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border-strong); border-radius: 0.625rem; padding: 5px 10px;
+      font-size: 12px; font-weight: 700; color: var(--cp-text);
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
-      pointer-events: none;
-      max-width: calc(100% - 20px);
+      pointer-events: none; max-width: calc(100% - 20px);
     }
     .fpv-badge span { color: var(--cp-accent); margin-left: 5px; }
     .fpv-reticle {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 8px;
-      height: 8px;
-      margin-left: -4px;
-      margin-top: -4px;
-      border-radius: 50%;
-      border: 1.5px solid var(--cp-accent);
-      background: var(--cp-sheen);
-      pointer-events: none;
+      position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin-left: -4px; margin-top: -4px;
+      border-radius: 50%; border: 1.5px solid var(--cp-accent); background: var(--cp-sheen); pointer-events: none;
     }
     .fpv-pad {
-      position: absolute;
-      right: 12px;
-      bottom: 12px;
-      display: grid;
-      grid-template-columns: repeat(3, 38px);
-      grid-template-rows: repeat(2, 36px);
-      gap: 4px;
-      z-index: 15;
+      position: absolute; right: 12px; bottom: 12px; display: grid;
+      grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(2, 36px); gap: 4px; z-index: 15;
     }
     .pad-btn {
-      appearance: none;
-      border: 1px solid var(--cp-border-strong);
-      background: var(--cp-panel-strong);
-      color: var(--cp-text);
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 15px;
-      cursor: pointer;
-      user-select: none;
-      touch-action: none;
+      appearance: none; border: 1px solid var(--cp-border-strong); background: var(--cp-panel-strong);
+      color: var(--cp-text); border-radius: 8px; font-weight: 700; font-size: 15px;
+      cursor: pointer; user-select: none; touch-action: none;
     }
-    .pad-btn:active {
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-    }
+    .pad-btn:active { background: var(--cp-accent); color: var(--cp-accent-fg); }
 
-    /* Floating 3D Labels */
-    #labels-layer {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
+    #labels-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
     .pin-label {
-      position: absolute;
-      transform: translate(-50%, -100%);
-      pointer-events: auto;
-      background: var(--cp-panel-strong);
-      color: var(--cp-text);
-      border: 1px solid var(--cp-border-strong);
-      border-radius: 8px;
-      padding: 2px 7px;
-      font-size: 10.5px;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
-      user-select: none;
+      position: absolute; transform: translate(-50%, -100%); pointer-events: auto;
+      background: var(--cp-panel-strong); color: var(--cp-text); border: 1px solid var(--cp-border-strong);
+      border-radius: 8px; padding: 2px 7px; font-size: 10.5px; font-weight: 600; white-space: nowrap;
+      cursor: pointer; box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14); user-select: none;
     }
-    .pin-label:hover, .pin-label.selected {
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-      border-color: var(--cp-accent);
-      z-index: 12;
-    }
+    .pin-label:hover, .pin-label.selected { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); z-index: 12; }
     .pin-label.fam1 { border-color: var(--cp-accent); }
     .pin-label.fam2 { border-color: var(--cp-link); }
     .pin-label.kids { border-color: var(--cp-success); }
     .pin-label .pin-tag {
-      display: inline-block;
-      margin-left: 4px;
-      padding: 1px 5px;
-      border-radius: 5px;
-      font-size: 10px;
-      font-weight: 700;
-      background: var(--cp-surface-soft);
-      color: var(--cp-text);
-      border: 1px solid var(--cp-border);
+      display: inline-block; margin-left: 4px; padding: 1px 5px; border-radius: 5px; font-size: 10px;
+      font-weight: 700; background: var(--cp-surface-soft); color: var(--cp-text); border: 1px solid var(--cp-border);
     }
-    .pin-label.fam1 .pin-tag {
-      background: var(--cp-accent);
-      color: var(--cp-accent-fg);
-      border-color: var(--cp-accent);
-    }
-    .pin-label.fam2 .pin-tag {
-      background: var(--cp-link);
-      color: var(--cp-surface);
-      border-color: var(--cp-link);
-    }
-    .pin-label.kids .pin-tag {
-      background: var(--cp-success);
-      color: var(--cp-surface);
-      border-color: var(--cp-success);
-    }
+    .pin-label.fam1 .pin-tag { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
+    .pin-label.fam2 .pin-tag { background: var(--cp-link); color: var(--cp-surface); border-color: var(--cp-link); }
+    .pin-label.kids .pin-tag { background: var(--cp-success); color: var(--cp-surface); border-color: var(--cp-success); }
 
     .hud-bottom-left {
-      position: absolute;
-      left: 10px;
-      bottom: 10px;
-      background: var(--cp-panel-strong);
-      border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
-      padding: 6px 10px;
-      font-size: 10.5px;
-      color: var(--cp-text-muted);
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      max-width: calc(100% - 150px);
+      position: absolute; left: 10px; bottom: 10px; background: var(--cp-panel-strong);
+      border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 6px 10px; font-size: 10.5px;
+      color: var(--cp-text-muted); box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      display: flex; gap: 10px; align-items: center; flex-wrap: wrap; max-width: calc(100% - 150px);
     }
-    .legend-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      margin-right: 4px;
-      vertical-align: middle;
-    }
+    .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
     .dot-fam1 { background: var(--cp-accent); }
     .dot-fam2 { background: var(--cp-link); }
     .dot-kids { background: var(--cp-success); }
 
-    /* Mobile-only Full-3D floating toggle button */
     .mobile-sheet-toggle { display: none; }
 
-    /* Sidebar / Bottom Sheet */
     .sidebar {
-      background: var(--cp-surface);
-      border-left: 1px solid var(--cp-border);
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      height: 100%;
-      min-height: 0;
-      min-width: 0;
+      background: var(--cp-surface); border-left: 1px solid var(--cp-border);
+      display: flex; flex-direction: column; overflow: hidden; height: 100%; min-height: 0; min-width: 0;
     }
     .tabs-bar {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid var(--cp-border);
-      background: var(--cp-bg-elevated);
-      padding: 5px 6px;
-      gap: 4px;
-      flex-shrink: 0;
+      display: flex; align-items: center; border-bottom: 1px solid var(--cp-border);
+      background: var(--cp-bg-elevated); padding: 5px 6px; gap: 4px; flex-shrink: 0;
     }
-    .tabs {
-      flex: 1;
-      display: flex;
-      gap: 4px;
-      min-width: 0;
-    }
+    .tabs { flex: 1; display: flex; gap: 4px; min-width: 0; }
     .tab-btn {
-      flex: 1;
-      appearance: none;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--cp-text-muted);
-      font-family: inherit;
-      font-size: 12px;
-      font-weight: 600;
-      padding: 6px 6px;
-      border-radius: 0.625rem;
-      cursor: pointer;
-      white-space: nowrap;
+      flex: 1; appearance: none; border: 1px solid transparent; background: transparent;
+      color: var(--cp-text-muted); font-family: inherit; font-size: 12px; font-weight: 600;
+      padding: 6px 6px; border-radius: 0.625rem; cursor: pointer; white-space: nowrap;
     }
     .tab-btn.active {
-      background: var(--cp-surface);
-      color: var(--cp-accent);
-      border-color: var(--cp-border);
+      background: var(--cp-surface); color: var(--cp-accent); border-color: var(--cp-border);
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
 
     .sidebar-body {
-      flex: 1;
-      min-height: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+      flex: 1; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+      padding: 12px; display: flex; flex-direction: column; gap: 10px;
     }
 
     .card {
-      background: var(--cp-bg-elevated);
-      border: 1px solid var(--cp-border);
-      border-radius: 16px;
-      padding: 12px;
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+      background: var(--cp-bg-elevated); border: 1px solid var(--cp-border); border-radius: 16px;
+      padding: 12px; box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
     }
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 8px;
-    }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
     .card-title { font-size: 13px; font-weight: 700; color: var(--cp-text); }
     .pill {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 0.625rem;
-      background: var(--cp-accent-soft);
-      color: var(--cp-accent);
-      border: 1px solid var(--cp-border);
-      white-space: nowrap;
+      font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 0.625rem;
+      background: var(--cp-accent-soft); color: var(--cp-accent); border: 1px solid var(--cp-border); white-space: nowrap;
     }
 
-    .teleport-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6px;
-    }
-
-    .roster-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+    .teleport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+    .roster-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px; }
     .roster-box {
-      background: var(--cp-surface);
-      border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
-      padding: 8px;
-      font-size: 11px;
-      min-width: 0;
+      background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 0.625rem;
+      padding: 8px; font-size: 11px; min-width: 0;
     }
     .roster-box.fam1-box { border-left: 3px solid var(--cp-accent); }
     .roster-box.fam2-box { border-left: 3px solid var(--cp-link); }
@@ -478,270 +229,104 @@
 
     .preset-list { display: flex; flex-direction: column; gap: 6px; }
     .preset-btn {
-      text-align: left;
-      padding: 8px 10px;
-      border-radius: 0.625rem;
-      border: 1px solid var(--cp-border);
-      background: var(--cp-surface);
-      color: var(--cp-text);
-      cursor: pointer;
-      font-family: inherit;
+      text-align: left; padding: 8px 10px; border-radius: 0.625rem; border: 1px solid var(--cp-border);
+      background: var(--cp-surface); color: var(--cp-text); cursor: pointer; font-family: inherit;
     }
     .preset-btn:hover { border-color: var(--cp-border-strong); }
-    .preset-btn.active {
-      border-color: var(--cp-accent);
-      background: var(--cp-accent-soft);
-    }
+    .preset-btn.active { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
     .preset-btn strong { display: block; font-size: 12px; margin-bottom: 2px; }
     .preset-btn span { display: block; font-size: 11px; color: var(--cp-text-muted); }
 
     .bed-list { display: flex; flex-direction: column; gap: 8px; }
     .bed-item {
-      background: var(--cp-surface);
-      border: 1px solid var(--cp-border);
-      border-radius: 0.625rem;
-      padding: 8px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      cursor: pointer;
+      background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 0.625rem;
+      padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; cursor: pointer;
     }
     .bed-item:hover { border-color: var(--cp-border-strong); }
     .bed-name { font-weight: 700; font-size: 12px; color: var(--cp-text); }
     .bed-room { font-size: 11px; color: var(--cp-text-muted); }
     .bed-controls { display: flex; gap: 6px; align-items: center; min-width: 0; }
     .assign-select {
-      flex: 1;
-      min-width: 0;
-      padding: 5px 6px;
-      font-size: 12px;
-      font-family: inherit;
-      border-radius: 0.625rem;
-      border: 1px solid var(--cp-border);
-      background: var(--cp-surface-soft);
-      color: var(--cp-text);
+      flex: 1; min-width: 0; padding: 5px 6px; font-size: 12px; font-family: inherit;
+      border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text);
     }
     .guest-input {
-      width: 128px;
-      min-width: 0;
-      padding: 5px 6px;
-      font-size: 12px;
-      font-family: inherit;
-      border-radius: 0.625rem;
-      border: 1px solid var(--cp-border);
-      background: var(--cp-surface);
-      color: var(--cp-text);
+      width: 128px; min-width: 0; padding: 5px 6px; font-size: 12px; font-family: inherit;
+      border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
     }
 
     .photo-stage { position: relative; margin-bottom: 8px; cursor: zoom-in; }
     .room-photo {
-      width: 100%;
-      height: 176px;
-      object-fit: cover;
-      border-radius: 0.625rem;
-      border: 1px solid var(--cp-border);
-      display: block;
-      background: var(--cp-surface-soft);
+      width: 100%; height: 176px; object-fit: cover; border-radius: 0.625rem;
+      border: 1px solid var(--cp-border); display: block; background: var(--cp-surface-soft);
     }
     .zoom-hint {
-      position: absolute;
-      right: 8px;
-      bottom: 8px;
-      background: var(--cp-panel-strong);
-      color: var(--cp-text);
-      border: 1px solid var(--cp-border);
-      border-radius: 6px;
-      padding: 2px 7px;
-      font-size: 10px;
-      font-weight: 600;
-      pointer-events: none;
+      position: absolute; right: 8px; bottom: 8px; background: var(--cp-panel-strong); color: var(--cp-text);
+      border: 1px solid var(--cp-border); border-radius: 6px; padding: 2px 7px; font-size: 10px; font-weight: 600; pointer-events: none;
     }
     .photo-thumbs { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; }
-    .photo-thumb {
-      width: 60px;
-      height: 44px;
-      object-fit: cover;
-      border-radius: 6px;
-      border: 2px solid var(--cp-border);
-      cursor: pointer;
-      flex-shrink: 0;
-    }
+    .photo-thumb { width: 60px; height: 44px; object-fit: cover; border-radius: 6px; border: 2px solid var(--cp-border); cursor: pointer; flex-shrink: 0; }
     .photo-thumb.active { border-color: var(--cp-accent); }
 
     .room-list-grid { display: flex; flex-direction: column; gap: 6px; }
     .room-row-btn {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 10px;
-      border-radius: 0.625rem;
-      border: 1px solid var(--cp-border);
-      background: var(--cp-surface);
-      color: var(--cp-text);
-      font-family: inherit;
-      font-size: 12px;
-      cursor: pointer;
-      text-align: left;
+      display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-radius: 0.625rem;
+      border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text); font-family: inherit; font-size: 12px; cursor: pointer; text-align: left;
     }
-    .room-row-btn:hover, .room-row-btn.active {
-      border-color: var(--cp-accent);
-      background: var(--cp-accent-soft);
-    }
+    .room-row-btn:hover, .room-row-btn.active { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
 
     .tip-list { display: flex; flex-direction: column; gap: 8px; }
     .tip-item {
-      padding: 8px 10px;
-      background: var(--cp-surface);
-      border: 1px solid var(--cp-border);
-      border-left: 3px solid var(--cp-accent);
-      border-radius: 0.625rem;
-      font-size: 12px;
+      padding: 8px 10px; background: var(--cp-surface); border: 1px solid var(--cp-border);
+      border-left: 3px solid var(--cp-accent); border-radius: 0.625rem; font-size: 12px;
     }
     .tip-item strong { display: block; margin-bottom: 2px; color: var(--cp-text); }
     .tip-item p { color: var(--cp-text-muted); font-size: 11px; }
     .full-width-btn { width: 100%; text-align: center; }
 
-    /* Lightbox Modal */
     .lightbox {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: var(--cp-overlay);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px;
+      position: fixed; inset: 0; z-index: 100; background: var(--cp-overlay);
+      display: flex; align-items: center; justify-content: center; padding: 12px;
     }
     .lightbox-card {
-      background: var(--cp-surface);
-      border: 1px solid var(--cp-border-strong);
-      border-radius: 16px;
-      padding: 12px;
-      width: min(96vw, 960px);
-      max-height: 92dvh;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--cp-shadow);
+      background: var(--cp-surface); border: 1px solid var(--cp-border-strong); border-radius: 16px;
+      padding: 12px; width: min(96vw, 960px); max-height: 92dvh; display: flex; flex-direction: column; gap: 8px; box-shadow: var(--cp-shadow);
     }
     .lightbox-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .lightbox-img-wrap { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 1; min-height: 0; }
-    #lightbox-img {
-      max-width: 100%;
-      max-height: 72dvh;
-      object-fit: contain;
-      border-radius: 0.625rem;
-      display: block;
-    }
+    #lightbox-img { max-width: 100%; max-height: 72dvh; object-fit: contain; border-radius: 0.625rem; display: block; }
     .lb-nav-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .hidden { display: none !important; }
 
-    /* ==================== MOBILE PHONE LAYOUT (PLACED LAST SO IT ALWAYS WINS!) ==================== */
     @media (max-width: 820px) {
-      .topbar {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 6px 8px;
-        gap: 6px;
-      }
-      .top-row-main {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .mode-btn {
-        font-size: 11.5px;
-        padding: 5px 9px;
-      }
-      .view-controls {
-        width: 100%;
-        padding-bottom: 1px;
-      }
-      .btn {
-        font-size: 11.5px;
-        padding: 5px 9px;
-      }
-
-      /* Mobile Split: 3D on top, collapsible bottom sheet below */
-      .workspace {
-        display: flex;
-        flex-direction: column;
-      }
-      .viewport-wrap {
-        flex: 1 1 auto;
-        min-height: 180px;
-      }
+      .topbar { flex-direction: column; align-items: stretch; padding: 6px 8px; gap: 6px; }
+      .top-row-main { width: 100%; justify-content: space-between; }
+      .mode-btn { font-size: 11.5px; padding: 5px 9px; }
+      .view-controls { width: 100%; padding-bottom: 1px; }
+      .btn { font-size: 11.5px; padding: 5px 9px; }
+      .workspace { display: flex; flex-direction: column; }
+      .viewport-wrap { flex: 1 1 auto; min-height: 180px; }
       .sidebar {
-        flex: 0 0 46dvh;
-        height: 46dvh;
-        border-left: none;
-        border-top: 1px solid var(--cp-border-strong);
-        transition: flex-basis 0.2s ease, height 0.2s ease;
+        flex: 0 0 46dvh; height: 46dvh; border-left: none;
+        border-top: 1px solid var(--cp-border-strong); transition: flex-basis 0.2s ease, height 0.2s ease;
       }
-      /* Collapsed sheet -> 3D takes nearly full phone screen! */
-      .workspace.sheet-collapsed .sidebar {
-        flex: 0 0 43px;
-        height: 43px;
-      }
-      .workspace.sheet-collapsed .sidebar-body {
-        display: none !important;
-      }
-
+      .workspace.sheet-collapsed .sidebar { flex: 0 0 43px; height: 43px; }
+      .workspace.sheet-collapsed .sidebar-body { display: none !important; }
       .mobile-sheet-toggle {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 5px 8px;
-        font-size: 11px;
-        font-weight: 700;
-        border-radius: 0.625rem;
-        border: 1px solid var(--cp-border-strong);
-        background: var(--cp-surface);
-        color: var(--cp-text);
-        cursor: pointer;
-        flex-shrink: 0;
+        display: inline-flex; align-items: center; justify-content: center; padding: 5px 8px;
+        font-size: 11px; font-weight: 700; border-radius: 0.625rem; border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface); color: var(--cp-text); cursor: pointer; flex-shrink: 0;
       }
-
-      .hud-bottom-left {
-        left: 8px;
-        bottom: 8px;
-        padding: 4px 8px;
-        font-size: 10px;
-        gap: 6px;
-        max-width: calc(100% - 16px);
-      }
+      .hud-bottom-left { left: 8px; bottom: 8px; padding: 4px 8px; font-size: 10px; gap: 6px; max-width: calc(100% - 16px); }
       .hud-controls-desktop { display: none; }
-
-      .pin-label {
-        font-size: 9.5px;
-        padding: 2px 5px;
-        border-radius: 6px;
-      }
-      .pin-label .pin-tag {
-        font-size: 9px;
-        padding: 0 4px;
-      }
-
-      .fpv-pad {
-        grid-template-columns: repeat(3, 44px);
-        grid-template-rows: repeat(2, 42px);
-        gap: 5px;
-        right: 10px;
-        bottom: 10px;
-      }
+      .pin-label { font-size: 9.5px; padding: 2px 5px; border-radius: 6px; }
+      .pin-label .pin-tag { font-size: 9px; padding: 0 4px; }
+      .fpv-pad { grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 42px); gap: 5px; right: 10px; bottom: 10px; }
       .pad-btn { font-size: 17px; }
-
       .sidebar-body { padding: 10px; gap: 8px; }
       .card { padding: 10px; border-radius: 12px; }
-      .bed-controls {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      /* 16px prevents iOS Safari auto-zoom on input focus */
-      .assign-select, .guest-input {
-        width: 100%;
-        font-size: 16px;
-        padding: 6px 8px;
-      }
+      .bed-controls { flex-direction: column; align-items: stretch; }
+      .assign-select, .guest-input { width: 100%; font-size: 16px; padding: 6px 8px; }
       .room-photo { height: 150px; }
       .lb-hint-text { display: none; }
     }
@@ -762,7 +347,6 @@
         </div>
       </div>
 
-      <!-- Second scrollable strip of floor / spawn pills -->
       <div class="view-controls" id="planning-controls">
         <button class="btn active" data-view="both">Both Floors</button>
         <button class="btn" data-view="downstairs">Downstairs</button>
@@ -775,11 +359,13 @@
       <div class="view-controls hidden" id="explore-controls">
         <button class="btn" data-spawn="front_yard">Outside</button>
         <button class="btn" data-spawn="entry">Front Door</button>
-        <button class="btn" data-spawn="dining">Kitchen &amp; Dining</button>
+        <button class="btn" data-spawn="dining">Dining &amp; Kitchen</button>
         <button class="btn" data-spawn="living">Living &amp; Game</button>
+        <button class="btn" data-spawn="down_bed">Downstairs Bed</button>
         <button class="btn" data-spawn="stairs_bottom">Stairs</button>
         <button class="btn" data-spawn="up_west">Upstairs West</button>
         <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
+        <button class="btn" data-spawn="up_bath">Upstairs Bath</button>
         <button class="btn" data-spawn="patio">Hot Tub</button>
       </div>
     </header>
@@ -789,7 +375,6 @@
         <canvas id="webgl-canvas"></canvas>
         <div id="labels-layer"></div>
 
-        <!-- FPV Overlays -->
         <div class="fpv-badge hidden" id="fpv-badge">
           In:<span id="fpv-loc-text">Front Porch</span>
         </div>
@@ -819,7 +404,7 @@
             <button class="tab-btn" data-tab="kids">Kid Tips</button>
             <button class="tab-btn hidden" data-tab="jump" id="tab-btn-jump">Jump</button>
           </nav>
-          <button class="mobile-sheet-toggle" id="btn-sheet-toggle" title="Expand or collapse panel">Full 3D ▼</button>
+          <button class="mobile-sheet-toggle" id="btn-sheet-toggle">Full 3D ▼</button>
         </div>
 
         <!-- TAB 1: SLEEPING PLAN -->
@@ -913,7 +498,7 @@
             <div class="tip-list">
               <div class="tip-item">
                 <strong>Low Kid Beds Upstairs (No Cribs)</strong>
-                <p>Upstairs West Room has a King bed plus two low kid beds right across from it: a 3-wall enclosed <strong>Built-In Twin Bed</strong> and a low <strong>Fold-Out Twin Bed</strong>.</p>
+                <p>Upstairs West Room has a King bed plus two low kid beds across the room: a recessed 3-wall <strong>Built-In Twin Bed</strong> and a low <strong>Fold-Out Twin Couch Bed</strong>.</p>
               </div>
               <div class="tip-item">
                 <strong>Separate-Floor Afternoon Naps</strong>
@@ -921,11 +506,11 @@
               </div>
               <div class="tip-item">
                 <strong>Bathtub Downstairs; Laundry Upstairs</strong>
-                <p><strong>Downstairs Bathroom</strong> has the bathtub for kid bath time. <strong>Upstairs Bathroom</strong> has 2 sinks, a 2-head walk-in shower, and the washer &amp; dryer right outside the upstairs bedrooms.</p>
+                <p><strong>Downstairs Bathroom</strong> has the bathtub for kid bath time. <strong>Upstairs Bathroom</strong> has 2 vessel sinks, a 2-head walk-in shower, and the stacked washer &amp; dryer right outside the upstairs bedrooms.</p>
               </div>
               <div class="tip-item">
                 <strong>Stair Gate &amp; Sliding Game Room Door</strong>
-                <p>Includes a <strong>baby gate</strong> for the stairs, a <strong>high chair</strong> + kids' plates in the kitchen, a <strong>sliding barn door</strong> to close off the Foosball Game Room, and ping-pong in the garage.</p>
+                <p>Includes a <strong>baby gate</strong> for the log stairs, a <strong>high chair</strong> + kids' plates in the kitchen, a <strong>K-braced sliding barn door</strong> to close off the Foosball Game Room, and ping-pong in the detached garage.</p>
               </div>
             </div>
           </div>
@@ -939,16 +524,18 @@
               <span class="pill" id="fpv-floor-pill">Downstairs</span>
             </div>
             <p style="font-size:11px; color:var(--cp-text-muted); margin-bottom:8px;">
-              Drag the 3D screen to look around and use the corner arrows (or keyboard arrows) to walk—including right up the log stairs:
+              Drag the 3D screen to look around and use the corner arrows (or keyboard arrows) to walk—including up the L-shaped log stairs:
             </p>
             <div class="teleport-grid">
               <button class="btn" data-spawn="front_yard">Front Yard</button>
-              <button class="btn" data-spawn="entry">Front Door</button>
-              <button class="btn" data-spawn="dining">Dining &amp; Kitchen</button>
-              <button class="btn" data-spawn="living">Living &amp; Game</button>
+              <button class="btn" data-spawn="entry">Front Entry</button>
+              <button class="btn" data-spawn="dining">Dining &amp; Fireplace</button>
+              <button class="btn" data-spawn="kitchen">Kitchen</button>
+              <button class="btn" data-spawn="living">Living Room</button>
+              <button class="btn" data-spawn="game">Foosball Room</button>
               <button class="btn" data-spawn="down_bed">Downstairs Bed</button>
+              <button class="btn" data-spawn="down_bath">Downstairs Bath</button>
               <button class="btn" data-spawn="stairs_bottom">Bottom of Stairs</button>
-              <button class="btn" data-spawn="up_hall">Upstairs Hall</button>
               <button class="btn" data-spawn="up_west">Upstairs West</button>
               <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
               <button class="btn" data-spawn="up_bath">Upstairs Bath</button>
@@ -993,104 +580,117 @@
 
   <script>
   (() => {
-    const PHOTO_BASE = "https://media.vrbo.com/lodging/134000000/133930000/133930000/".includes("x") ? "" : "https://media.vrbo.com/lodging/134000000/133930000/133923800/133923719/";
+    const PHOTO_BASE = "https://media.vrbo.com/lodging/134000000/133930000/133923800/133923719/";
     const pThumb = (id) => `${PHOTO_BASE}${id}?impolicy=resizecrop&rw=800&ra=fit`;
     const pLarge = (id) => `${PHOTO_BASE}${id}?impolicy=resizecrop&rw=1600&ra=fit`;
 
     const ROOMS = {
       dining: {
-        id: "dining", name: "Dining Room", floor: "Downstairs", level: 1, pos: [14.5, 3.2, 6.5],
-        photos: ["f127dde2.jpg", "w1616h1080x0y0-fe50fe0a.jpg", "efdc656b.jpg"],
-        desc: "Wood dining table for 6–8 right next to the stone fireplace and 3 kitchen barstools (seats all 7 together easily).",
-        kidNote: "<strong>Meals:</strong> High chair is on site, and the open layout lets parents see into the kitchen and entry."
+        id: "dining", name: "Dining Room", floor: "Downstairs", level: 1, pos: [14.8, 3.2, 6.8],
+        photos: ["efdc656b.jpg", "w1616h1080x0y0-fe50fe0a.jpg", "f127dde2.jpg"],
+        desc: "Hardwood-floored dining room with table for 6–8, beaded chandelier, 2 tall curtained front windows, and river-rock fireplace centered on the East wall between two square windows.",
+        kidNote: "<strong>Group Meals:</strong> Table + 3 adjacent granite peninsula stools easily seat all 7 together; high chair provided."
       },
       kitchen: {
-        id: "kitchen", name: "Kitchen", floor: "Downstairs", level: 1, pos: [15.0, 3.2, -7.2],
+        id: "kitchen", name: "Kitchen", floor: "Downstairs", level: 1, pos: [15.2, 3.2, -7.2],
         photos: ["e54b83e4.jpg", "5db5d0e1.jpg"],
-        desc: "Granite island with 3 barstools, full stove/oven, microwave, fridge, dishwasher, and back glass door out to the BBQ & hot tub.",
+        desc: "Knotty-alder shaker cabinets, speckled granite peninsula with 3 black barstools & 3 white dome pendants on a massive log beam, stainless 5-burner range & microwave on East wall, sink under North double window, dishwasher, fridge, and full-glass back door.",
         kidNote: "<strong>Kid-Ready:</strong> Stocked with plastic kids' dishes and utensils."
       },
       entry: {
-        id: "entry", name: "Entry & Stairs", floor: "Downstairs", level: 1, pos: [1.5, 3.2, 9.0],
-        photos: ["cac612de.jpg", "1c334eff.jpg"],
-        desc: "Double front doors, log staircase going upstairs, and a small 2-seat bench & round table tucked under the stairs.",
-        kidNote: "<strong>Stairs:</strong> Host provides a baby gate for the staircase."
+        id: "entry", name: "Entry & Log Stairs", floor: "Downstairs", level: 1, pos: [4.2, 3.2, 9.0],
+        photos: ["cac612de.jpg", "1c334eff.jpg", "f127dde2.jpg"],
+        desc: "Dark craftsman double front doors onto a slate entry pad, L-shaped peeled-log staircase climbing Northward to the 2nd floor, and a black slatted wood bench & round pedestal table tucked under the stairs.",
+        kidNote: "<strong>Stair Safety:</strong> Host provides a baby gate for the log stairs."
       },
       down_bath: {
-        id: "down_bath", name: "Downstairs Bathroom", floor: "Downstairs", level: 1, pos: [4.2, 3.2, -8.5],
+        id: "down_bath", name: "Downstairs Bathroom", floor: "Downstairs", level: 1, pos: [5.2, 3.2, -8.5],
         photos: ["4a20fe92.jpg", "c31b7513.jpg"],
-        desc: "Full bathroom off the central hallway with sink vanity, toilet, and tiled bathtub/shower.",
+        desc: "Slate-tiled coat-hook vestibule off the central hall leading into the full downstairs bathroom: knotty-alder granite vanity, black-framed mirror, toilet under rear window, and tiled bathtub/shower.",
         kidNote: "<strong>Kid Baths:</strong> Has the bathtub for Galileo, Maya, and Ada."
       },
       down_bed: {
-        id: "down_bed", name: "Downstairs Bedroom", floor: "Downstairs", level: 1, pos: [-6.5, 3.2, -8.0],
+        id: "down_bed", name: "Downstairs Bedroom", floor: "Downstairs", level: 1, pos: [-4.2, 3.2, -8.0],
         photos: ["3b3ed697.jpg"],
-        desc: "Private downstairs bedroom with 1 Queen bed, closet, and two windows facing the quiet back trees.",
-        kidNote: "<strong>Great Nap or Couple Room:</strong> Separate from the upstairs bedrooms."
+        desc: "Private downstairs bedroom entered off the Living Room: birch-tree forest wallpaper wall between 2 high wood-trimmed windows, black wrought-iron Queen bed, white horizontal shiplap walls, knotty-pine bi-fold closet + 4 wood plaques on left, and tripod floor lamp on right.",
+        kidNote: "<strong>Nap or Couple Suite:</strong> Quiet ground-floor room separate from upstairs."
       },
       living: {
-        id: "living", name: "Living Room", floor: "Downstairs", level: 1, pos: [-12.5, 3.2, 7.2],
+        id: "living", name: "Living Room", floor: "Downstairs", level: 1, pos: [-15.2, 3.2, -5.5],
         photos: ["b101aaca.jpg", "c2974ecb.jpg"],
-        desc: "Carpeted TV room at the front-left of the cabin with comfy couches, armchairs, Smart TV, and electric fireplace.",
-        kidNote: "<strong>Right Next to Game Room:</strong> Sliding wood barn door separates the TV couches from the Foosball room."
+        desc: "Carpeted lounge with white vertical shiplap walls, exposed wood ceiling beams, 2 iron-and-wood cage chandeliers, TV & electric fireplace console on the North wall, beige 3-seat sofa, white loveseat under West window, and 2 cream armchairs.",
+        kidNote: "<strong>Connected to Game Room:</strong> K-braced sliding barn door opens right into the Foosball room."
       },
       game: {
-        id: "game", name: "Game Room", floor: "Downstairs", level: 1, pos: [-18.8, 3.5, -8.5],
+        id: "game", name: "Game Room", floor: "Downstairs", level: 1, pos: [-15.5, 3.5, 8.2],
         photos: ["c0fb0438.jpg", "c2974ecb.jpg"],
-        desc: "Play room behind the sliding barn door with foosball table, small kids' play table, board games, and toys.",
-        kidNote: "<strong>Close the Sliding Door:</strong> Keeps toy & foosball noise contained."
+        desc: "Front-West game room behind the K-braced sliding barn door: 3 high wood-trimmed front windows, teal wood-plank East wall with rustic wooden American Flag & turquoise cabinet, foosball table, pub table, and small kids' table.",
+        kidNote: "<strong>Noise Control:</strong> Slide the barn door closed to contain foosball & toy noise."
       },
       up_west: {
-        id: "up_west", name: "Upstairs West Bedroom", floor: "Upstairs", level: 2, pos: [-13.0, 13.0, 1.5],
+        id: "up_west", name: "Upstairs West Bedroom", floor: "Upstairs", level: 2, pos: [-13.2, 13.0, 0.0],
         photos: ["fad90698.jpg", "7e39af74.jpg", "373a06fb.jpg"],
-        desc: "Large upstairs bedroom with 1 King bed, a recessed Built-In Twin bed nook, a Fold-Out Twin couch bed, TV, and an attached Walk-In Closet.",
-        kidNote: "<strong>Fits a Family of 4 Easily:</strong> Parents in the King bed + two kids in the Built-In Twin & Fold-Out Twin."
+        desc: "Vaulted sloped-eave upstairs suite: King dark-wood sleigh bed under 2 North dormer windows, cherry dresser + TV in NW sloped corner, large West gable double window, recessed wood-framed Built-In Twin Nook on South wall, and gray Fold-Out Twin couch in SW sloped corner.",
+        kidNote: "<strong>Fits a Family of 4 Easily:</strong> Parents in the King bed + two kids in the Built-In Twin Nook & Fold-Out Twin."
+      },
+      up_closet: {
+        id: "up_closet", name: "Walk-In Closet", floor: "Upstairs", level: 2, pos: [-7.2, 13.0, -8.8],
+        photos: ["373a06fb.jpg"],
+        desc: "Walk-in dormer closet room with custom built-in cherry/cedar drawers, hanging rods, and a North dormer window.",
+        kidNote: "<strong>Luggage & Gear Storage:</strong> Keeps suitcases and strollers out of bedroom walkways."
       },
       up_bath: {
-        id: "up_bath", name: "Upstairs Bathroom", floor: "Upstairs", level: 2, pos: [0.0, 13.0, -9.2],
-        photos: ["b184288b.jpg", "4212510c.jpg", "c6e77677.jpg", "e678649e.jpg"],
-        desc: "Shared upstairs bathroom with 2 sinks, a big 2-head glass walk-in shower, toilet, and full-size washer & dryer.",
-        kidNote: "<strong>Fast Mornings & Easy Laundry:</strong> Two sinks + washer/dryer right between the two upstairs bedrooms."
+        id: "up_bath", name: "Upstairs Bathroom", floor: "Upstairs", level: 2, pos: [0.5, 13.0, -7.8],
+        photos: ["b184288b.jpg", "4212510c.jpg", "c6e77677.jpg", "4cda944b.jpg"],
+        desc: "Slate-floored bathroom & laundry: rustic wood vanity with black counter, 2 white round vessel sinks & 2 oval mirrors, full-height slate walk-in shower with 2 showerheads & glass-block window, toilet, and full-size stacked washer & dryer.",
+        kidNote: "<strong>2 Sinks + Upstairs Laundry:</strong> Washer/dryer is right between the two upstairs bedrooms."
       },
       up_east: {
         id: "up_east", name: "Upstairs 2-Queen Bedroom", floor: "Upstairs", level: 2, pos: [13.2, 13.0, 0.0],
         photos: ["b39ab445.jpg", "1e727ff3.jpg", "7d8b4f69.jpg", "eff60430.jpg"],
-        desc: "Spacious upstairs bedroom with 2 Queen beds side-by-side, plus a white loveseat couch, ottoman, and dresser.",
-        kidNote: "<strong>Flexible Layout:</strong> Works great for Eitan, Ola & Maya—or for kids sharing."
+        desc: "Oversized sloped-eave suite: 2 Queen beds with headboards along the East gable wall flanking a shared nightstand under the double gable window, dark/white dresser under North dormer windows, and white slipcovered loveseat + ottoman on West wall.",
+        kidNote: "<strong>Spacious Family Suite:</strong> Great for Eitan, Ola & Maya—plus a cozy couch corner for bedtime stories."
       },
       up_hall: {
-        id: "up_hall", name: "Upstairs Hallway", floor: "Upstairs", level: 2, pos: [0.0, 13.0, 6.2],
+        id: "up_hall", name: "Upstairs Hallway", floor: "Upstairs", level: 2, pos: [0.0, 13.0, 0.2],
         photos: ["e678649e.jpg", "b184288b.jpg"],
-        desc: "Central carpeted upstairs hallway connecting the log stairs, both upstairs bedrooms, and the shared bathroom & laundry.",
-        kidNote: "<strong>Baby Gate Spot:</strong> Place the baby gate right at the top of the stairs."
+        desc: "Carpeted central upstairs hallway with warm cream walls and knotty-pine doors connecting the top of the log stairs, both bedrooms, the bathroom/laundry, and walk-in closet.",
+        kidNote: "<strong>Baby Gate Spot:</strong> Place the baby gate right at the top of the log stairs."
       },
       porch: {
         id: "porch", name: "Front Porch & Fire Pit", floor: "Outside", level: 0, pos: [0.0, 2.2, 24.0],
         photos: ["02fd2eee.jpg", "829de55c.jpg", "f0bd7529.jpg", "91ecdc7c.jpg"],
-        desc: "Full-width covered front porch with rocking chairs facing the stone fire pit, wooden benches, string lights, and flat wooded yard.",
-        kidNote: "<strong>5-Min Walk to Lake Beach:</strong> Quiet dead-end street with beach chairs included."
+        desc: "Full-width covered log porch with wooden rockers, lattice skirting, and 3 overhead shed dormers facing the stone fire pit, live-edge benches, and wooded corner lot.",
+        kidNote: "<strong>5-Min Walk to Speelyi Beach:</strong> Quiet dead-end street with beach chairs included."
       },
       patio: {
-        id: "patio", name: "Patio & Hot Tub", floor: "Outside", level: 0, pos: [-26.5, 2.2, -3.0],
-        photos: ["5995ae6a.jpg", "03ab48f8.jpg", "3fe2ffa0.jpg"],
-        desc: "Side concrete patio with outdoor seating, BBQ grill, and private hot tub.",
-        kidNote: "<strong>Adult Relax Spot:</strong> Right outside the cabin once the kids are asleep upstairs."
+        id: "patio", name: "Patio & Hot Tub", floor: "Outside", level: 0, pos: [-26.5, 2.2, -1.0],
+        photos: ["5995ae6a.jpg", "03ab48f8.jpg", "349036ba.jpg"],
+        desc: "Poured concrete patio along the West log gable wall with private hot tub near the front corner, cushioned blue lounge chairs in the center, and stainless BBQ grill.",
+        kidNote: "<strong>Evening Relax Spot:</strong> Tucked outside the West log wall."
       },
       garage: {
         id: "garage", name: "Garage (Ping-Pong)", floor: "Outside", level: 0, pos: [-36.0, 3.0, 19.0],
         photos: ["2360520f.jpg", "10e23541.jpg"],
-        desc: "Detached garage with ping-pong table, beach gear, bike space, and EV charger.",
-        kidNote: "<strong>Zero Indoor Noise:</strong> Play ping-pong without waking anyone inside the cabin."
+        desc: "Detached wood-framed garage with overhead roll-up door, exposed stud interior, regulation ping-pong table, beach gear, and EV charger.",
+        kidNote: "<strong>Separate Game Space:</strong> Zero indoor noise."
       }
     };
 
+    // 100% Handedness-Verified Bed Positions (C1, C2, C4, C5, B4)!
     const BEDS = [
-      { id: "king_up",  name: "King Bed",           short: "King",          room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-15.2, 10.9, 6.8], size: [6.0, 1.4, 6.8], rotY: Math.PI },
-      { id: "nook_up",  name: "Built-In Twin Bed",  short: "Twin Nook",     room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-17.8, 10.7, -3.2], size: [3.5, 1.1, 6.2], rotY: Math.PI / 2 },
-      { id: "fold_up",  name: "Fold-Out Twin Bed",  short: "Fold-Out",      room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-11.8, 10.6, -2.8], size: [3.8, 1.0, 5.4], rotY: 0 },
-      { id: "queen_e1", name: "Queen Bed 1",        short: "Queen 1",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [10.0, 10.9, -6.8], size: [5.1, 1.3, 6.5], rotY: 0 },
-      { id: "queen_e2", name: "Queen Bed 2",        short: "Queen 2",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [16.8, 10.9, -6.8], size: [5.1, 1.3, 6.5], rotY: 0 },
-      { id: "queen_dn", name: "Downstairs Queen",   short: "Downstairs",    room: "down_bed", roomName: "Downstairs Bedroom",       level: 1, pos: [-6.8, 1.7, -9.5],  size: [5.1, 1.3, 6.5], rotY: 0 }
+      // Upstairs West Bedroom:
+      // C1: King Sleigh Bed under North (-Z) dormer facing South (+Z)!
+      { id: "king_up",  name: "King Bed",           short: "King",          room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-13.2, 10.9, -7.8], size: [6.0, 1.4, 6.8], rotY: 0 },
+      // C2 center: Built-In Twin Bed recessed North-South inside South (+Z) wood-framed alcove!
+      { id: "nook_up",  name: "Built-In Twin Bed",  short: "Twin Nook",     room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-10.8, 10.7, 8.8],  size: [3.5, 1.1, 5.5], rotY: Math.PI },
+      // C2 right: Gray Fold-Out Twin Sleeper Loveseat in SW corner facing North (-Z)!
+      { id: "fold_up",  name: "Fold-Out Twin Bed",  short: "Fold-Out",      room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-17.4, 10.6, 8.2],  size: [4.4, 1.0, 4.4], rotY: Math.PI },
+      // Upstairs East 2-Queen Bedroom (C4, C5): BOTH Queens on East Gable Wall (X = +20.2) facing West (-X)!
+      { id: "queen_e1", name: "Queen Bed 1",        short: "Queen 1",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [16.8, 10.9, -5.8],  size: [5.1, 1.3, 6.5], rotY: -Math.PI / 2 },
+      { id: "queen_e2", name: "Queen Bed 2",        short: "Queen 2",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [16.8, 10.9, 2.4],   size: [5.1, 1.3, 6.5], rotY: -Math.PI / 2 },
+      // Downstairs Bedroom (B4): Black wrought-iron Queen bed centered on North birch-tree wall facing South (+Z)!
+      { id: "queen_dn", name: "Downstairs Queen",   short: "Downstairs",    room: "down_bed", roomName: "Downstairs Bedroom",       level: 1, pos: [-4.0, 1.7, -9.6],   size: [5.1, 1.3, 6.5], rotY: 0 }
     ];
 
     const PRESETS = {
@@ -1121,6 +721,7 @@
     };
 
     let appMode = "planning";
+    let testCamOverride = null;
     let bedState = JSON.parse(JSON.stringify(PRESETS.opt1));
     let currentView = "both";
     let barnDoorOpen = true;
@@ -1140,7 +741,7 @@
       };
     }
 
-    // ==================== PROCEDURAL TEXTURES ====================
+    // ==================== RICH PROCEDURAL TEXTURES ====================
     function makeTex(w, h, drawFn, repX = 1, repY = 1) {
       const c = document.createElement("canvas");
       c.width = w; c.height = h;
@@ -1154,14 +755,16 @@
 
     const TEX = {
       hardwood: makeTex(256, 256, (ctx, w, h) => {
-        ctx.fillStyle = "#9e6336"; ctx.fillRect(0, 0, w, h);
-        const planks = 8;
+        ctx.fillStyle = "#a66b3d"; ctx.fillRect(0, 0, w, h);
+        const tones = ["#be814e", "#874f27", "#ae7141", "#985d32", "#c78d5a", "#784420"];
+        const planks = 10;
         for (let i = 0; i < planks; i++) {
-          const y = (i * h) / planks;
-          ctx.fillStyle = i % 2 === 0 ? "rgba(255,220,180,0.08)" : "rgba(40,15,0,0.10)";
-          ctx.fillRect(0, y, w, h / planks - 2);
-          ctx.fillStyle = "rgba(35,15,5,0.35)";
-          ctx.fillRect(0, y, w, 2);
+          const y = (i * h) / planks, ph = h / planks;
+          ctx.fillStyle = tones[i % tones.length];
+          ctx.fillRect(0, y, w, ph - 1.5);
+          ctx.fillStyle = "rgba(38,16,4,0.42)";
+          ctx.fillRect(0, y, w, 1.5);
+          ctx.fillRect(((i * 97) % w), y, 2, ph);
         }
       }, 4, 4),
       logs: makeTex(256, 256, (ctx, w, h) => {
@@ -1169,42 +772,94 @@
         for (let r = 0; r < rows; r++) {
           const y0 = (r * h) / rows, rh = h / rows;
           const grad = ctx.createLinearGradient(0, y0, 0, y0 + rh);
-          grad.addColorStop(0, "#7c4722");
-          grad.addColorStop(0.25, "#be7b43");
-          grad.addColorStop(0.6, "#cd8a4f");
-          grad.addColorStop(0.92, "#8f552b");
-          grad.addColorStop(1, "#4d2911");
+          grad.addColorStop(0, "#75411c");
+          grad.addColorStop(0.22, "#c47e42");
+          grad.addColorStop(0.55, "#d58f50");
+          grad.addColorStop(0.88, "#915528");
+          grad.addColorStop(1, "#48260e");
           ctx.fillStyle = grad;
           ctx.fillRect(0, y0, w, rh);
         }
       }, 3, 2),
       carpet: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#d9d0c3"; ctx.fillRect(0, 0, w, h);
-        for (let i = 0; i < 900; i++) {
-          ctx.fillStyle = i % 2 ? "rgba(255,255,255,0.12)" : "rgba(90,75,60,0.09)";
+        ctx.fillStyle = "#d9cfc1"; ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 1100; i++) {
+          ctx.fillStyle = i % 2 ? "rgba(255,255,255,0.14)" : "rgba(95,78,60,0.11)";
           ctx.fillRect((i * 37) % w, (i * 73) % h, 2, 2);
         }
       }, 6, 6),
       slate: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#5c6364"; ctx.fillRect(0, 0, w, h);
-        ctx.strokeStyle = "#3f4445"; ctx.lineWidth = 3;
-        for (let x = 0; x <= w; x += 32) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-        for (let y = 0; y <= h; y += 32) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+        const tiles = ["#495358", "#586266", "#3f484d", "#5e5b54"];
+        for (let tx = 0; tx < 4; tx++) {
+          for (let ty = 0; ty < 4; ty++) {
+            ctx.fillStyle = tiles[(tx * 3 + ty) % tiles.length];
+            ctx.fillRect(tx * 32, ty * 32, 30, 30);
+          }
+        }
       }, 3, 3),
-      shiplapWhite: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#f2efe9"; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = "#d5d0c7";
-        for (let x = 0; x < w; x += 16) ctx.fillRect(x, 0, 1.5, h);
+      granite: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#8c7356"; ctx.fillRect(0, 0, w, h);
+        const sp = ["#c4af90", "#594530", "#7a6349", "#36281b", "#dfd1ba"];
+        for (let i = 0; i < 850; i++) {
+          ctx.fillStyle = sp[i % sp.length];
+          ctx.fillRect((i * 43) % w, (i * 89) % h, 3, 2.5);
+        }
+      }, 3, 3),
+      shaker: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#c88d55"; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "#8a5629"; ctx.lineWidth = 4;
+        ctx.strokeRect(6, 6, 52, 116);
+        ctx.strokeRect(70, 6, 52, 116);
+        ctx.fillStyle = "#2b2623";
+        ctx.fillRect(50, 58, 3, 14);
+        ctx.fillRect(75, 58, 3, 14);
+      }, 2, 1),
+      shiplapV: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#f4f2ed"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#cfc9bf";
+        for (let x = 0; x < w; x += 14) ctx.fillRect(x, 0, 1.6, h);
       }, 4, 2),
+      shiplapH: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#f4f2ed"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#cfc9bf";
+        for (let y = 0; y < h; y += 14) ctx.fillRect(0, y, w, 1.6);
+      }, 3, 2),
       shiplapTeal: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#5d8c8b"; ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = "#456d6c";
-        for (let y = 0; y < h; y += 16) ctx.fillRect(0, y, w, 2);
+        ctx.fillStyle = "#618c8b"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#436766";
+        for (let y = 0; y < h; y += 14) ctx.fillRect(0, y, w, 2);
       }, 2, 2),
+      birch: makeTex(256, 256, (ctx, w, h) => {
+        // High-contrast birch forest wallpaper matching Photo B4!
+        ctx.fillStyle = "#b9b1a4"; ctx.fillRect(0, 0, w, h);
+        [14, 48, 86, 122, 162, 198, 232].forEach((bx, idx) => {
+          const bw = 13 + (idx % 3) * 5;
+          ctx.fillStyle = "#989082"; ctx.fillRect(bx - 3, 0, 3, h);
+          ctx.fillStyle = "#f4f1ea"; ctx.fillRect(bx, 0, bw, h);
+          ctx.fillStyle = "#3f3831";
+          ctx.fillRect(bx, 0, 2, h); ctx.fillRect(bx + bw, 0, 1.8, h);
+          for (let ky = 10; ky < h; ky += 22) {
+            ctx.fillRect(bx + 2, ky + (idx * 9) % 13, bw * 0.62, 3.5);
+          }
+        });
+      }, 2, 1),
+      usFlag: makeTex(256, 140, (ctx, w, h) => {
+        for (let s = 0; s < 13; s++) {
+          ctx.fillStyle = s % 2 === 0 ? "#b54b43" : "#e8dfd1";
+          ctx.fillRect(0, (s * h) / 13, w, h / 13);
+        }
+        ctx.fillStyle = "#35506b";
+        ctx.fillRect(0, 0, w * 0.42, h * (7 / 13));
+      }, 1, 1),
+      plaid: makeTex(128, 128, (ctx, w, h) => {
+        ctx.fillStyle = "#ebe6dd"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(95,85,75,0.22)";
+        for (let i = 0; i < w; i += 32) { ctx.fillRect(i, 0, 14, h); ctx.fillRect(0, i, w, 14); }
+      }, 3, 3),
       riverRock: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#6e6860"; ctx.fillRect(0, 0, w, h);
-        const cols = ["#8e867b", "#7a736a", "#9c9184", "#5c5751"];
-        for (let i = 0; i < 42; i++) {
+        ctx.fillStyle = "#68625a"; ctx.fillRect(0, 0, w, h);
+        const cols = ["#8e867b", "#777067", "#9e9386", "#544f49", "#a89a8a"];
+        for (let i = 0; i < 48; i++) {
           ctx.fillStyle = cols[i % cols.length];
           ctx.beginPath();
           ctx.ellipse((i * 29 + 11) % w, (i * 47 + 9) % h, 10, 7, (i % 3) * 0.4, 0, Math.PI * 2);
@@ -1214,8 +869,8 @@
       metalRoof: makeTex(128, 128, (ctx, w, h) => {
         ctx.fillStyle = "#1d6350"; ctx.fillRect(0, 0, w, h);
         for (let x = 0; x < w; x += 12) {
-          ctx.fillStyle = "rgba(255,255,255,0.12)"; ctx.fillRect(x, 0, 2, h);
-          ctx.fillStyle = "rgba(0,0,0,0.20)"; ctx.fillRect(x + 2, 0, 2, h);
+          ctx.fillStyle = "rgba(255,255,255,0.13)"; ctx.fillRect(x, 0, 2, h);
+          ctx.fillStyle = "rgba(0,0,0,0.22)"; ctx.fillRect(x + 2, 0, 2, h);
         }
       }, 8, 4),
       grass: makeTex(256, 256, (ctx, w, h) => {
@@ -1226,11 +881,13 @@
         }
       }, 12, 12),
       rug: makeTex(128, 128, (ctx, w, h) => {
-        ctx.fillStyle = "#dfd8cc"; ctx.fillRect(0, 0, w, h);
-        ctx.strokeStyle = "#8a7968"; ctx.lineWidth = 6;
+        ctx.fillStyle = "#e2dcd0"; ctx.fillRect(0, 0, w, h);
+        ctx.strokeStyle = "#58534d"; ctx.lineWidth = 5;
         ctx.strokeRect(8, 8, w - 16, h - 16);
-        ctx.strokeStyle = "#b09e8c"; ctx.lineWidth = 2;
-        ctx.strokeRect(18, 18, w - 36, h - 36);
+        ctx.strokeStyle = "#8a8075"; ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(w / 2, 18); ctx.lineTo(w - 18, h / 2); ctx.lineTo(w / 2, h - 18); ctx.lineTo(18, h / 2); ctx.closePath();
+        ctx.stroke();
       }, 1, 1)
     };
 
@@ -1242,16 +899,16 @@
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.08;
+    renderer.toneMappingExposure = 1.04;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.4, 480);
+    const camera = new THREE.PerspectiveCamera(40, 1, 0.35, 480);
 
-    const hemiLight = new THREE.HemisphereLight(0xfff7ea, 0x4d5d43, 0.8);
+    const hemiLight = new THREE.HemisphereLight(0xfff8ed, 0x55624a, 0.82);
     hemiLight.position.set(0, 70, 0);
     scene.add(hemiLight);
 
-    const sunLight = new THREE.DirectionalLight(0xfff0d6, 0.92);
+    const sunLight = new THREE.DirectionalLight(0xfff1d8, 0.88);
     sunLight.position.set(44, 72, 52);
     sunLight.castShadow = true;
     sunLight.shadow.mapSize.set(2048, 2048);
@@ -1264,17 +921,18 @@
 
     const interiorLights = new THREE.Group();
     [
-      [13, 8.6, 5, 0.65], [-11, 8.6, 6, 0.65], [-7, 8.6, -7, 0.45],
-      [-13, 17.5, 2, 0.65], [13, 17.5, 0, 0.65], [0, 17.5, -3, 0.50]
+      [14, 8.6, 6, 0.58], [15, 8.6, -7, 0.52], [4, 8.6, 6, 0.44],
+      [-15, 8.6, -5, 0.58], [-15, 8.6, 8, 0.48], [-4, 8.6, -8, 0.46],
+      [-13, 17.5, 0, 0.62], [13, 17.5, 0, 0.62], [0, 17.5, -6, 0.54]
     ].forEach(([lx, ly, lz, intensity]) => {
-      const pl = new THREE.PointLight(0xffe6c7, intensity, 32);
+      const pl = new THREE.PointLight(0xffe9cf, intensity, 28);
       pl.position.set(lx, ly, lz);
       interiorLights.add(pl);
     });
     scene.add(interiorLights);
 
     const fireLight = new THREE.PointLight(0xff8430, 1.15, 26);
-    fireLight.position.set(0, 2.5, 31);
+    fireLight.position.set(0, 2.5, 31.5);
     scene.add(fireLight);
 
     const MAT = {
@@ -1283,32 +941,46 @@
       road: new THREE.MeshStandardMaterial({ color: 0x62605c, roughness: 0.9 }),
       concrete: new THREE.MeshStandardMaterial({ color: 0xc8c3ba, roughness: 0.85 }),
       logWall: new THREE.MeshStandardMaterial({ map: TEX.logs, roughness: 0.72 }),
-      logBeam: new THREE.MeshStandardMaterial({ color: 0xc28047, roughness: 0.62 }),
+      logBeam: new THREE.MeshStandardMaterial({ color: 0xc58349, roughness: 0.60 }),
+      knottyPine: new THREE.MeshStandardMaterial({ color: 0xc88b52, roughness: 0.58 }),
+      shakerCab: new THREE.MeshStandardMaterial({ map: TEX.shaker, roughness: 0.58 }),
+      drywall: new THREE.MeshStandardMaterial({ color: 0xeae4d9, roughness: 0.88 }),
       woodDeck: new THREE.MeshStandardMaterial({ map: TEX.hardwood, roughness: 0.78 }),
-      hardwood: new THREE.MeshStandardMaterial({ map: TEX.hardwood, roughness: 0.48 }),
-      slate: new THREE.MeshStandardMaterial({ map: TEX.slate, roughness: 0.65 }),
+      hardwood: new THREE.MeshStandardMaterial({ map: TEX.hardwood, roughness: 0.45 }),
+      slate: new THREE.MeshStandardMaterial({ map: TEX.slate, roughness: 0.62 }),
       carpet: new THREE.MeshStandardMaterial({ map: TEX.carpet, roughness: 0.92 }),
       rug: new THREE.MeshStandardMaterial({ map: TEX.rug, roughness: 0.9 }),
-      shiplapWhite: new THREE.MeshStandardMaterial({ map: TEX.shiplapWhite, roughness: 0.82 }),
+      shiplapV: new THREE.MeshStandardMaterial({ map: TEX.shiplapV, roughness: 0.82 }),
+      shiplapH: new THREE.MeshStandardMaterial({ map: TEX.shiplapH, roughness: 0.82 }),
       shiplapTeal: new THREE.MeshStandardMaterial({ map: TEX.shiplapTeal, roughness: 0.8 }),
+      turquoiseCab: new THREE.MeshStandardMaterial({ color: 0x2f879c, roughness: 0.65 }),
+      birchWall: new THREE.MeshStandardMaterial({ map: TEX.birch, roughness: 0.85 }),
+      usFlag: new THREE.MeshStandardMaterial({ map: TEX.usFlag, roughness: 0.8 }),
+      plaid: new THREE.MeshStandardMaterial({ map: TEX.plaid, roughness: 0.85 }),
       ceilingWhite: new THREE.MeshStandardMaterial({ color: 0xf4f1eb, roughness: 0.88, side: THREE.DoubleSide }),
+      sheerCurtain: new THREE.MeshStandardMaterial({ color: 0xfbfaf7, transparent: true, opacity: 0.82, roughness: 0.9 }),
       greenRoof: new THREE.MeshStandardMaterial({ map: TEX.metalRoof, roughness: 0.42, metalness: 0.28 }),
-      darkDoor: new THREE.MeshStandardMaterial({ color: 0x3b2f28, roughness: 0.68 }),
-      pineDoor: new THREE.MeshStandardMaterial({ color: 0xc88d55, roughness: 0.62 }),
+      darkDoor: new THREE.MeshStandardMaterial({ color: 0x463a33, roughness: 0.68 }),
       redDoor: new THREE.MeshStandardMaterial({ color: 0xc23b3b, roughness: 0.6 }),
-      granite: new THREE.MeshStandardMaterial({ color: 0x9b8977, roughness: 0.3 }),
+      granite: new THREE.MeshStandardMaterial({ map: TEX.granite, roughness: 0.28 }),
       stainless: new THREE.MeshStandardMaterial({ color: 0xd0d5d9, roughness: 0.25, metalness: 0.68 }),
+      mirror: new THREE.MeshStandardMaterial({ color: 0xd9e6ed, roughness: 0.08, metalness: 0.82 }),
       stone: new THREE.MeshStandardMaterial({ map: TEX.riverRock, roughness: 0.9 }),
-      glass: new THREE.MeshStandardMaterial({ color: 0xaadbf0, transparent: true, opacity: 0.40, roughness: 0.12 }),
+      glass: new THREE.MeshStandardMaterial({ color: 0xb8e4f7, transparent: true, opacity: 0.26, roughness: 0.1 }),
+      glassBlock: new THREE.MeshStandardMaterial({ color: 0xd6eef7, transparent: true, opacity: 0.78, roughness: 0.22 }),
       water: new THREE.MeshStandardMaterial({ color: 0x4ad0e8, transparent: true, opacity: 0.84, roughness: 0.15 }),
-      couchWhite: new THREE.MeshStandardMaterial({ color: 0xebe7e0, roughness: 0.85 }),
-      couchGray: new THREE.MeshStandardMaterial({ color: 0x8b8e91, roughness: 0.85 }),
-      darkWood: new THREE.MeshStandardMaterial({ color: 0x452d1e, roughness: 0.6 }),
-      iron: new THREE.MeshStandardMaterial({ color: 0x262626, roughness: 0.5, metalness: 0.5 }),
+      couchWhite: new THREE.MeshStandardMaterial({ color: 0xf2efe9, roughness: 0.85 }),
+      couchBeige: new THREE.MeshStandardMaterial({ color: 0xdfd6c7, roughness: 0.85 }),
+      couchGray: new THREE.MeshStandardMaterial({ color: 0x8a8d91, roughness: 0.85 }),
+      patioBlue: new THREE.MeshStandardMaterial({ color: 0x3b4d6b, roughness: 0.8 }),
+      darkWood: new THREE.MeshStandardMaterial({ color: 0x3d2618, roughness: 0.6 }),
+      cherryWood: new THREE.MeshStandardMaterial({ color: 0x8c4526, roughness: 0.55 }),
+      iron: new THREE.MeshStandardMaterial({ color: 0x242424, roughness: 0.48, metalness: 0.5 }),
       pineTrunk: new THREE.MeshLambertMaterial({ color: 0x593a25 }),
       pineNeedles: new THREE.MeshLambertMaterial({ color: 0x2c4f30 }),
-      whiteAppliance: new THREE.MeshStandardMaterial({ color: 0xf4f4f4, roughness: 0.35 }),
-      tvScreen: new THREE.MeshBasicMaterial({ color: 0x29597a })
+      whiteAppliance: new THREE.MeshStandardMaterial({ color: 0xf5f5f5, roughness: 0.35 }),
+      tvScreen: new THREE.MeshBasicMaterial({ color: 0x2d6a8e }),
+      warmBulb: new THREE.MeshBasicMaterial({ color: 0xfff5dc })
     };
 
     const siteGroup = new THREE.Group();
@@ -1316,6 +988,8 @@
     const mainTallWallsGroup = new THREE.Group();
     const walkMainEnclosureGroup = new THREE.Group();
     const upperFloorGroup = new THREE.Group();
+    const upperExteriorCutawayGroup = new THREE.Group(); // Hidden when full green roof is visible so roof never gets poked!
+    upperFloorGroup.add(upperExteriorCutawayGroup);
     const walkUpperEnclosureGroup = new THREE.Group();
     upperFloorGroup.add(walkUpperEnclosureGroup);
     const explodedGuidesGroup = new THREE.Group();
@@ -1343,51 +1017,154 @@
       return m;
     }
 
+    // Unified Wall Builder WITH TRUE TRANSPARENT WINDOW & DOOR CUTOUTS + KNOTTY-PINE TRIM & BASEBOARDS!
+    // doors: [[d0, d1], ...] | windows: [[w0, w1, sillH, headH, mullions, curtains], ...] (sillH/headH relative to yBase)
     function buildWallAxis(axis, fixedCoord, start, end, doors, opts) {
-      const { level, cutH, fullH, yBase, thick, mat, cutParent, walkParent, collide = true } = opts;
-      const sorted = (doors || []).slice().sort((a, b) => a[0] - b[0]);
-      let cur = start;
-      const segs = [];
-      sorted.forEach(([d0, d1]) => {
-        if (d0 > cur + 0.05) segs.push([cur, d0]);
-        cur = Math.max(cur, d1);
-      });
-      if (end > cur + 0.05) segs.push([cur, end]);
+      const {
+        level, cutH, fullH, yBase, thick, mat, innerMat = null, innerSign = 1,
+        cutParent, walkParent, collide = true, frameDoors = true, windows = [], baseboard = true
+      } = opts;
 
-      segs.forEach(([s0, s1]) => {
-        const len = s1 - s0, mid = (s0 + s1) / 2;
-        if (axis === "x") {
-          box(len, cutH, thick, mat, mid, yBase + cutH / 2, fixedCoord, cutParent);
-          if (walkParent && fullH > cutH) {
-            box(len, fullH - cutH, thick, mat, mid, yBase + cutH + (fullH - cutH) / 2, fixedCoord, walkParent);
-          }
-          if (collide) addCollider(level, s0, fixedCoord, s1, fixedCoord);
+      const placeBoxSeg = (s0, s1, h0, h1, targetParent) => {
+        const len = s1 - s0, h = h1 - h0;
+        if (len <= 0.03 || h <= 0.03 || !targetParent) return;
+        const mid = (s0 + s1) / 2, yMid = yBase + (h0 + h1) / 2;
+        if (!innerMat) {
+          if (axis === "x") box(len, h, thick, mat, mid, yMid, fixedCoord, targetParent);
+          else box(thick, h, len, mat, fixedCoord, yMid, mid, targetParent);
         } else {
-          box(thick, cutH, len, mat, fixedCoord, yBase + cutH / 2, mid, cutParent);
-          if (walkParent && fullH > cutH) {
-            box(thick, fullH - cutH, len, mat, fixedCoord, yBase + cutH + (fullH - cutH) / 2, mid, walkParent);
+          const outT = thick * 0.60, inT = thick * 0.40;
+          const outOff = -innerSign * (inT * 0.5), inOff = innerSign * (outT * 0.5);
+          if (axis === "x") {
+            box(len, h, outT, mat, mid, yMid, fixedCoord + outOff, targetParent);
+            box(len, h, inT, innerMat, mid, yMid, fixedCoord + inOff, targetParent);
+          } else {
+            box(outT, h, len, mat, fixedCoord + outOff, yMid, mid, targetParent);
+            box(inT, h, len, innerMat, fixedCoord + inOff, yMid, mid, targetParent);
           }
-          if (collide) addCollider(level, fixedCoord, s0, fixedCoord, s1);
+        }
+      };
+
+      // Collect all X/Z span events (doors & windows) to slice wall cleanly!
+      const openings = [];
+      (doors || []).forEach(([d0, d1]) => openings.push({ a: d0, b: d1, type: "door" }));
+      (windows || []).forEach(([w0, w1, sillH, headH, mullions = 0, curtains = false]) => {
+        openings.push({ a: w0, b: w1, type: "win", sillH, headH, mullions, curtains });
+      });
+      openings.sort((u, v) => u.a - v.a);
+
+      // Physics colliders (doors stay open; solid wall & window sills block walking through!)
+      if (collide) {
+        const doorSorted = (doors || []).slice().sort((a, b) => a[0] - b[0]);
+        let curC = start;
+        doorSorted.forEach(([d0, d1]) => {
+          if (d0 > curC + 0.05) {
+            if (axis === "x") addCollider(level, curC, fixedCoord, d0, fixedCoord);
+            else addCollider(level, fixedCoord, curC, fixedCoord, d0);
+          }
+          curC = Math.max(curC, d1);
+        });
+        if (end > curC + 0.05) {
+          if (axis === "x") addCollider(level, curC, fixedCoord, end, fixedCoord);
+          else addCollider(level, fixedCoord, curC, fixedCoord, end);
+        }
+      }
+
+      let cur = start;
+      const solidSpans = [];
+      openings.forEach(op => {
+        if (op.a > cur + 0.04) solidSpans.push([cur, op.a]);
+        cur = Math.max(cur, op.b);
+      });
+      if (end > cur + 0.04) solidSpans.push([cur, end]);
+
+      // Build full solid spans (cutaway + walk upper extension + knotty-pine baseboard)
+      solidSpans.forEach(([s0, s1]) => {
+        placeBoxSeg(s0, s1, 0, cutH, cutParent);
+        if (walkParent && fullH > cutH) placeBoxSeg(s0, s1, cutH, fullH, walkParent);
+        if (baseboard) {
+          const len = s1 - s0, mid = (s0 + s1) / 2;
+          if (axis === "x") box(len, 0.24, thick + 0.08, MAT.knottyPine, mid, yBase + 0.12, fixedCoord, cutParent, null, false);
+          else box(thick + 0.08, 0.24, len, MAT.knottyPine, fixedCoord, yBase + 0.12, mid, cutParent, null, false);
         }
       });
 
-      if (walkParent && fullH > 7.2) {
-        sorted.forEach(([d0, d1]) => {
-          const len = d1 - d0, mid = (d0 + d1) / 2, hdrH = fullH - 7.1;
-          if (axis === "x") box(len, hdrH, thick, mat, mid, yBase + 7.1 + hdrH / 2, fixedCoord, walkParent);
-          else box(thick, hdrH, len, mat, fixedCoord, yBase + 7.1 + hdrH / 2, mid, walkParent);
-        });
-      }
+      // Build Door & Window openings with real clear glass & knotty-pine trim!
+      openings.forEach(op => {
+        const len = op.b - op.a, mid = (op.a + op.b) / 2;
+        if (op.type === "door") {
+          const doorH = 6.9;
+          if (frameDoors) {
+            if (axis === "x") {
+              box(0.20, cutH, thick + 0.1, MAT.knottyPine, op.a, yBase + cutH / 2, fixedCoord, cutParent, null, false);
+              box(0.20, cutH, thick + 0.1, MAT.knottyPine, op.b, yBase + cutH / 2, fixedCoord, cutParent, null, false);
+              if (walkParent) {
+                box(0.20, doorH - cutH, thick + 0.1, MAT.knottyPine, op.a, yBase + (cutH + doorH) / 2, fixedCoord, walkParent, null, false);
+                box(0.20, doorH - cutH, thick + 0.1, MAT.knottyPine, op.b, yBase + (cutH + doorH) / 2, fixedCoord, walkParent, null, false);
+                box(len + 0.36, 0.24, thick + 0.12, MAT.knottyPine, mid, yBase + doorH + 0.1, fixedCoord, walkParent, null, false);
+              }
+            } else {
+              box(thick + 0.1, cutH, 0.20, MAT.knottyPine, fixedCoord, yBase + cutH / 2, op.a, cutParent, null, false);
+              box(thick + 0.1, cutH, 0.20, MAT.knottyPine, fixedCoord, yBase + cutH / 2, op.b, cutParent, null, false);
+              if (walkParent) {
+                box(thick + 0.1, doorH - cutH, 0.20, MAT.knottyPine, fixedCoord, yBase + (cutH + doorH) / 2, op.a, walkParent, null, false);
+                box(thick + 0.1, doorH - cutH, 0.20, MAT.knottyPine, fixedCoord, yBase + (cutH + doorH) / 2, op.b, walkParent, null, false);
+                box(thick + 0.12, 0.24, len + 0.36, MAT.knottyPine, fixedCoord, yBase + doorH + 0.1, mid, walkParent, null, false);
+              }
+            }
+          }
+          if (walkParent && fullH > doorH) placeBoxSeg(op.a, op.b, doorH, fullH, walkParent);
+        } else {
+          // TRUE CUT-OUT WINDOW OPENING!
+          const sH = op.sillH, hH = op.headH;
+          if (sH > 0.05) {
+            placeBoxSeg(op.a, op.b, 0, Math.min(sH, cutH), cutParent);
+            if (walkParent && sH > cutH) placeBoxSeg(op.a, op.b, cutH, sH, walkParent);
+            if (baseboard) {
+              if (axis === "x") box(len, 0.24, thick + 0.08, MAT.knottyPine, mid, yBase + 0.12, fixedCoord, cutParent, null, false);
+              else box(thick + 0.08, 0.24, len, MAT.knottyPine, fixedCoord, yBase + 0.12, mid, cutParent, null, false);
+            }
+          }
+          if (walkParent && fullH > hH) {
+            placeBoxSeg(op.a, op.b, Math.max(hH, cutH), fullH, walkParent);
+          }
+          // Window Frame + Clear Glass Pane (attached to walkParent if window sits above cutH, else cutParent + walkParent)
+          const winH = hH - sH, winY = yBase + sH + winH / 2;
+          const winParent = sH >= cutH - 0.3 ? (walkParent || cutParent) : cutParent;
+          const g = new THREE.Group();
+          g.position.set(axis === "x" ? mid : fixedCoord, winY, axis === "x" ? fixedCoord : mid);
+          if (axis === "z") g.rotation.y = Math.PI / 2;
+          // 4 perimeter wood casings (hollow center!) + clear glass!
+          box(len + 0.32, 0.20, thick + 0.14, MAT.knottyPine, 0, winH / 2 + 0.06, 0, g, null, false);
+          box(len + 0.32, 0.20, thick + 0.14, MAT.knottyPine, 0, -winH / 2 - 0.06, 0, g, null, false);
+          box(0.20, winH + 0.32, thick + 0.14, MAT.knottyPine, -len / 2 - 0.06, 0, 0, g, null, false);
+          box(0.20, winH + 0.32, thick + 0.14, MAT.knottyPine, len / 2 + 0.06, 0, 0, g, null, false);
+          box(len - 0.06, winH - 0.06, 0.08, MAT.glass, 0, 0, 0, g, null, false);
+          for (let m = 1; m <= op.mullions; m++) {
+            const mx = -len / 2 + (m * len) / (op.mullions + 1);
+            box(0.11, winH, 0.14, MAT.knottyPine, mx, 0, 0, g, null, false);
+          }
+          if (op.curtains && walkParent) {
+            const cOff = innerSign * (thick * 0.55 + 0.12);
+            const cg = new THREE.Group();
+            cg.position.set(axis === "x" ? mid : fixedCoord, winY - 0.4, axis === "x" ? fixedCoord : mid);
+            if (axis === "z") cg.rotation.y = Math.PI / 2;
+            box(0.55, winH + 1.4, 0.14, MAT.sheerCurtain, -len / 2 - 0.18, 0, cOff, cg, null, false);
+            box(0.55, winH + 1.4, 0.14, MAT.sheerCurtain, len / 2 + 0.18, 0, cOff, cg, null, false);
+            walkParent.add(cg);
+          }
+          winParent.add(g);
+        }
+      });
     }
 
-    function addWindow(w, h, x, y, z, rotY, parent) {
-      const g = new THREE.Group();
-      g.position.set(x, y, z);
-      g.rotation.y = rotY;
-      box(w + 0.35, h + 0.35, 0.68, MAT.logBeam, 0, 0, 0, g, null, false);
-      box(w, h, 0.72, MAT.glass, 0, 0, 0, g, null, false);
-      box(0.12, h, 0.74, MAT.logBeam, 0, 0, 0, g, null, false);
-      parent.add(g);
+    function addOpenPineDoor(x, yBase, z, hingeAngle, parent) {
+      const piv = new THREE.Group();
+      piv.position.set(x, yBase + 3.35, z);
+      piv.rotation.y = hingeAngle;
+      box(2.5, 6.7, 0.16, MAT.knottyPine, 1.25, 0, 0, piv, null, false);
+      box(0.15, 0.15, 0.36, MAT.iron, 2.25, -0.2, 0, piv, null, false); // black door lever
+      parent.add(piv);
     }
 
     function addLogCorners(x, z, h, y0, parent) {
@@ -1405,34 +1182,52 @@
       g.position.set(b.pos[0], localY, b.pos[2]);
       g.rotation.y = b.rotY || 0;
       const [bw, bh, bd] = b.size;
-      const frameMat = b.id === "queen_dn" ? MAT.iron : (b.id === "nook_up" ? MAT.logBeam : (b.id === "fold_up" ? MAT.couchGray : MAT.darkWood));
+      const isIron = (b.id === "queen_dn" || b.id === "queen_e2");
+      const frameMat = isIron ? MAT.iron : (b.id === "nook_up" ? MAT.knottyPine : (b.id === "fold_up" ? MAT.couchGray : MAT.darkWood));
 
-      box(bw + 0.25, 0.45, bd + 0.25, frameMat, 0, -0.15, 0, g, b.room);
+      box(bw + 0.22, 0.44, bd + 0.22, frameMat, 0, -0.15, 0, g, b.room);
       if (b.id !== "fold_up") {
-        box(bw + 0.35, 2.3, 0.28, frameMat, 0, 0.85, -bd / 2 - 0.08, g, b.room);
-        if (b.id === "king_up" || b.id === "queen_dn") {
-          box(bw + 0.35, 1.2, 0.22, frameMat, 0, 0.3, bd / 2 + 0.08, g, b.room);
+        if (isIron) {
+          // Wrought-iron spindle headboard & footboard (exact match to B4 & C5!)
+          box(bw + 0.3, 0.14, 0.16, MAT.iron, 0, 1.95, -bd / 2 - 0.06, g, b.room);
+          box(bw + 0.3, 0.14, 0.16, MAT.iron, 0, 0.95, -bd / 2 - 0.06, g, b.room);
+          for (let sx = -bw / 2; sx <= bw / 2 + 0.01; sx += 0.65) {
+            box(0.09, 2.1, 0.09, MAT.iron, sx, 0.9, -bd / 2 - 0.06, g, b.room);
+            box(0.09, 1.35, 0.09, MAT.iron, sx, 0.5, bd / 2 + 0.06, g, b.room);
+          }
+          box(bw + 0.3, 0.14, 0.16, MAT.iron, 0, 1.18, bd / 2 + 0.06, g, b.room);
+        } else {
+          box(bw + 0.35, 2.4, 0.26, frameMat, 0, 0.9, -bd / 2 - 0.08, g, b.room);
+          if (b.id === "king_up") box(bw + 0.35, 1.3, 0.22, frameMat, 0, 0.32, bd / 2 + 0.08, g, b.room);
         }
       } else {
-        box(bw + 0.4, 1.7, 0.45, MAT.couchGray, 0, 0.55, -bd / 2 - 0.15, g, b.room);
-        box(0.35, 1.2, bd * 0.5, MAT.couchGray, -bw / 2 - 0.15, 0.3, -bd * 0.2, g, b.room);
-        box(0.35, 1.2, bd * 0.5, MAT.couchGray, bw / 2 + 0.15, 0.3, -bd * 0.2, g, b.room);
+        // Gray Fold-Out Twin Loveseat with teal/dark accent throw pillows (C2 right!)
+        box(bw + 0.35, 1.85, 0.45, MAT.couchGray, 0, 0.65, -bd / 2 - 0.15, g, b.room);
+        box(0.36, 1.35, bd * 0.72, MAT.couchGray, -bw / 2 - 0.15, 0.38, -bd * 0.08, g, b.room);
+        box(0.36, 1.35, bd * 0.72, MAT.couchGray, bw / 2 + 0.15, 0.38, -bd * 0.08, g, b.room);
+        box(bw * 0.55, 0.45, 0.4, MAT.turquoiseCab, 0.3, 0.85, -bd * 0.32, g, b.room);
       }
 
-      box(bw, 0.52, bd, MAT.whiteAppliance, 0, 0.34, 0, g, b.room);
-      const duvetMat = new THREE.MeshStandardMaterial({ color: 0xdcd6cc, roughness: 0.78 });
-      const duvet = box(bw + 0.08, 0.56, bd * 0.74, duvetMat, 0, 0.38, bd * 0.13, g, b.room);
-      duvet.userData.bedId = b.id;
+      // Crisp natural white/plaid comforter + family-colored foot runner blanket!
+      const mainQuilt = b.id === "king_up" ? MAT.plaid : MAT.couchWhite;
+      box(bw, 0.54, bd, mainQuilt, 0, 0.35, 0, g, b.room);
+      const runnerMat = new THREE.MeshStandardMaterial({ color: 0xdcd6cc, roughness: 0.78 });
+      const runner = box(bw + 0.08, 0.58, bd * 0.38, runnerMat, 0, 0.38, bd * 0.28, g, b.room);
+      runner.userData.bedId = b.id;
 
-      const pCount = bw > 4.4 ? 2 : 1;
-      for (let i = 0; i < pCount; i++) {
-        const px = pCount === 1 ? 0 : (i === 0 ? -bw * 0.24 : bw * 0.24);
-        const pil = box(bw / pCount - 0.45, 0.28, 1.15, MAT.whiteAppliance, px, 0.72, -bd * 0.35, g, b.room);
-        pil.rotation.x = 0.16;
+      if (b.id !== "fold_up") {
+        const pCount = bw > 4.4 ? 2 : 1;
+        for (let i = 0; i < pCount; i++) {
+          const px = pCount === 1 ? 0 : (i === 0 ? -bw * 0.24 : bw * 0.24);
+          const pil = box(bw / pCount - 0.42, 0.30, 1.15, MAT.whiteAppliance, px, 0.74, -bd * 0.35, g, b.room);
+          pil.rotation.x = 0.16;
+        }
+        // Center accent lumbar pillow
+        box(1.4, 0.34, 0.65, MAT.granite, 0, 0.78, -bd * 0.22, g, b.room);
       }
 
       parent.add(g);
-      bedMeshes[b.id] = { group: g, mattress: duvet };
+      bedMeshes[b.id] = { group: g, mattress: runner };
     }
 
     // ==================== 1. SITE & OUTDOOR GROUNDS ====================
@@ -1442,38 +1237,44 @@
     box(76, 0.44, 23, MAT.gravel, -8, -0.15, 31.5, siteGroup, null, false);
     box(20, 0.44, 24, MAT.gravel, -36, -0.15, 22, siteGroup, null, false);
 
-    box(11.5, 0.32, 19, MAT.concrete, -26.8, 0.16, -2.5, siteGroup, "patio", false);
-    box(6.8, 2.9, 6.8, MAT.darkWood, -25.8, 1.6, 2.8, siteGroup, "patio");
-    box(6.2, 0.3, 6.2, MAT.whiteAppliance, -25.8, 2.95, 2.8, siteGroup, "patio");
-    box(5.4, 0.32, 5.4, MAT.water, -25.8, 3.02, 2.8, siteGroup, "patio", false);
-    [-5.5, -8.2].forEach(pz => box(2.3, 2.0, 2.3, MAT.iron, -28.8, 1.15, pz, siteGroup, "patio"));
-    box(3.4, 2.9, 2.0, MAT.stainless, -23.8, 1.65, -9.8, siteGroup, "patio");
+    // West Patio + Hot Tub + Blue Lounge Chairs + BBQ (A4, C9)
+    box(12.0, 0.32, 22, MAT.concrete, -27.2, 0.16, 0.0, siteGroup, "patio", false);
+    box(6.6, 2.9, 6.6, MAT.gravel, -25.6, 1.6, 5.8, siteGroup, "patio");
+    box(6.0, 0.3, 6.0, MAT.whiteAppliance, -25.6, 2.95, 5.8, siteGroup, "patio");
+    box(5.2, 0.32, 5.2, MAT.water, -25.6, 3.02, 5.8, siteGroup, "patio", false);
+    box(6.0, 0.05, 6.5, MAT.rug, -28.0, 0.34, -2.5, siteGroup, "patio", false);
+    box(4.4, 1.5, 2.4, MAT.patioBlue, -26.5, 1.05, -1.2, siteGroup, "patio");
+    box(2.3, 1.5, 2.3, MAT.patioBlue, -30.2, 1.05, -3.5, siteGroup, "patio");
+    box(3.4, 2.9, 2.0, MAT.stainless, -28.8, 1.65, -8.5, siteGroup, "patio");
 
+    // Full-Width Covered Front Porch + White Lattice Skirting (A2, C12)
     box(44, 0.65, 7.2, MAT.woodDeck, 0, 0.32, 17.6, siteGroup, "porch");
-    box(6.5, 0.44, 1.6, MAT.woodDeck, 5.5, 0.22, 21.9, siteGroup, "porch");
-    box(6.5, 0.22, 1.6, MAT.woodDeck, 5.5, 0.11, 23.4, siteGroup, "porch");
-    [-21.4, -13.0, -4.5, 2.0, 9.0, 15.4, 21.4].forEach(px => {
+    box(43.8, 0.55, 0.12, MAT.couchWhite, 0, 0.28, 21.1, siteGroup, "porch", false); // White lattice skirt
+    box(6.6, 0.44, 1.6, MAT.woodDeck, 6.5, 0.22, 21.9, siteGroup, "porch");
+    box(6.6, 0.22, 1.6, MAT.woodDeck, 6.5, 0.11, 23.4, siteGroup, "porch");
+    [-21.4, -13.0, -4.5, 3.0, 10.0, 15.8, 21.4].forEach(px => {
       box(0.55, 8.8, 0.55, MAT.logBeam, px, 5.0, 20.8, mainTallWallsGroup);
     });
     const addRailing = (x0, x1, z) => {
       const len = Math.abs(x1 - x0), cx = (x0 + x1) / 2;
       box(len, 0.18, 0.22, MAT.logBeam, cx, 2.9, z, siteGroup, "porch");
       box(len, 0.16, 0.22, MAT.logBeam, cx, 1.0, z, siteGroup, "porch");
-      for (let bx = x0 + 0.6; bx < x1; bx += 0.9) {
+      for (let bx = x0 + 0.6; bx < x1; bx += 0.85) {
         box(0.12, 1.9, 0.12, MAT.logBeam, bx, 1.95, z, siteGroup, "porch", false);
       }
       addCollider(1, x0, z, x1, z);
     };
-    addRailing(-21.4, 2.0, 20.8);
-    addRailing(9.0, 21.4, 20.8);
+    addRailing(-21.4, 3.0, 20.8);
+    addRailing(10.0, 21.4, 20.8);
     addCollider(1, -21.75, 13.75, -21.75, 20.8);
     addCollider(1, 21.75, 13.75, 21.75, 20.8);
 
-    [-16.5, -11.5, 12.8, 17.2].forEach(rx => {
+    [-16.5, -11.5, -1.0, 14.5].forEach(rx => {
       box(2.0, 0.2, 2.0, MAT.darkWood, rx, 1.4, 18.4, siteGroup, "porch");
       box(2.0, 2.0, 0.2, MAT.darkWood, rx, 2.3, 17.5, siteGroup, "porch");
     });
 
+    // Fire Pit
     const fireRing = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.8, 0.95, 18), MAT.stone);
     fireRing.position.set(0, 0.5, 31.5);
     fireRing.userData.roomId = "porch";
@@ -1485,12 +1286,12 @@
     box(6.4, 0.25, 1.4, MAT.logBeam, -4.8, 1.3, 34.2, siteGroup, "porch");
     box(6.4, 0.25, 1.4, MAT.logBeam, 4.8, 1.3, 34.2, siteGroup, "porch");
 
-    // Garage
+    // Detached Garage
     box(16, 0.4, 16, MAT.concrete, -36, 0.2, 19, siteGroup, "garage");
-    buildWallAxis("x", 11, -44, -28, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("z", -44, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("z", -28, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("x", 27, -44, -28, [[-41.5, -30.5]], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
+    buildWallAxis("x", 11, -44, -28, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
+    buildWallAxis("z", -44, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
+    buildWallAxis("z", -28, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
+    buildWallAxis("x", 27, -44, -28, [[-41.5, -30.5]], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup, frameDoors: false, baseboard: false });
     box(5.0, 0.18, 9.0, new THREE.MeshStandardMaterial({ color: 0x1d6847, roughness: 0.45 }), -36, 2.65, 19, siteGroup, "garage");
     box(5.2, 0.48, 0.06, MAT.whiteAppliance, -36, 2.98, 19, siteGroup, "garage");
     const gRoof = new THREE.Mesh(new THREE.ConeGeometry(12.2, 4.4, 4), MAT.greenRoof);
@@ -1498,7 +1299,7 @@
     gRoof.position.set(-36, 10.2, 19);
     roofGroup.add(gRoof);
 
-    // Shed + Propane
+    // East Shed + Propane
     box(7, 6.4, 7, MAT.darkWood, 33.5, 3.3, -2, siteGroup);
     box(2.6, 5.1, 0.2, MAT.redDoor, 33.5, 2.75, 1.55, siteGroup);
     const shedRoof = new THREE.Mesh(new THREE.ConeGeometry(5.6, 3.4, 4), MAT.greenRoof);
@@ -1515,16 +1316,18 @@
       trunk.position.set(x, 8.5 * s, z);
       trunk.castShadow = true;
       siteGroup.add(trunk);
-      [12, 16.5, 20.5, 24].forEach((hy, idx) => {
-        const cone = new THREE.Mesh(new THREE.ConeGeometry((5.5 - idx * 1.05) * s, 7.2 * s, 9), MAT.pineNeedles);
+      [9.5, 14.0, 18.2, 22.0].forEach((hy, idx) => {
+        const cone = new THREE.Mesh(new THREE.ConeGeometry((5.6 - idx * 1.05) * s, 7.6 * s, 9), MAT.pineNeedles);
         cone.position.set(x, hy * s, z);
         cone.castShadow = true;
         siteGroup.add(cone);
       });
     }
+    // Trees placed around all 4 sides so real green trees are visible outside EVERY cut-out window!
     [
-      [-48, -22, 1.15], [-33, -24, 1.05], [-16, -25, 1.2], [4, -26, 1.1], [24, -24, 1.15], [42, -18, 1.05],
-      [43, 14, 1.1], [-49, 4, 1.05], [-27, 42, 1.0], [29, 42, 1.05], [-43, 38, 0.95]
+      [-46, -22, 1.15], [-31, -24, 1.15], [-15, -22, 1.32], [-4, -24, 1.2], [14, -22, 1.32], [24, -23, 1.2],
+      [29, -2, 1.35], [32, -9, 1.25], [34, 8, 1.15], [43, 18, 1.05], [-30, 0, 1.32], [-38, -14, 1.15], [-46, 4, 1.05],
+      [-28, 42, 1.0], [29, 42, 1.05], [-43, 38, 0.95]
     ].forEach(([tx, tz, ts]) => addPine(tx, tz, ts));
 
     const guideMat = new THREE.LineDashedMaterial({ color: 0x8a8279, dashSize: 0.8, gapSize: 0.6 });
@@ -1535,184 +1338,412 @@
       explodedGuidesGroup.add(ln);
     });
 
-    // ==================== 2. DOWNSTAIRS ====================
-    box(13.5, 0.6, 14.0, MAT.hardwood, 14.75, 0.3, 7.0, mainFloorGroup, "dining", false);
-    box(13.5, 0.6, 14.0, MAT.hardwood, 14.75, 0.3, -7.0, mainFloorGroup, "kitchen", false);
-    box(12.5, 0.6, 13.5, MAT.hardwood, 1.75, 0.3, 7.25, mainFloorGroup, "entry", false);
-    box(5.0, 0.62, 4.2, MAT.slate, 5.5, 0.32, 11.6, mainFloorGroup, "entry", false);
-    box(7.5, 0.6, 14.5, MAT.slate, 4.25, 0.3, -6.75, mainFloorGroup, "down_bath", false);
-    box(14.0, 0.6, 14.5, MAT.carpet, -6.5, 0.3, -6.75, mainFloorGroup, "down_bed", false);
-    box(17.5, 0.6, 13.5, MAT.carpet, -13.25, 0.3, 7.25, mainFloorGroup, "living", false);
-    box(8.5, 0.6, 14.5, MAT.carpet, -17.75, 0.3, -6.75, mainFloorGroup, "game", false);
+    // ==================== 2. PHOTO-VERIFIED DOWNSTAIRS WITH REAL CUT-OUT WINDOWS ====================
+    box(13.0, 0.6, 14.2, MAT.hardwood, 15.0, 0.3, 6.65, mainFloorGroup, "dining", false);
+    box(13.0, 0.6, 13.3, MAT.hardwood, 15.0, 0.3, -7.1, mainFloorGroup, "kitchen", false);
+    box(7.5, 0.6, 15.2, MAT.hardwood, 4.75, 0.3, 6.15, mainFloorGroup, "entry", false);
+    box(5.2, 0.62, 4.0, MAT.slate, 6.5, 0.32, 11.7, mainFloorGroup, "entry", false);
+    box(7.5, 0.6, 12.3, MAT.slate, 4.75, 0.3, -7.6, mainFloorGroup, "down_bath", false);
+    box(10.0, 0.6, 15.2, MAT.carpet, -4.0, 0.3, -6.15, mainFloorGroup, "down_bed", false);
+    box(12.8, 0.6, 16.2, MAT.carpet, -15.4, 0.3, -5.65, mainFloorGroup, "living", false);
+    box(12.8, 0.6, 11.3, MAT.carpet, -15.4, 0.3, 8.1, mainFloorGroup, "game", false);
+    box(10.0, 0.6, 11.3, MAT.carpet, -4.0, 0.3, 8.1, mainFloorGroup, "living", false);
 
     const WALL_H = 4.6, FULL_H1 = 9.2;
-    buildWallAxis("x", -13.75, -21.75, 21.75, [[9.0, 11.8]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
-    buildWallAxis("x", 13.75, -21.75, 21.75, [[3.6, 7.4]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
-    buildWallAxis("z", -21.75, -13.75, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
-    buildWallAxis("z", 21.75, -13.75, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
-    box(2.2, WALL_H, 6.8, MAT.logWall, 22.8, 0.6 + WALL_H / 2, 5.5, mainFloorGroup);
+
+    // NORTH BACK WALL (-Z = -13.75) WITH REAL CUT-OUT WINDOWS & GLASS KITCHEN BACK DOOR!
+    buildWallAxis("x", -13.75, -21.75, -9.0, [], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: 1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup
+    });
+    buildWallAxis("x", -13.75, -9.0, 1.0, [], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.birchWall, innerSign: 1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [[-8.2, -6.0, 4.8, 6.6, 0, false], [-2.0, 0.2, 4.8, 6.6, 0, false]] // 2 high bedroom windows flanking birch bed (B4!)
+    });
+    buildWallAxis("x", -13.75, 1.0, 21.75, [[9.1, 11.9]], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: 1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [[4.0, 6.4, 3.4, 5.6, 0, false], [14.0, 17.6, 3.4, 5.8, 1, false]] // Bath window (B6) + Kitchen sink double window (A10)!
+    });
+    // Dark-wood framed Full-Glass Kitchen Back Door (A10 far left — ajar outward so walkable & sunlit!)
+    const backDoorPiv = new THREE.Group();
+    backDoorPiv.position.set(9.1, 3.9, -13.75);
+    backDoorPiv.rotation.y = -0.35;
+    box(2.7, 6.6, 0.16, MAT.darkDoor, 1.35, 0, 0, backDoorPiv, "kitchen");
+    box(2.0, 5.4, 0.20, MAT.glass, 1.35, 0.2, 0, backDoorPiv, "kitchen", false);
+    walkMainEnclosureGroup.add(backDoorPiv);
+
+    // SOUTH FRONT PORCH WALL (+Z = +13.75) WITH 3 GAME ROOM WINDOWS, LIVING WINDOW, DOUBLE DOORS & 2 DINING WINDOWS!
+    buildWallAxis("x", 13.75, -21.75, 1.0, [], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: -1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [
+        [-20.2, -18.0, 4.8, 6.5, 0, false], [-17.4, -15.2, 4.8, 6.5, 0, false], [-14.6, -12.4, 4.8, 6.5, 0, false], // 3 high Foosball windows (A2, B3)!
+        [-7.8, -4.0, 2.2, 5.8, 1, true] // Front hall/living window
+      ]
+    });
+    buildWallAxis("x", 13.75, 1.0, 21.75, [[4.6, 8.4]], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [[10.8, 14.0, 1.8, 6.2, 1, true], [15.0, 18.2, 1.8, 6.2, 1, true]] // 2 tall curtained Dining windows (A8, A9)!
+    });
+
+    // WEST GABLE WALL (-X = -21.75) WITH LIVING ROOM & FOOSBALL CURTAINED WINDOWS (A4, B1, B3)!
+    buildWallAxis("z", -21.75, -13.75, 13.75, [], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.shiplapV, innerSign: 1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [[-9.2, -4.6, 2.4, 5.8, 1, true], [5.4, 9.4, 2.4, 5.8, 1, true]]
+    });
+
+    // EAST GABLE WALL (+X = +21.75) WITH 2 HIGH SQUARE WINDOWS FLANKING THE RIVER-ROCK FIREPLACE (A1, A9)!
+    buildWallAxis("z", 21.75, -13.75, 13.75, [], {
+      level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.6, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
+      cutParent: mainFloorGroup, walkParent: mainTallWallsGroup,
+      windows: [[0.8, 3.0, 4.4, 6.2, 0, false], [8.6, 10.8, 4.4, 6.2, 0, false]]
+    });
+    box(2.0, FULL_H1, 5.2, MAT.logWall, 22.8, 0.6 + FULL_H1 / 2, 5.8, mainTallWallsGroup);
+    box(2.0, WALL_H, 5.2, MAT.logWall, 22.8, 0.6 + WALL_H / 2, 5.8, mainFloorGroup);
     [[-21.75, -13.75], [21.75, -13.75], [-21.75, 13.75], [21.75, 13.75]].forEach(([cx, cz]) => addLogCorners(cx, cz, WALL_H, 0.6, mainFloorGroup));
 
-    const dLeft = box(1.85, 4.2, 0.22, MAT.darkDoor, 3.7, 2.7, 12.9, mainFloorGroup, "entry");
-    dLeft.rotation.y = 1.25;
-    const dRight = box(1.85, 4.2, 0.22, MAT.darkDoor, 7.3, 2.7, 12.9, mainFloorGroup, "entry");
-    dRight.rotation.y = -1.25;
+    // Craftsman Double Front Doors with Upper Glass Panes (A5, A8, C12)
+    [ [4.7, 1.25], [8.3, -1.25] ].forEach(([dx, rot]) => {
+      const dg = new THREE.Group();
+      dg.position.set(dx, 2.75, 12.9);
+      dg.rotation.y = rot;
+      box(1.85, 4.3, 0.22, MAT.darkDoor, 0, 0, 0, dg, "entry");
+      box(1.3, 1.1, 0.25, MAT.glassBlock, 0, 1.2, 0, dg, "entry", false);
+      mainFloorGroup.add(dg);
+    });
 
-    addWindow(3.0, 2.4, 11.6, 3.1, 13.75, 0, mainFloorGroup);
-    addWindow(3.0, 2.4, 16.0, 3.1, 13.75, 0, mainFloorGroup);
-    addWindow(3.2, 2.4, -10.5, 3.1, 13.75, 0, mainFloorGroup);
-    addWindow(3.2, 2.4, -16.5, 3.1, 13.75, 0, mainFloorGroup);
-    addWindow(2.6, 1.8, -4.0, 3.4, -13.75, 0, mainFloorGroup);
-    addWindow(2.6, 1.8, -9.6, 3.4, -13.75, 0, mainFloorGroup);
-    addWindow(3.4, 2.0, 15.8, 3.3, -13.75, 0, mainFloorGroup);
-    addWindow(5.2, 1.5, -17.8, 3.6, -13.75, 0, mainFloorGroup);
+    // --- Downstairs Interior Partitions (Photo-Matched) ---
+    buildWallAxis("z", 8.5, -13.75, -1.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    buildWallAxis("x", -1.5, 1.0, 8.5, [[4.4, 7.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    buildWallAxis("z", 1.0, -13.75, 9.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.drywall, innerMat: MAT.shiplapH, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    // Downstairs Bedroom West Wall (X = -9.0, with Knotty-Pine Door near South corner Z = -0.2 .. +2.3 so Left wall has full room for Bi-Fold Closet, B2 & B4!)
+    buildWallAxis("z", -9.0, -13.75, 2.5, [[-0.2, 2.3]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapV, innerMat: MAT.shiplapH, innerSign: 1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    addOpenPineDoor(-8.8, 0.6, 2.2, 1.35, walkMainEnclosureGroup);
+    buildWallAxis("x", 2.5, -9.0, 1.0, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    // Foosball Game Room East Teal Wood Wall + Raised Rustic US Flag (B3!)
+    buildWallAxis("z", -9.0, 2.5, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, innerMat: MAT.shiplapTeal, innerSign: -1, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
+    box(0.10, 2.2, 4.0, MAT.usFlag, -9.24, 5.4, 8.0, walkMainEnclosureGroup, null, false);
+    // Living Room | Foosball Barn-Door Wall (Z = +2.5: solid white shiplap X=-16.0..-9.0, open doorway on RIGHT X=-20.8..-16.0, exact match to B2!)
+    buildWallAxis("x", 2.5, -21.75, -9.0, [[-20.8, -16.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapH, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup, frameDoors: true });
 
-    buildWallAxis("z", 8.0, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("x", 0.5, 0.5, 8.0, [[2.4, 5.2]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("z", 0.5, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("z", -13.5, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("x", 0.5, -21.75, 0.5, [[-18.4, -13.8], [-3.8, -1.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    box(0.18, WALL_H - 0.2, 14.0, MAT.shiplapTeal, -21.35, 0.6 + WALL_H / 2, -6.75, mainFloorGroup, "game");
-
-    box(43.2, 0.25, 23.0, MAT.ceilingWhite, 0, 9.65, -2.2, walkMainEnclosureGroup, null, false);
-    box(20.0, 0.25, 4.5, MAT.ceilingWhite, -11.6, 9.65, 11.5, walkMainEnclosureGroup, null, false);
-    box(17.6, 0.25, 4.5, MAT.ceilingWhite, 12.8, 9.65, 11.5, walkMainEnclosureGroup, null, false);
+    // Overhead Beams, Chandeliers, Pendants & 1st-Floor Ceiling
+    box(0.68, 0.78, 27.0, MAT.logBeam, 12.2, 9.05, 0, walkMainEnclosureGroup, null, false);
+    box(20.5, 0.65, 0.65, MAT.logBeam, -11.2, 9.05, 2.5, walkMainEnclosureGroup, null, false);
+    // Beaded Dining Chandelier (A9) + 3 White Kitchen Dome Pendants (A10, A11) + 2 Living Cage Chandeliers (B1, B2)
+    const dinChand = new THREE.Mesh(new THREE.ConeGeometry(0.95, 1.3, 12), MAT.couchBeige);
+    dinChand.position.set(15.2, 7.6, 6.2);
+    walkMainEnclosureGroup.add(dinChand);
+    [13.6, 16.0, 18.4].forEach(px => {
+      box(0.06, 1.8, 0.06, MAT.iron, px, 8.4, -1.0, walkMainEnclosureGroup, null, false);
+      const dome = new THREE.Mesh(new THREE.ConeGeometry(0.65, 0.55, 14), MAT.whiteAppliance);
+      dome.position.set(px, 7.4, -1.0);
+      walkMainEnclosureGroup.add(dome);
+    });
+    [-15.2, -13.2].forEach((cx, idx) => {
+      box(1.1, 1.1, 1.1, MAT.iron, cx, 8.1, idx === 0 ? -5.5 : 0.5, walkMainEnclosureGroup, null, false);
+    });
+    // 1st-Floor Ceiling Panels around L-Stairwell cutout
+    box(22.5, 0.25, 27.4, MAT.ceilingWhite, -10.4, 9.65, 0, walkMainEnclosureGroup, null, false);
+    box(17.3, 0.25, 27.4, MAT.ceilingWhite, 13.05, 9.65, 0, walkMainEnclosureGroup, null, false);
+    box(3.6, 0.25, 14.2, MAT.ceilingWhite, 2.6, 9.65, -6.6, walkMainEnclosureGroup, null, false);
     box(44.0, 0.25, 7.2, MAT.woodDeck, 0, 9.5, 17.6, walkMainEnclosureGroup, null, false);
 
+    // K-Braced (`>`) White & Wood Sliding Barn Door (Open = centered at X=-13.4 over middle wall; Closed = X=-18.4 over West opening, exact match to B2!)
     const barnDoorGroup = new THREE.Group();
-    barnDoorGroup.position.set(-10.8, 2.65, 0.82);
-    box(5.0, 4.0, 0.2, MAT.shiplapWhite, 0, 0, 0, barnDoorGroup, "game");
-    box(5.0, 0.22, 0.24, MAT.logBeam, 0, 1.88, 0, barnDoorGroup, "game");
-    box(5.0, 0.22, 0.24, MAT.logBeam, 0, -1.88, 0, barnDoorGroup, "game");
-    box(0.22, 4.0, 0.24, MAT.logBeam, -2.38, 0, 0, barnDoorGroup, "game");
-    box(0.22, 4.0, 0.24, MAT.logBeam, 2.38, 0, 0, barnDoorGroup, "game");
-    const diagBrace = new THREE.Mesh(new THREE.BoxGeometry(5.9, 0.2, 0.25), MAT.logBeam);
-    diagBrace.rotation.z = 0.62;
-    barnDoorGroup.add(diagBrace);
-    box(11.2, 0.14, 0.14, MAT.iron, -13.4, 4.85, 0.72, mainFloorGroup);
+    barnDoorGroup.position.set(-13.4, 3.7, 2.20);
+    box(5.0, 6.2, 0.18, MAT.shiplapH, 0, 0, 0, barnDoorGroup, "game");
+    box(5.0, 0.24, 0.22, MAT.knottyPine, 0, 2.98, 0, barnDoorGroup, "game");
+    box(5.0, 0.24, 0.22, MAT.knottyPine, 0, -2.98, 0, barnDoorGroup, "game");
+    box(5.0, 0.22, 0.22, MAT.knottyPine, 0, 0, 0, barnDoorGroup, "game");
+    box(0.24, 6.2, 0.22, MAT.knottyPine, -2.38, 0, 0, barnDoorGroup, "game");
+    box(0.24, 6.2, 0.22, MAT.knottyPine, 2.38, 0, 0, barnDoorGroup, "game");
+    const kTop = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.20, 0.23), MAT.knottyPine);
+    kTop.position.set(0, 1.48, 0); kTop.rotation.z = -0.52; barnDoorGroup.add(kTop);
+    const kBot = new THREE.Mesh(new THREE.BoxGeometry(5.5, 0.20, 0.23), MAT.knottyPine);
+    kBot.position.set(0, -1.48, 0); kBot.rotation.z = 0.52; barnDoorGroup.add(kBot);
+    box(11.6, 0.14, 0.16, MAT.iron, -15.8, 7.0, 2.20, walkMainEnclosureGroup);
     mainFloorGroup.add(barnDoorGroup);
 
-    for (let s = 0; s < 12; s++) {
-      box(0.92, 0.24, 3.4, MAT.logBeam, 3.6 - s * 0.46, 1.0 + s * 0.74, 11.4, mainFloorGroup, "entry");
+    // --- Detailed L-Shaped Peeled-Log Staircase with Newel Post, Stringer & Spindles (A6, A7!) ---
+    for (let s = 0; s < 3; s++) {
+      box(0.85, 0.24, 2.8, MAT.logBeam, -1.2 + s * 0.8, 1.05 + s * 0.52, 11.2, mainFloorGroup, "entry");
+    }
+    box(3.1, 1.9, 3.0, MAT.logBeam, 2.6, 1.55, 11.1, mainFloorGroup, "entry");
+    // Tall Peeled-Log Corner Newel Post (A6!)
+    const newel = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.26, 5.6, 10), MAT.logBeam);
+    newel.position.set(4.02, 3.4, 9.55);
+    mainFloorGroup.add(newel);
+    // Diagonal Log Stringer + 10 Treads + Vertical Log Spindles + Handrail
+    const stringer = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.65, 10.6), MAT.logBeam);
+    stringer.rotation.x = 0.74;
+    stringer.position.set(3.92, 5.8, 5.5);
+    mainFloorGroup.add(stringer);
+    for (let s = 0; s < 10; s++) {
+      const ty = 3.05 + s * 0.72, tz = 9.1 - s * 0.8;
+      box(2.9, 0.24, 0.85, MAT.logBeam, 2.6, ty, tz, mainFloorGroup, "entry");
+      const sp = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 2.8, 6), MAT.logBeam);
+      sp.position.set(4.02, ty + 1.4, tz);
+      mainFloorGroup.add(sp);
     }
     const stairRail = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 10.4, 8), MAT.logBeam);
-    stairRail.rotation.z = 0.84;
-    stairRail.position.set(1.0, 5.9, 9.6);
+    stairRail.rotation.x = -0.82;
+    stairRail.position.set(4.02, 7.2, 5.5);
     mainFloorGroup.add(stairRail);
-    addCollider(1, -2.0, 9.5, 3.2, 9.5);
-    box(3.2, 1.9, 1.3, MAT.darkDoor, -0.4, 1.55, 8.6, mainFloorGroup, "entry");
+    addCollider(1, 4.15, 2.0, 4.15, 12.6);
+    // Detailed Black Slatted Bench + Striped Pillow + Pedestal Table under Stairs (A6!)
+    box(1.5, 0.18, 3.6, MAT.darkDoor, 2.2, 1.55, 4.8, mainFloorGroup, "entry");
+    box(0.18, 1.7, 3.6, MAT.darkDoor, 1.5, 2.4, 4.8, mainFloorGroup, "entry");
+    box(0.2, 1.5, 0.2, MAT.darkDoor, 2.85, 0.85, 3.1, mainFloorGroup, "entry");
+    box(0.2, 1.5, 0.2, MAT.darkDoor, 2.85, 0.85, 6.5, mainFloorGroup, "entry");
+    box(0.45, 0.65, 1.4, MAT.usFlag, 1.85, 1.95, 4.8, mainFloorGroup, "entry"); // Striped pillow!
+    const bistroTop = new THREE.Mesh(new THREE.CylinderGeometry(1.1, 1.1, 0.14, 18), MAT.logBeam);
+    bistroTop.position.set(3.85, 2.45, 4.8);
+    mainFloorGroup.add(bistroTop);
+    const bistroLeg = new THREE.Mesh(new THREE.CylinderGeometry(0.10, 0.45, 1.85, 10), MAT.iron);
+    bistroLeg.position.set(3.85, 1.5, 4.8);
+    mainFloorGroup.add(bistroLeg);
 
-    box(7.0, 0.05, 9.6, MAT.rug, 14.5, 0.63, 6.8, mainFloorGroup, "dining", false);
-    box(3.8, 0.22, 7.8, MAT.darkWood, 14.5, 2.95, 6.8, mainFloorGroup, "dining");
+    // --- Dining & Kitchen Furniture (A8-A11) ---
+    box(7.2, 0.05, 9.8, MAT.rug, 15.2, 0.63, 5.8, mainFloorGroup, "dining", false);
+    box(3.8, 0.22, 8.0, MAT.darkWood, 15.2, 2.95, 5.8, mainFloorGroup, "dining");
     [[-1.5, -3.2], [1.5, -3.2], [-1.5, 3.2], [1.5, 3.2]].forEach(([lx, lz]) => {
-      box(0.25, 2.3, 0.25, MAT.darkWood, 14.5 + lx, 1.75, 6.8 + lz, mainFloorGroup, "dining");
+      box(0.25, 2.3, 0.25, MAT.darkWood, 15.2 + lx, 1.75, 5.8 + lz, mainFloorGroup, "dining");
     });
-    [-2.4, 0, 2.4].forEach(dz => {
-      box(1.4, 1.5, 1.4, MAT.couchWhite, 12.0, 1.35, 6.8 + dz, mainFloorGroup, "dining");
-      box(1.4, 1.5, 1.4, MAT.couchWhite, 17.0, 1.35, 6.8 + dz, mainFloorGroup, "dining");
+    [-2.5, 0, 2.5].forEach(dz => {
+      box(1.4, 1.4, 1.4, MAT.couchBeige, 12.7, 1.35, 5.8 + dz, mainFloorGroup, "dining");
+      box(0.2, 1.6, 1.4, MAT.couchBeige, 12.05, 2.2, 5.8 + dz, mainFloorGroup, "dining");
+      box(1.4, 1.4, 1.4, MAT.couchBeige, 17.7, 1.35, 5.8 + dz, mainFloorGroup, "dining");
+      box(0.2, 1.6, 1.4, MAT.couchBeige, 18.35, 2.2, 5.8 + dz, mainFloorGroup, "dining");
     });
-    box(2.2, 4.6, 4.8, MAT.stone, 20.8, 2.9, 5.5, mainFloorGroup, "dining");
-    box(1.2, 1.8, 2.4, MAT.iron, 19.9, 1.6, 5.5, mainFloorGroup, "dining");
-    box(2.5, 0.32, 5.2, MAT.logBeam, 20.6, 3.9, 5.5, mainFloorGroup, "dining");
+    // Full-Height Stone Fireplace + Mantel + Framed Art Above (A8, A9)
+    box(1.8, 4.6, 4.6, MAT.stone, 20.6, 2.9, 5.8, mainFloorGroup, "dining");
+    box(1.2, 1.8, 2.4, MAT.iron, 19.8, 1.6, 5.8, mainFloorGroup, "dining");
+    box(2.1, 0.32, 5.0, MAT.logBeam, 20.4, 4.1, 5.8, mainFloorGroup, "dining");
+    box(0.15, 2.2, 2.2, MAT.couchWhite, 21.3, 6.2, 5.8, walkMainEnclosureGroup, null, false);
 
-    box(7.6, 2.9, 2.5, MAT.pineDoor, 14.8, 2.05, -0.8, mainFloorGroup, "kitchen");
-    box(8.0, 0.22, 3.1, MAT.granite, 14.8, 3.6, -0.6, mainFloorGroup, "kitchen");
-    [12.2, 14.8, 17.4].forEach(sx => box(1.2, 2.1, 1.2, MAT.darkDoor, sx, 1.65, 1.35, mainFloorGroup, "kitchen"));
-    box(8.4, 3.0, 2.2, MAT.pineDoor, 17.0, 2.1, -12.3, mainFloorGroup, "kitchen");
-    box(8.6, 0.2, 2.3, MAT.granite, 17.0, 3.65, -12.3, mainFloorGroup, "kitchen");
-    box(2.2, 3.0, 8.6, MAT.pineDoor, 20.3, 2.1, -6.8, mainFloorGroup, "kitchen");
-    box(2.3, 0.2, 8.8, MAT.granite, 20.3, 3.65, -6.8, mainFloorGroup, "kitchen");
-    box(2.6, 3.1, 2.6, MAT.stainless, 20.1, 2.15, -6.5, mainFloorGroup, "kitchen");
-    box(2.8, 5.2, 2.5, MAT.stainless, 13.4, 3.2, -12.1, mainFloorGroup, "kitchen");
+    // Kitchen Shaker Cabinets, Speckled Granite Peninsula, SS Range + Microwave + Sink + Fridge (A10, A11)
+    box(8.4, 2.9, 2.6, MAT.shakerCab, 16.9, 2.05, -1.2, mainFloorGroup, "kitchen");
+    box(8.8, 0.22, 3.2, MAT.granite, 16.8, 3.6, -1.0, mainFloorGroup, "kitchen");
+    [13.4, 15.8, 18.2].forEach(sx => box(1.2, 2.1, 1.2, MAT.iron, sx, 1.65, 0.95, mainFloorGroup, "kitchen"));
+    box(8.6, 3.0, 2.2, MAT.shakerCab, 16.9, 2.1, -12.3, mainFloorGroup, "kitchen");
+    box(8.8, 0.2, 2.3, MAT.granite, 16.9, 3.65, -12.3, mainFloorGroup, "kitchen");
+    box(2.4, 2.9, 2.2, MAT.stainless, 13.0, 2.05, -12.2, mainFloorGroup, "kitchen"); // Dishwasher
+    box(2.2, 0.14, 1.6, MAT.stainless, 15.8, 3.68, -12.2, mainFloorGroup, "kitchen"); // Kitchen sink
+    // Upper North & East Cabinets + Stainless Over-Range Microwave (A10, A11!)
+    box(1.9, 2.6, 1.4, MAT.shakerCab, 12.9, 6.9, -12.7, walkMainEnclosureGroup, null, false);
+    box(2.8, 2.6, 1.4, MAT.shakerCab, 19.4, 6.9, -12.7, walkMainEnclosureGroup, null, false);
+    box(1.4, 2.6, 8.8, MAT.shakerCab, 20.7, 6.9, -6.8, walkMainEnclosureGroup, null, false);
+    box(1.6, 1.5, 2.6, MAT.stainless, 20.5, 6.2, -6.8, walkMainEnclosureGroup, null, false); // Microwave!
+    box(2.2, 3.0, 8.8, MAT.shakerCab, 20.3, 2.1, -6.8, mainFloorGroup, "kitchen");
+    box(2.3, 0.2, 9.0, MAT.granite, 20.3, 3.65, -6.8, mainFloorGroup, "kitchen");
+    box(2.6, 3.1, 2.6, MAT.stainless, 20.1, 2.15, -6.8, mainFloorGroup, "kitchen"); // Range
+    box(2.2, 0.08, 2.2, MAT.iron, 20.0, 3.72, -6.8, mainFloorGroup, "kitchen"); // Black burner grates
+    box(0.12, 1.8, 2.8, MAT.granite, 21.32, 4.6, -6.8, walkMainEnclosureGroup, null, false); // Granite backsplash behind stove
+    box(0.1, 1.4, 2.0, MAT.iron, 18.78, 2.1, -6.8, mainFloorGroup, "kitchen"); // Oven glass window
+    box(2.2, 5.8, 2.8, MAT.stainless, 9.8, 3.5, -4.5, mainFloorGroup, "kitchen"); // Fridge tucked on West kitchen wall
 
-    box(1.8, 2.7, 3.6, MAT.pineDoor, 6.8, 1.95, -5.2, mainFloorGroup, "down_bath");
-    box(1.9, 0.18, 3.8, MAT.granite, 6.8, 3.35, -5.2, mainFloorGroup, "down_bath");
-    box(1.6, 2.0, 2.0, MAT.whiteAppliance, 6.6, 1.6, -9.2, mainFloorGroup, "down_bath");
-    box(5.4, 2.1, 3.0, MAT.whiteAppliance, 3.6, 1.65, -11.8, mainFloorGroup, "down_bath");
-    box(4.6, 0.25, 2.2, MAT.water, 3.6, 2.58, -11.8, mainFloorGroup, "down_bath", false);
+    // Downstairs Bathroom (B5, B6)
+    box(1.8, 2.7, 3.6, MAT.shakerCab, 7.4, 1.95, -5.2, mainFloorGroup, "down_bath");
+    box(1.9, 0.18, 3.8, MAT.granite, 7.4, 3.35, -5.2, mainFloorGroup, "down_bath");
+    box(0.12, 2.4, 2.2, MAT.mirror, 8.22, 4.9, -5.2, walkMainEnclosureGroup, null, false);
+    box(1.6, 2.0, 2.0, MAT.whiteAppliance, 6.8, 1.6, -11.8, mainFloorGroup, "down_bath");
+    box(3.2, 2.1, 5.4, MAT.whiteAppliance, 2.8, 1.65, -10.5, mainFloorGroup, "down_bath");
+    box(2.4, 0.25, 4.6, MAT.water, 2.8, 2.58, -10.5, mainFloorGroup, "down_bath", false);
 
-    box(9.5, 0.05, 7.5, MAT.rug, -12.5, 0.63, 6.8, mainFloorGroup, "living", false);
-    box(7.2, 1.4, 2.8, MAT.couchWhite, -12.5, 1.3, 11.4, mainFloorGroup, "living");
-    box(7.2, 1.5, 0.6, MAT.couchWhite, -12.5, 2.2, 12.5, mainFloorGroup, "living");
-    box(2.7, 1.4, 4.8, MAT.couchWhite, -6.8, 1.3, 7.6, mainFloorGroup, "living");
-    box(0.6, 1.5, 4.8, MAT.couchWhite, -5.7, 2.2, 7.6, mainFloorGroup, "living");
-    box(4.6, 2.3, 1.5, MAT.darkWood, -10.5, 1.75, 1.6, mainFloorGroup, "living");
-    box(3.8, 2.2, 0.16, MAT.iron, -10.5, 3.85, 1.4, mainFloorGroup, "living");
-    box(3.5, 1.95, 0.18, MAT.tvScreen, -10.5, 3.85, 1.42, mainFloorGroup, "living", false);
+    // Downstairs Bedroom: Knotty-Pine Bi-Fold Closet + 4 Wood Plaques on LEFT (X = -8.7) & Wood Tripod Lamp on RIGHT (B4!)
+    box(0.35, 6.4, 4.4, MAT.knottyPine, -8.68, 3.8, -6.8, walkMainEnclosureGroup, null, false);
+    box(0.35, 4.1, 4.4, MAT.knottyPine, -8.68, 2.65, -6.8, mainFloorGroup, "down_bed");
+    // 4 square dark-wood plaques on left wall beside closet (B4!)
+    [ [-2.8, 5.2], [-1.5, 5.2], [-2.8, 3.9], [-1.5, 3.9] ].forEach(([pz, py]) => {
+      box(0.12, 1.05, 1.05, MAT.darkWood, -8.76, py, pz, walkMainEnclosureGroup, null, false);
+    });
+    // Wood Tripod Floor Lamp with White Drum Shade in NE corner (B4 right!)
+    const lampShade = new THREE.Mesh(new THREE.CylinderGeometry(0.75, 0.85, 1.0, 16), MAT.whiteAppliance);
+    lampShade.position.set(-0.6, 4.8, -12.0);
+    mainFloorGroup.add(lampShade);
+    [-0.25, 0, 0.25].forEach((off, idx) => {
+      const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 4.4, 6), MAT.logBeam);
+      leg.position.set(-0.6 + off, 2.4, -12.0 + (idx === 1 ? 0.25 : -0.15));
+      leg.rotation.z = off * 0.45;
+      mainFloorGroup.add(leg);
+    });
 
-    box(2.9, 0.9, 4.8, MAT.darkWood, -17.2, 2.7, -7.2, mainFloorGroup, "game");
-    box(2.5, 0.12, 4.3, new THREE.MeshStandardMaterial({ color: 0x297549 }), -17.2, 3.18, -7.2, mainFloorGroup, "game");
+    // Living Room (B1, B2)
+    box(8.8, 0.05, 8.8, MAT.rug, -15.4, 0.63, -5.5, mainFloorGroup, "living", false);
+    box(4.6, 2.3, 1.5, MAT.darkWood, -15.4, 1.75, -12.6, mainFloorGroup, "living");
+    box(3.8, 2.2, 0.16, MAT.iron, -15.4, 3.85, -12.8, mainFloorGroup, "living");
+    box(3.5, 1.95, 0.18, MAT.tvScreen, -15.4, 3.85, -12.76, mainFloorGroup, "living", false);
+    box(2.7, 1.4, 6.8, MAT.couchBeige, -10.6, 1.3, -6.8, mainFloorGroup, "living");
+    box(0.6, 1.5, 6.8, MAT.couchBeige, -9.6, 2.2, -6.8, mainFloorGroup, "living");
+    box(2.6, 1.4, 5.2, MAT.couchWhite, -20.0, 1.3, -6.8, mainFloorGroup, "living");
+    box(0.6, 1.5, 5.2, MAT.couchWhite, -21.0, 2.2, -6.8, mainFloorGroup, "living");
+    [-16.8, -13.6].forEach(ax => {
+      box(2.4, 1.4, 2.4, MAT.couchWhite, ax, 1.3, -1.2, mainFloorGroup, "living");
+      box(2.4, 1.4, 0.55, MAT.couchWhite, ax, 2.1, -0.2, mainFloorGroup, "living");
+    });
+    box(2.2, 1.2, 3.4, MAT.darkWood, -15.4, 1.2, -6.5, mainFloorGroup, "living");
+
+    // Foosball Game Room (B3)
+    box(2.9, 0.9, 4.8, MAT.darkWood, -15.2, 2.7, 7.6, mainFloorGroup, "game");
+    box(2.5, 0.12, 4.3, new THREE.MeshStandardMaterial({ color: 0x297549 }), -15.2, 3.18, 7.6, mainFloorGroup, "game");
     [[-1.2, -2.1], [1.2, -2.1], [-1.2, 2.1], [1.2, 2.1]].forEach(([lx, lz]) => {
-      box(0.22, 1.9, 0.22, MAT.darkWood, -17.2 + lx, 1.55, -7.2 + lz, mainFloorGroup, "game");
+      box(0.22, 1.9, 0.22, MAT.darkWood, -15.2 + lx, 1.55, 7.6 + lz, mainFloorGroup, "game");
     });
-    box(1.5, 2.5, 5.4, MAT.shiplapTeal, -20.4, 1.85, -7.2, mainFloorGroup, "game");
+    box(1.5, 2.5, 5.4, MAT.turquoiseCab, -10.0, 1.85, 8.0, mainFloorGroup, "game");
+    [-1.6, -0.8, 0, 0.8, 1.6].forEach(rz => {
+      box(3.8, 0.06, 0.06, MAT.stainless, -15.2, 3.22, 7.6 + rz, mainFloorGroup, "game", false);
+    });
+    box(2.2, 2.4, 2.2, MAT.iron, -12.6, 1.8, 12.0, mainFloorGroup, "game");
+    box(2.2, 1.4, 1.8, MAT.darkWood, -18.8, 1.3, 11.8, mainFloorGroup, "game");
 
-    // ==================== 3. UPSTAIRS ====================
+    // ==================== 3. PHOTO-VERIFIED UPSTAIRS WITH CUT-OUT DORMER WINDOWS & FULL SLATE SHOWER ====================
     box(15.0, 0.5, 23.6, MAT.carpet, -13.0, 0.25, 0, upperFloorGroup, "up_west", false);
     box(15.0, 0.5, 23.6, MAT.carpet, 13.0, 0.25, 0, upperFloorGroup, "up_east", false);
-    box(11.0, 0.5, 14.6, MAT.slate, 0, 0.25, -4.5, upperFloorGroup, "up_bath", false);
-    box(11.0, 0.5, 6.6, MAT.carpet, 0, 0.25, 6.1, upperFloorGroup, "up_hall", false);
-    box(3.9, 0.5, 2.4, MAT.carpet, -3.55, 0.25, 10.6, upperFloorGroup, "up_hall", false);
-    box(1.5, 0.5, 2.4, MAT.carpet, 4.75, 0.25, 10.6, upperFloorGroup, "up_hall", false);
-    box(5.6, 3.0, 0.2, MAT.logBeam, 1.2, 1.9, 9.4, upperFloorGroup, "up_hall");
-    addCollider(2, -1.5, 9.4, 4.0, 9.4);
-    addCollider(2, 4.0, 9.4, 4.0, 11.8);
+    box(4.8, 0.5, 6.3, MAT.carpet, -7.9, 0.25, -8.65, upperFloorGroup, "up_closet", false);
+    box(10.0, 0.5, 9.3, MAT.slate, 0.5, 0.25, -7.15, upperFloorGroup, "up_bath", false);
+    box(11.0, 0.5, 4.3, MAT.carpet, 0.0, 0.25, -0.35, upperFloorGroup, "up_hall", false);
+    box(6.5, 0.5, 10.0, MAT.carpet, -2.25, 0.25, 6.8, upperFloorGroup, "up_hall", false);
+    box(1.3, 0.5, 10.0, MAT.carpet, 4.85, 0.25, 6.8, upperFloorGroup, "up_hall", false);
+    box(0.2, 3.0, 9.8, MAT.logBeam, 0.95, 1.9, 6.8, upperFloorGroup, "up_hall");
+    addCollider(2, 0.95, 1.9, 0.95, 11.8);
+    addCollider(2, 4.2, 1.9, 4.2, 11.8);
 
     const UWALL_H = 4.2, FULL_H2 = 8.4;
-    buildWallAxis("x", -11.8, -20.6, 20.6, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("x", 11.8, -20.6, 20.6, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("z", -20.6, -11.8, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("z", 20.6, -11.8, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    // Upstairs Perimeter Walls (Placed in upperExteriorCutawayGroup so Outside Roof Mode NEVER gets poked!)
+    // North Wall (-Z = -11.8): 2 high dormer windows over West King Bed (C1 right!), Closet window (C3), Shower glass-block window (B8), 2 high dormer windows over East Dresser (C4 left!)
+    buildWallAxis("x", -11.8, -20.6, 20.6, [], {
+      level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.52, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: 1,
+      cutParent: upperExteriorCutawayGroup, walkParent: walkUpperEnclosureGroup,
+      windows: [
+        [-15.6, -13.4, 5.2, 6.8, 0, false], [-12.8, -10.6, 5.2, 6.8, 0, false], // C1 2 high dormer windows over King Bed!
+        [-8.6, -6.4, 4.6, 6.4, 0, false],                                         // C3 Closet window!
+        [12.0, 14.2, 5.2, 6.8, 0, false], [14.8, 17.0, 5.2, 6.8, 0, false]        // C4/C6 2 high dormer windows over East Dresser!
+      ]
+    });
+    // South Wall (+Z = +11.8)
+    buildWallAxis("x", 11.8, -20.6, 20.6, [], {
+      level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.52, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
+      cutParent: upperExteriorCutawayGroup, walkParent: walkUpperEnclosureGroup,
+      windows: [[-2.2, 0.6, 4.8, 6.5, 1, false], [12.5, 16.5, 4.8, 6.5, 1, false]]
+    });
+    // West Gable Wall (-X = -20.6): Large Double Gable Window (C1 left, C2 far right!)
+    buildWallAxis("z", -20.6, -11.8, 11.8, [], {
+      level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.52, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: 1,
+      cutParent: upperExteriorCutawayGroup, walkParent: walkUpperEnclosureGroup,
+      windows: [[-3.5, 2.5, 2.6, 6.2, 1, false]]
+    });
+    // East Gable Wall (+X = +20.6): Large Double Gable Window centered right behind Nightstand between the 2 Queen Beds (C4, C5)!
+    buildWallAxis("z", 20.6, -11.8, 11.8, [], {
+      level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.52, mat: MAT.logWall, innerMat: MAT.drywall, innerSign: -1,
+      cutParent: upperExteriorCutawayGroup, walkParent: walkUpperEnclosureGroup,
+      windows: [[-4.8, 1.4, 2.8, 6.4, 1, false]]
+    });
 
-    buildWallAxis("z", -5.5, -11.8, 11.8, [[4.2, 7.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("z", 5.5, -11.8, 11.8, [[4.2, 7.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("x", 2.8, -5.5, 5.5, [[-1.5, 1.5]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("x", -6.2, -15.0, -5.5, [[-11.4, -8.4]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
-    buildWallAxis("z", -15.0, -11.8, -6.2, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    // Upstairs Interior Partitions & Open Knotty-Pine 6-Panel Doors (C2, B7, B8)
+    // West Bedroom East Wall (X = -5.5, Door at Z = +1.5 .. +4.3 matching C2 left!)
+    buildWallAxis("z", -5.5, -5.5, 11.8, [[1.5, 4.3]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    addOpenPineDoor(-5.6, 0.5, 4.2, -2.2, walkUpperEnclosureGroup);
+    // East 2-Queen Bedroom West Wall (X = +5.5, Door at Z = -1.6 .. +1.2)
+    buildWallAxis("z", 5.5, -11.8, 11.8, [[-1.6, 1.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    // Upstairs Bathroom Wall (Z = -2.5, Door at X = -1.4 .. +1.4)
+    buildWallAxis("x", -2.5, -4.5, 5.5, [[-1.4, 1.4]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    addOpenPineDoor(-1.4, 0.5, -2.6, -1.3, walkUpperEnclosureGroup);
+    // Walk-In Closet Walls (NW of Hallway)
+    buildWallAxis("z", -10.3, -11.8, -5.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("z", -4.5, -11.8, -2.5, [[-5.2, -2.8]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("x", -5.5, -10.3, -4.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
 
+    // South Built-In Twin Bed Wood-Framed Alcove in Upstairs West Bedroom (exact match to C2 center!)
+    buildWallAxis("z", -8.8, 6.0, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.30, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("z", -12.8, 6.0, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.30, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    buildWallAxis("x", 6.0, -8.8, -5.5, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.30, mat: MAT.drywall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
+    // Wood casing arch around the Built-In Twin Nook opening (C2 center!)
+    box(4.2, 0.24, 0.38, MAT.knottyPine, -10.8, 6.8, 6.0, walkUpperEnclosureGroup, null, false);
+    box(0.24, 6.3, 0.38, MAT.knottyPine, -8.8, 3.65, 6.0, walkUpperEnclosureGroup, null, false);
+    box(0.24, 6.3, 0.38, MAT.knottyPine, -12.8, 3.65, 6.0, walkUpperEnclosureGroup, null, false);
+
+    // 45-Degree Sloped White Eave Ceilings at Upstairs Non-Dormer Corners (C1, C2, C4, C6!)
+    function addEaveSlope(w, x, z, isSouth) {
+      const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.22, 6.4), MAT.ceilingWhite);
+      m.position.set(x, 6.65, z);
+      m.rotation.x = isSouth ? 0.68 : -0.68;
+      walkUpperEnclosureGroup.add(m);
+    }
+    addEaveSlope(4.8, -18.2, -9.2, false); // NW sloped eave over Cherry Dresser & TV (C1 center!)
+    addEaveSlope(7.6, -16.7, 9.2, true);   // SW sloped eave over Gray Fold-Out Loveseat (C2 right!)
+    addEaveSlope(6.2, 8.6, -9.2, false);   // NW sloped eave in East BR (C6 right!)
+    addEaveSlope(3.6, 18.8, -9.2, false);  // NE sloped eave in East BR (C4!)
+    addEaveSlope(14.8, 13.0, 9.2, true);   // South sloped eave in East BR
     box(41.2, 0.25, 23.6, MAT.ceilingWhite, 0, 8.95, 0, walkUpperEnclosureGroup, null, false);
 
-    addWindow(4.6, 1.6, -15.2, 2.9, 11.8, 0, upperFloorGroup);
-    addWindow(5.2, 2.2, -15.2, 2.8, -11.8, 0, upperFloorGroup);
-    addWindow(4.6, 1.6, 14.0, 2.9, 11.8, 0, upperFloorGroup);
-    addWindow(5.0, 2.2, 13.4, 2.8, -11.8, 0, upperFloorGroup);
+    // --- Upstairs Furniture & Fixtures ---
+    // Walk-In Closet Cherry Drawer Tower (C3)
+    box(1.6, 5.8, 4.4, MAT.cherryWood, -9.3, 3.4, -8.5, walkUpperEnclosureGroup, null, false);
+    box(1.6, 3.9, 4.4, MAT.cherryWood, -9.3, 2.45, -8.5, upperFloorGroup, "up_closet");
+    // Upstairs West Bedroom NW Cherry Dresser + TV under sloped eave (C1 center!)
+    box(3.2, 2.5, 1.6, MAT.cherryWood, -18.4, 1.75, -10.2, upperFloorGroup, "up_west");
+    box(2.4, 1.5, 0.14, MAT.iron, -18.4, 3.6, -10.2, upperFloorGroup, "up_west");
+    // Upstairs East 2-Queen Bedroom: Shared Nightstand + Lamp (C5), Dark/White North Dormer Dresser (C4/C6), White Loveseat + Ottoman + Mirror (C6/C7)!
+    box(1.7, 1.8, 1.9, MAT.darkWood, 19.3, 1.4, -1.7, upperFloorGroup, "up_east");
+    const eLamp = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.55, 0.7, 12), MAT.warmBulb);
+    eLamp.position.set(19.3, 2.8, -1.7);
+    upperFloorGroup.add(eLamp);
+    // Dark/White Dresser under North Dormer (C4 left, C6 center!)
+    box(3.4, 3.3, 1.6, MAT.couchWhite, 14.5, 2.15, -10.3, upperFloorGroup, "up_east");
+    [1.1, 1.8, 2.5, 3.2].forEach(dy => box(3.0, 0.52, 0.12, MAT.darkWood, 14.5, dy, -9.46, upperFloorGroup, "up_east"));
+    // White Slipcovered Loveseat + Ottoman + Framed Mirror on West wall (C6 left!)
+    box(2.6, 1.5, 5.2, MAT.couchWhite, 7.1, 1.25, -6.5, upperFloorGroup, "up_east");
+    box(0.55, 1.5, 5.2, MAT.couchWhite, 6.1, 2.15, -6.5, upperFloorGroup, "up_east");
+    box(2.6, 1.2, 0.5, MAT.couchWhite, 7.1, 1.8, -9.0, upperFloorGroup, "up_east");
+    box(2.6, 1.2, 0.5, MAT.couchWhite, 7.1, 1.8, -4.0, upperFloorGroup, "up_east");
+    box(2.0, 1.1, 2.2, MAT.couchWhite, 10.2, 1.05, -6.5, upperFloorGroup, "up_east");
+    box(0.45, 0.85, 1.2, MAT.granite, 6.65, 2.15, -6.5, upperFloorGroup, "up_east"); // Throw pillow on white loveseat (C6!)
+    box(0.18, 2.3, 3.3, MAT.knottyPine, 5.72, 4.8, -6.5, walkUpperEnclosureGroup, null, false);
+    box(0.14, 1.9, 2.9, MAT.mirror, 5.76, 4.8, -6.5, walkUpperEnclosureGroup, null, false);
 
-    box(1.6, 3.8, 4.4, MAT.logBeam, -6.6, 2.4, -9.0, upperFloorGroup, "up_west");
-    box(5.2, 1.5, 2.6, MAT.couchWhite, 10.4, 1.25, 8.6, upperFloorGroup, "up_east");
-    box(5.2, 1.4, 0.55, MAT.couchWhite, 10.4, 2.1, 9.6, upperFloorGroup, "up_east");
-    box(2.3, 1.05, 2.0, MAT.couchWhite, 10.4, 1.0, 5.6, upperFloorGroup, "up_east");
-    box(3.4, 2.8, 1.6, MAT.darkWood, 16.4, 1.9, 10.4, upperFloorGroup, "up_east");
-    box(1.8, 1.6, 1.6, MAT.darkWood, 13.4, 1.3, -9.2, upperFloorGroup, "up_east");
-    box(3.2, 2.5, 1.5, MAT.darkWood, -8.4, 1.75, 10.4, upperFloorGroup, "up_west");
-    box(2.4, 1.5, 0.14, MAT.iron, -8.4, 3.6, 10.4, upperFloorGroup, "up_west");
-
-    box(1.9, 2.7, 5.6, MAT.darkWood, -4.3, 1.85, -2.2, upperFloorGroup, "up_bath");
-    box(2.0, 0.16, 5.8, MAT.iron, -4.3, 3.25, -2.2, upperFloorGroup, "up_bath");
-    [-3.6, -0.8].forEach(sz => {
+    // Upstairs Bathroom & Laundry: Full-Height Slate Shower + Glass Block Window + Full 6.7ft Tall Stacked W/D + 2 Oval Mirrors (B8-B11)!
+    box(1.9, 2.7, 5.4, MAT.logBeam, -3.4, 1.85, -5.8, upperFloorGroup, "up_bath");
+    box(2.0, 0.16, 5.6, MAT.iron, -3.4, 3.25, -5.8, upperFloorGroup, "up_bath");
+    [-7.1, -4.5].forEach(sz => {
       const vSink = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.52, 0.38, 18), MAT.whiteAppliance);
-      vSink.position.set(-4.2, 3.5, sz);
+      vSink.position.set(-3.3, 3.5, sz);
       upperFloorGroup.add(vSink);
+      const ovMirror = new THREE.Mesh(new THREE.CylinderGeometry(1.05, 1.05, 0.08, 20), MAT.mirror);
+      ovMirror.rotation.z = Math.PI / 2;
+      ovMirror.scale.set(1.25, 1, 0.85);
+      ovMirror.position.set(-4.26, 5.3, sz);
+      walkUpperEnclosureGroup.add(ovMirror);
     });
-    box(5.0, 0.22, 4.4, MAT.slate, 0.0, 0.62, -9.2, upperFloorGroup, "up_bath");
-    box(5.0, 3.9, 0.14, MAT.glass, 0.0, 2.45, -7.0, upperFloorGroup, "up_bath");
-    box(0.14, 3.9, 4.4, MAT.glass, -2.5, 2.45, -9.2, upperFloorGroup, "up_bath");
-    box(2.7, 3.9, 2.6, MAT.whiteAppliance, 3.9, 2.45, -9.8, upperFloorGroup, "up_bath");
-    [1.55, 3.45].forEach(wy => {
-      const drum = new THREE.Mesh(new THREE.CylinderGeometry(0.68, 0.68, 0.12, 18), MAT.iron);
-      drum.rotation.x = Math.PI / 2;
-      drum.position.set(3.9, wy, -8.46);
-      upperFloorGroup.add(drum);
-    });
-    box(1.6, 2.0, 2.0, MAT.whiteAppliance, 4.0, 1.5, -2.2, upperFloorGroup, "up_bath");
+    // Full-Height Slate Tile Walk-In Shower Enclosure + Frosted Glass-Block Window (B8, B10, B11!)
+    box(4.6, 0.22, 3.8, MAT.slate, -0.8, 0.62, -9.7, upperFloorGroup, "up_bath");
+    box(4.6, 8.2, 0.22, MAT.slate, -0.8, 4.6, -11.45, walkUpperEnclosureGroup, null, false); // Back slate shower wall!
+    box(0.22, 8.2, 3.8, MAT.slate, -3.0, 4.6, -9.7, walkUpperEnclosureGroup, null, false);  // Left slate shower wall!
+    box(0.22, 8.2, 3.8, MAT.slate, 1.45, 4.6, -9.7, walkUpperEnclosureGroup, null, false);  // Right slate shower wall!
+    box(2.8, 1.3, 0.35, MAT.glassBlock, -0.8, 5.5, -11.42, walkUpperEnclosureGroup, null, false); // Frosted glass-block window!
+    box(4.4, 7.6, 0.12, MAT.glass, -0.8, 4.3, -7.85, walkUpperEnclosureGroup, null, false);
+    box(4.4, 3.8, 0.12, MAT.glass, -0.8, 2.4, -7.85, upperFloorGroup, "up_bath");
+    // Full-Height (6.7 ft!) White Stacked Front-Load Washer & Dryer right next to Slate Shower (B8 right!)
+    box(2.8, 3.3, 2.7, MAT.whiteAppliance, 3.2, 2.15, -10.0, upperFloorGroup, "up_bath"); // Lower Washer
+    box(2.8, 3.3, 2.7, MAT.whiteAppliance, 3.2, 5.50, -10.0, walkUpperEnclosureGroup, null, false); // Upper Dryer!
+    box(2.82, 0.08, 2.72, MAT.iron, 3.2, 3.82, -10.0, walkUpperEnclosureGroup, null, false); // Divider seam
+    const wDrum1 = new THREE.Mesh(new THREE.CylinderGeometry(0.82, 0.82, 0.14, 20), MAT.iron);
+    wDrum1.rotation.x = Math.PI / 2; wDrum1.position.set(3.2, 2.05, -8.62); upperFloorGroup.add(wDrum1);
+    const wDrum2 = wDrum1.clone();
+    wDrum2.position.set(3.2, 5.45, -8.62); walkUpperEnclosureGroup.add(wDrum2);
+    box(1.6, 2.0, 2.0, MAT.whiteAppliance, 4.1, 1.5, -5.0, upperFloorGroup, "up_bath");
 
-    // ==================== 4. ALL 6 REALISTIC BEDS ====================
+    // ==================== 4. ALL 6 BEDS ====================
     BEDS.forEach(b => {
       const parent = b.level === 1 ? mainFloorGroup : upperFloorGroup;
       const localY = b.level === 1 ? b.pos[1] : (b.pos[1] - 9.8);
       createDetailedBed(b, parent, localY);
     });
 
-    // ==================== 5. GREEN STANDING-SEAM ROOF & 3 SHED DORMERS ====================
+    // ==================== 5. AUTHENTIC EXTERIOR GREEN ROOF & 3 LOG SHED DORMERS (A1, A2, A3) ====================
     const roofShape = new THREE.Shape();
     roofShape.moveTo(0, 10.6);
     roofShape.lineTo(-15.2, 0);
@@ -1724,61 +1755,70 @@
     const mainRoofMesh = new THREE.Mesh(gableExtrude, MAT.greenRoof);
     mainRoofMesh.castShadow = true;
     roofGroup.add(mainRoofMesh);
+    // Log gable end triangles under roof slopes (A1, A4!)
+    const gableWallGeo = new THREE.ExtrudeGeometry(roofShape, { depth: 0.55, bevelEnabled: false });
+    gableWallGeo.rotateY(Math.PI / 2);
+    const westGableTop = new THREE.Mesh(gableWallGeo, MAT.logWall);
+    westGableTop.position.set(-22.0, 9.6, 0);
+    roofGroup.add(westGableTop);
+    const eastGableTop = westGableTop.clone();
+    eastGableTop.position.set(21.45, 9.6, 0);
+    roofGroup.add(eastGableTop);
 
     const porchRoof = new THREE.Mesh(new THREE.BoxGeometry(45.4, 0.42, 8.4), MAT.greenRoof);
     porchRoof.position.set(0, 10.1, 17.6);
     porchRoof.rotation.x = 0.22;
     roofGroup.add(porchRoof);
 
-    [-13.5, 0, 13.5].forEach(dx => {
-      box(7.8, 4.2, 5.5, MAT.logWall, dx, 14.6, 7.2, roofGroup);
-      const dRoof = new THREE.Mesh(new THREE.BoxGeometry(8.4, 0.35, 6.4), MAT.greenRoof);
-      dRoof.position.set(dx, 16.9, 7.2);
-      dRoof.rotation.x = 0.18;
+    // 3 Crisp Front Log Shed Dormers with Dark Window Glass (exact match to Photo A2!)
+    [-13.0, 0, 13.0].forEach(dx => {
+      box(7.8, 3.8, 6.2, MAT.logWall, dx, 15.2, 6.8, roofGroup);
+      const dRoof = new THREE.Mesh(new THREE.BoxGeometry(8.6, 0.36, 7.2), MAT.greenRoof);
+      dRoof.position.set(dx, 17.3, 6.8);
+      dRoof.rotation.x = 0.16;
       roofGroup.add(dRoof);
-      addWindow(2.2, 1.4, dx - 1.6, 14.6, 10.0, 0, roofGroup);
-      addWindow(2.2, 1.4, dx + 1.6, 14.6, 10.0, 0, roofGroup);
-    });
-    [-13.5, 13.5].forEach(dx => {
-      box(9.6, 4.4, 5.5, MAT.logWall, dx, 14.6, -7.2, roofGroup);
-      const dRoof = new THREE.Mesh(new THREE.BoxGeometry(10.2, 0.35, 6.4), MAT.greenRoof);
-      dRoof.position.set(dx, 16.9, -7.2);
-      dRoof.rotation.x = -0.18;
-      roofGroup.add(dRoof);
+      [-1.6, 1.6].forEach(wx => {
+        box(2.3, 1.45, 0.22, MAT.knottyPine, dx + wx, 15.3, 9.92, roofGroup, null, false);
+        box(1.9, 1.05, 0.26, MAT.iron, dx + wx, 15.3, 9.94, roofGroup, null, false);
+      });
     });
 
-    // ==================== 6. CONTROLLERS (ORBIT + PINCH + FPV WALK) ====================
+    // ==================== 6. CONTROLLERS & L-SHAPED STAIRCASE PHYSICS ====================
     const camCtrl = {
       target: new THREE.Vector3(0, 10, 2),
       goalTarget: new THREE.Vector3(0, 10, 2),
-      theta: 0.34, phi: 0.96, radius: 82,
-      goalTheta: 0.34, goalPhi: 0.96, goalRadius: 82,
+      theta: 0.34, phi: 0.96, radius: 80,
+      goalTheta: 0.34, goalPhi: 0.96, goalRadius: 80,
       dragging: false, panning: false,
       lastX: 0, lastY: 0, downX: 0, downY: 0
     };
 
     const fpv = {
-      x: 5.5, z: 27.5, y: 0.2, goalY: 0.2,
+      x: 6.5, z: 27.5, y: 0.2, goalY: 0.2,
       floor: 1, yaw: 0, pitch: 0.02, eyeHeight: 5.05,
       currentRoom: "porch"
     };
 
     const SPAWNS = {
-      front_yard:    { x: 5.5,   z: 28.0, floor: 1, yaw: 0.0,   pitch: 0.04 },
-      entry:         { x: 5.5,   z: 11.2, floor: 1, yaw: 0.25,  pitch: -0.02 },
-      dining:        { x: 11.0,  z: 8.5,  floor: 1, yaw: -0.45, pitch: -0.04 },
-      living:        { x: -8.5,  z: 7.5,  floor: 1, yaw: 0.55,  pitch: -0.04 },
-      down_bed:      { x: -3.2,  z: -3.5, floor: 1, yaw: 0.35,  pitch: -0.05 },
-      stairs_bottom: { x: 4.8,   z: 11.4, floor: 1, yaw: Math.PI / 2, pitch: 0.08 },
-      up_hall:       { x: -2.8,  z: 7.8,  floor: 2, yaw: -0.55, pitch: -0.04 },
-      up_west:       { x: -7.5,  z: 5.5,  floor: 2, yaw: 0.65,  pitch: -0.05 },
-      up_east:       { x: 7.5,   z: 5.5,  floor: 2, yaw: -2.2,  pitch: -0.05 },
-      up_bath:       { x: 0.0,   z: 0.8,  floor: 2, yaw: 0.0,   pitch: -0.06 },
-      patio:         { x: -27.5, z: -7.5, floor: 1, yaw: -0.25, pitch: -0.02 },
+      front_yard:    { x: 6.5,   z: 28.0, floor: 1, yaw: 0.0,   pitch: 0.04 },
+      entry:         { x: 6.5,   z: 11.2, floor: 1, yaw: 0.35,  pitch: -0.02 },
+      dining:        { x: 9.5,   z: 6.2,  floor: 1, yaw: -1.52, pitch: -0.04 },
+      kitchen:       { x: 15.5,  z: 1.5,  floor: 1, yaw: 0.12,  pitch: -0.04 },
+      living:        { x: -15.0, z: -8.5, floor: 1, yaw: -3.05, pitch: -0.03 },
+      game:          { x: -16.8, z: 4.0,  floor: 1, yaw: 3.0,   pitch: -0.03 },
+      down_bed:      { x: -4.2,  z: 0.8,  floor: 1, yaw: 0.08,  pitch: -0.05 },
+      down_bath:     { x: 5.2,   z: -3.2, floor: 1, yaw: 0.15,  pitch: -0.06 },
+      stairs_bottom: { x: 2.6,   z: 10.8, floor: 1, yaw: 0.0,   pitch: 0.12 },
+      up_hall:       { x: 0.0,   z: 0.0,  floor: 2, yaw: 1.57,  pitch: -0.04 },
+      up_west:       { x: -8.0,  z: 2.5,  floor: 2, yaw: 0.72,  pitch: -0.04 },
+      up_east:       { x: 7.5,   z: 1.5,  floor: 2, yaw: -1.38, pitch: -0.05 },
+      up_bath:       { x: -0.8,  z: -3.6, floor: 2, yaw: -0.25, pitch: -0.06 },
+      patio:         { x: -30.5, z: -3.5, floor: 1, yaw: -1.25, pitch: 0.02 },
       garage:        { x: -36.0, z: 25.0, floor: 1, yaw: 0.0,   pitch: -0.04 }
     };
 
     function spawnFPV(key) {
+      testCamOverride = null;
       const s = SPAWNS[key] || SPAWNS.front_yard;
       fpv.x = s.x; fpv.z = s.z; fpv.floor = s.floor;
       fpv.yaw = s.yaw; fpv.pitch = s.pitch;
@@ -1786,8 +1826,25 @@
       detectFPVRoom();
     }
 
+    window.__setTestCam = (x, y, z, lx, ly, lz, fov = 68, isIndoors = true) => {
+      appMode = "explore";
+      mainFloorGroup.visible = true;
+      upperFloorGroup.visible = isIndoors;
+      upperFloorGroup.position.y = upperGoalY = 9.8;
+      mainTallWallsGroup.visible = true;
+      walkMainEnclosureGroup.visible = isIndoors;
+      walkUpperEnclosureGroup.visible = isIndoors;
+      upperExteriorCutawayGroup.visible = isIndoors;
+      roofGroup.visible = !isIndoors;
+      explodedGuidesGroup.visible = false;
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+      testCamOverride = { x, y, z, lx, ly, lz, isIndoors };
+    };
+    window.__clearTestCam = () => { testCamOverride = null; };
+
     function resolveFPVCollisions(nx, nz, level) {
-      const r = 0.78;
+      const r = 0.76;
       let px = nx, pz = nz;
       for (let pass = 0; pass < 2; pass++) {
         for (let i = 0; i < COLLIDERS.length; i++) {
@@ -1822,41 +1879,44 @@
 
       if (moveFwd !== 0 || moveStrafe !== 0) {
         const len = Math.hypot(moveFwd, moveStrafe) || 1;
-        const spd = 4.5 * dt; // Calm ~3 mph indoor walking speed across both 60Hz & 120Hz screens
+        const spd = 4.5 * dt;
         const fx = -Math.sin(fpv.yaw), fz = -Math.cos(fpv.yaw);
         const rx = Math.cos(fpv.yaw), rz = -Math.sin(fpv.yaw);
         let nx = fpv.x + (fx * (moveFwd / len) + rx * (moveStrafe / len)) * spd;
         let nz = fpv.z + (fz * (moveFwd / len) + rz * (moveStrafe / len)) * spd;
 
-        const inStairLane = (nz >= 9.55 && nz <= 13.55 && nx >= -4.2 && nx <= 4.6);
-        if (inStairLane) {
-          if (fpv.floor === 1 && nx < -1.5) fpv.floor = 2;
-          else if (fpv.floor === 2 && nx > -1.3) fpv.floor = 1;
+        const inNorthStair = (nx >= 1.05 && nx <= 4.12 && nz >= 1.2 && nz <= 12.6);
+        if (inNorthStair) {
+          if (fpv.floor === 1 && nz < 2.2) fpv.floor = 2;
+          else if (fpv.floor === 2 && nz > 2.4) fpv.floor = 1;
         }
 
-        if (fpv.floor === 1 && !barnDoorOpen && Math.abs(nz - 0.5) < 2.5 && nx < -13.2 && nx > -18.8) {
+        if (fpv.floor === 1 && !barnDoorOpen && Math.abs(nz - 2.5) < 2.5 && nx < -15.5 && nx > -21.0) {
           setBarnDoor(true);
         }
 
         [fpv.x, fpv.z] = resolveFPVCollisions(nx, nz, fpv.floor);
       }
 
-      const inStairs = (fpv.z >= 9.55 && fpv.z <= 13.55 && fpv.x >= -1.8 && fpv.x <= 4.0);
-      if (inStairs && (fpv.floor === 1 || fpv.x > -1.6)) {
-        const prog = Math.max(0, Math.min(1, (3.8 - fpv.x) / 5.4));
-        fpv.goalY = 0.65 + prog * (9.85 - 0.65);
+      if (fpv.x >= 1.05 && fpv.x <= 4.15 && fpv.z >= 1.6 && fpv.z <= 9.6 && (fpv.floor === 1 || fpv.z > 2.0)) {
+        const prog = Math.max(0, Math.min(1, (9.6 - fpv.z) / 7.8));
+        fpv.goalY = 2.5 + prog * (9.85 - 2.5);
+      } else if (fpv.floor === 1 && fpv.x >= 1.05 && fpv.x <= 4.15 && fpv.z > 9.6 && fpv.z <= 12.7) {
+        fpv.goalY = 2.5;
+      } else if (fpv.floor === 1 && fpv.x >= -1.8 && fpv.x < 1.05 && fpv.z >= 9.6 && fpv.z <= 12.7) {
+        const lProg = Math.max(0, Math.min(1, (fpv.x - (-1.8)) / 2.85));
+        fpv.goalY = 0.65 + lProg * (2.5 - 0.65);
       } else if (fpv.floor === 2) {
         fpv.goalY = 9.85;
       } else if (fpv.x >= -22 && fpv.x <= 22 && fpv.z >= -14 && fpv.z <= 21.0) {
         fpv.goalY = 0.65;
-      } else if (fpv.x >= 2.0 && fpv.x <= 9.0 && fpv.z > 21.0 && fpv.z <= 24.2) {
+      } else if (fpv.x >= 3.0 && fpv.x <= 10.0 && fpv.z > 21.0 && fpv.z <= 24.2) {
         const stepProg = 1 - (fpv.z - 21.0) / 3.2;
         fpv.goalY = 0.2 + stepProg * 0.45;
       } else {
         fpv.goalY = 0.2;
       }
-      const smoothY = 1 - Math.exp(-10 * dt);
-      fpv.y += (fpv.goalY - fpv.y) * smoothY;
+      fpv.y += (fpv.goalY - fpv.y) * (1 - Math.exp(-10 * dt));
       detectFPVRoom();
     }
 
@@ -1864,18 +1924,19 @@
       let rId = "porch";
       const x = fpv.x, z = fpv.z;
       if (fpv.floor === 2 && fpv.y > 6.5) {
-        if (x < -5.5) rId = "up_west";
+        if (x < -5.5 && x > -10.3 && z < -5.5) rId = "up_closet";
+        else if (x < -5.5) rId = "up_west";
         else if (x > 5.5) rId = "up_east";
-        else if (z < 2.8) rId = "up_bath";
+        else if (z < -2.5) rId = "up_bath";
         else rId = "up_hall";
       } else {
         if (x >= -22 && x <= 22 && z >= -14 && z <= 13.8) {
-          if (x >= 8.0) rId = z >= 0 ? "dining" : "kitchen";
-          else if (z >= 0.5) rId = x >= -3.5 ? "entry" : "living";
-          else if (x >= 0.5) rId = "down_bath";
-          else if (x >= -13.5) rId = "down_bed";
-          else rId = "game";
-        } else if (x < -22 && z < 9) {
+          if (x >= 8.5) rId = z >= -0.8 ? "dining" : "kitchen";
+          else if (x >= 1.0) rId = z >= -1.5 ? "entry" : "down_bath";
+          else if (x >= -9.0 && z < 2.5) rId = "down_bed";
+          else if (x < -9.0 && z >= 2.5) rId = "game";
+          else rId = "living";
+        } else if (x < -22 && z < 10) {
           rId = "patio";
         } else if (x < -26 && z >= 10) {
           rId = "garage";
@@ -1920,12 +1981,12 @@
       btn.addEventListener("pointercancel", () => keysDown.delete(code));
     });
 
-    // Multi-touch (1-finger orbit/look + 2-finger pinch-zoom & pan) + Mouse controller
     const activePointers = new Map();
     let lastPinchDist = 0, lastMidX = 0, lastMidY = 0;
 
     canvas.addEventListener("contextmenu", e => e.preventDefault());
     canvas.addEventListener("pointerdown", e => {
+      testCamOverride = null;
       if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
       viewport.focus({ preventScroll: true });
       canvas.setPointerCapture(e.pointerId);
@@ -1952,10 +2013,7 @@
         const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
         const midX = (pts[0].x + pts[1].x) * 0.5;
         const midY = (pts[0].y + pts[1].y) * 0.5;
-
-        if (lastPinchDist > 0) {
-          camCtrl.goalRadius = Math.max(22, Math.min(150, camCtrl.goalRadius + (lastPinchDist - dist) * 0.24));
-        }
+        if (lastPinchDist > 0) camCtrl.goalRadius = Math.max(22, Math.min(150, camCtrl.goalRadius + (lastPinchDist - dist) * 0.24));
         const dx = midX - lastMidX, dy = midY - lastMidY;
         const panScale = camCtrl.radius * 0.0018;
         const right = new THREE.Vector3();
@@ -1964,7 +2022,6 @@
         const forward = new THREE.Vector3(-right.z, 0, right.x);
         camCtrl.goalTarget.addScaledVector(right, -dx * panScale);
         camCtrl.goalTarget.addScaledVector(forward, dy * panScale);
-
         lastPinchDist = dist; lastMidX = midX; lastMidY = midY;
         return;
       }
@@ -2037,19 +2094,18 @@
       }
     }
 
-    // ==================== 7. DUAL MODES & MOBILE BOTTOM SHEET ====================
+    // ==================== 7. DUAL MODES & VIEW SWITCHING ====================
     let upperGoalY = 21.0;
-    let barnGoalX = -10.8;
+    let barnGoalX = -13.4;
 
     const VIEW_INFO = {
       both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  upperY: 21.0, cam: { theta: 0.34, phi: 0.96, radius: 80, target: [0, 10.5, 2] } },
       downstairs: { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.32, phi: 0.80, radius: 58, target: [0, 2.5, 1] } },
       upstairs:   { mainVis: true, upperVis: true,  roofVis: false, tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.30, phi: 0.78, radius: 54, target: [0, 11.2, 0] } },
-      outside:    { mainVis: true, upperVis: true,  roofVis: true,  tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.42, phi: 1.12, radius: 84, target: [-2, 6, 8] } },
+      outside:    { mainVis: true, upperVis: false, roofVis: true,  tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.42, phi: 1.12, radius: 84, target: [-2, 6, 8] } },
       top:        { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.0,  phi: 0.14, radius: 70, target: [0, 1.5, 1] } }
     };
 
-    // Mobile Sheet Expand / Collapse
     const workspaceEl = document.getElementById("workspace");
     const sheetBtn = document.getElementById("btn-sheet-toggle");
     function setSheetCollapsed(collapsed) {
@@ -2058,11 +2114,10 @@
       setTimeout(resize, 50);
       setTimeout(resize, 220);
     }
-    sheetBtn.addEventListener("click", () => {
-      setSheetCollapsed(!workspaceEl.classList.contains("sheet-collapsed"));
-    });
+    sheetBtn.addEventListener("click", () => setSheetCollapsed(!workspaceEl.classList.contains("sheet-collapsed")));
 
     function setAppMode(mode) {
+      testCamOverride = null;
       appMode = mode;
       const isWalk = mode === "explore";
       document.getElementById("mode-planning").classList.toggle("active", !isWalk);
@@ -2075,26 +2130,31 @@
       document.getElementById("tab-btn-jump").classList.toggle("hidden", !isWalk);
 
       if (isWalk) {
-        camera.fov = window.innerWidth < 700 ? 72 : 62;
+        camera.fov = window.innerWidth < 700 ? 72 : 64;
         camera.updateProjectionMatrix();
+        barnDoorGroup.scale.y = 1.0;
+        barnDoorGroup.position.y = 3.7;
         mainFloorGroup.visible = true;
         upperFloorGroup.visible = true;
         upperFloorGroup.position.y = upperGoalY = 9.8;
         mainTallWallsGroup.visible = true;
         walkMainEnclosureGroup.visible = true;
         walkUpperEnclosureGroup.visible = true;
+        upperExteriorCutawayGroup.visible = true;
         roofGroup.visible = true;
         explodedGuidesGroup.visible = false;
         document.getElementById("hud-controls-text").innerHTML = "<strong>Walk:</strong> ↑/↓ or W/S • <strong>Turn:</strong> ←/→ or Drag";
-        // On phone, automatically give full-screen 3D room when entering Walk Mode!
         if (window.innerWidth <= 820) setSheetCollapsed(true);
         detectFPVRoom();
         viewport.focus({ preventScroll: true });
       } else {
         camera.fov = 40;
         camera.updateProjectionMatrix();
+        barnDoorGroup.scale.y = 0.66;
+        barnDoorGroup.position.y = 2.65;
         walkMainEnclosureGroup.visible = false;
         walkUpperEnclosureGroup.visible = false;
+        upperExteriorCutawayGroup.visible = true;
         document.getElementById("hud-controls-text").innerHTML = "<strong>Move:</strong> Arrows • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll";
         if (document.querySelector(".tab-btn.active")?.dataset.tab === "jump") switchTab("planner");
         setViewMode(currentView, true);
@@ -2121,6 +2181,7 @@
 
       mainFloorGroup.visible = cfg.mainVis;
       upperFloorGroup.visible = cfg.upperVis;
+      upperExteriorCutawayGroup.visible = !cfg.roofVis;
       roofGroup.visible = cfg.roofVis;
       mainTallWallsGroup.visible = cfg.tallVis;
       explodedGuidesGroup.visible = cfg.guidesVis;
@@ -2138,7 +2199,7 @@
 
     function setBarnDoor(open) {
       barnDoorOpen = open;
-      barnGoalX = barnDoorOpen ? -10.8 : -15.9;
+      barnGoalX = barnDoorOpen ? -13.4 : -18.4;
       document.getElementById("btn-barn-door").textContent = barnDoorOpen ? "Game Door: Open" : "Game Door: Closed";
     }
     document.getElementById("btn-barn-door").addEventListener("click", () => setBarnDoor(!barnDoorOpen));
@@ -2181,6 +2242,7 @@
     });
 
     function shouldShowAreaLevel(level, roomId) {
+      if (testCamOverride) return false;
       if (appMode === "explore") return roomId === fpv.currentRoom;
       if (selectedRoomId) return roomId === selectedRoomId;
       if (currentView === "downstairs" || currentView === "top") return level === 1;
@@ -2190,14 +2252,17 @@
     }
 
     function updateLabels3D() {
-      if (!showLabels) return;
+      if (!showLabels || testCamOverride) {
+        labelNodes.forEach(n => { n.el.style.display = "none"; });
+        bedPinNodes.forEach(n => { n.el.style.display = "none"; });
+        return;
+      }
       const w = viewport.clientWidth;
       const h = viewport.clientHeight;
       const isNarrow = w < 540;
       const v = new THREE.Vector3();
       const placed = [];
 
-      // Place Bed Pins FIRST (highest priority!)
       bedPinNodes.forEach(({ el, bed }) => {
         if (appMode === "planning" && currentView === "outside") { el.style.display = "none"; return; }
         if (!shouldShowAreaLevel(bed.level, bed.room)) { el.style.display = "none"; return; }
@@ -2205,7 +2270,7 @@
         if (appMode === "planning" && st.group === "open" && bed.id === "fold_up" && !selectedRoomId) {
           el.style.display = "none"; return;
         }
-        const stagger = appMode === "explore" ? 0 : (bed.id === "queen_e1" ? 1.6 : (bed.id === "nook_up" ? 1.2 : 0));
+        const stagger = appMode === "explore" ? 0 : (bed.id === "queen_e1" ? 1.4 : (bed.id === "nook_up" ? 1.1 : 0));
         const baseH = appMode === "explore" ? 2.6 : (bed.level === 1 ? 3.7 : 2.9);
         const yPos = (bed.level === 1 ? 0 : upperFloorGroup.position.y) + baseH + stagger;
         v.set(bed.pos[0], yPos, bed.pos[2]);
@@ -2213,12 +2278,9 @@
         if (v.z > 1 || v.x < -0.96 || v.x > 0.96 || v.y < -0.96 || v.y > 0.96) {
           el.style.display = "none"; return;
         }
-        const sx = (v.x * 0.5 + 0.5) * w;
-        const sy = (-v.y * 0.5 + 0.5) * h;
-        placed.push({ el, x: sx, y: sy, selected: bed.room === selectedRoomId });
+        placed.push({ el, x: (v.x * 0.5 + 0.5) * w, y: (-v.y * 0.5 + 0.5) * h, selected: bed.room === selectedRoomId });
       });
 
-      // Place Room Labels (on narrow phones in "Both Floors", hide secondary room labels so bed pins stay clutter-free!)
       labelNodes.forEach(({ el, room }) => {
         if (appMode === "explore") { el.style.display = "none"; return; }
         if (BEDROOM_IDS.has(room.id) && !selectedRoomId) { el.style.display = "none"; return; }
@@ -2232,15 +2294,12 @@
         if (v.z > 1 || v.x < -0.96 || v.x > 0.96 || v.y < -0.96 || v.y > 0.96) {
           el.style.display = "none"; return;
         }
-        const sx = (v.x * 0.5 + 0.5) * w;
-        const sy = (-v.y * 0.5 + 0.5) * h;
-        placed.push({ el, x: sx, y: sy, selected: room.id === selectedRoomId });
+        placed.push({ el, x: (v.x * 0.5 + 0.5) * w, y: (-v.y * 0.5 + 0.5) * h, selected: room.id === selectedRoomId });
       });
 
-      // Gentle 2D anti-overlap pass so labels never stack on top of each other on phone screens
-      const minX = isNarrow ? 82 : 96;
+      const minX = isNarrow ? 82 : 98;
       const minY = isNarrow ? 20 : 22;
-      for (let pass = 0; pass < 2; pass++) {
+      for (let pass = 0; pass < 3; pass++) {
         for (let i = 0; i < placed.length; i++) {
           for (let j = i + 1; j < placed.length; j++) {
             const a = placed[i], b = placed[j];
@@ -2261,20 +2320,16 @@
       });
     }
 
-    // ==================== 9. SIDEBAR, PHOTOS & TOUCH-SWIPE LIGHTBOX ====================
+    // ==================== 9. SIDEBAR, PHOTOS & LIGHTBOX ====================
     function switchTab(tabName) {
-      if (window.innerWidth <= 820 && workspaceEl.classList.contains("sheet-collapsed")) {
-        setSheetCollapsed(false);
-      }
+      if (window.innerWidth <= 820 && workspaceEl.classList.contains("sheet-collapsed")) setSheetCollapsed(false);
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tabName));
       ["planner", "inspector", "kids", "jump"].forEach(t => {
         const el = document.getElementById(`tab-${t}`);
         if (el) el.classList.toggle("hidden", t !== tabName);
       });
     }
-    document.querySelectorAll(".tab-btn").forEach(btn => {
-      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
-    });
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.addEventListener("click", () => switchTab(btn.dataset.tab)));
 
     const jumpList = document.getElementById("room-jump-list");
     Object.values(ROOMS).forEach(r => {
@@ -2284,7 +2339,7 @@
       btn.innerHTML = `<span><strong>${r.name}</strong> <span style="color:var(--cp-text-muted)">• ${r.floor}</span></span><span>→</span>`;
       btn.addEventListener("click", () => {
         if (appMode === "explore") {
-          const mapKey = r.id === "porch" ? "front_yard" : (SPAWNS[r.id] ? r.id : "entry");
+          const mapKey = r.id === "porch" ? "front_yard" : (SPAWNS[r.id] ? r.id : "up_hall");
           spawnFPV(mapKey);
           if (window.innerWidth <= 820) setSheetCollapsed(true);
         } else {
@@ -2325,9 +2380,7 @@
           thumbs.appendChild(t);
         });
       }
-      document.querySelectorAll("[data-jump-id]").forEach(b => {
-        b.classList.toggle("active", b.dataset.jumpId === roomId);
-      });
+      document.querySelectorAll("[data-jump-id]").forEach(b => b.classList.toggle("active", b.dataset.jumpId === roomId));
     }
 
     function selectRoom(roomId, openInspectorTab = false, focusCam = true) {
@@ -2347,7 +2400,6 @@
       }
     }
 
-    // Lightbox with Touch Swipe Left/Right
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lightbox-img");
     const lbTitle = document.getElementById("lb-title");
@@ -2380,7 +2432,6 @@
       if (Math.abs(diff) > 40) stepLightbox(diff < 0 ? 1 : -1);
     });
 
-    // Bed Planner + URL Hash Sharing
     try {
       const hashMatch = window.location.hash.match(/plan=([^&]+)/);
       if (hashMatch) {
@@ -2395,13 +2446,9 @@
     function encodePlanHash() {
       try {
         const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(bedState))));
-        if (window.location.protocol.startsWith("http")) {
-          history.replaceState(null, "", `#plan=${encodeURIComponent(b64)}`);
-        }
+        if (window.location.protocol.startsWith("http")) history.replaceState(null, "", `#plan=${encodeURIComponent(b64)}`);
         return `${window.location.href.split("#")[0]}#plan=${encodeURIComponent(b64)}`;
-      } catch (_) {
-        return window.location.href;
-      }
+      } catch (_) { return window.location.href; }
     }
 
     const bedListEl = document.getElementById("bed-list");
@@ -2498,9 +2545,7 @@
         const st = bedState[b.id];
         lines.push(`• ${b.roomName} — ${b.name}: ${st.note || "Free"}`);
       });
-      if (shareUrl.startsWith("http")) {
-        lines.push(`\nOpen 3D Cabin & Walk Inside: ${shareUrl}`);
-      }
+      if (shareUrl.startsWith("http")) lines.push(`\nOpen 3D Cabin & Walk Inside: ${shareUrl}`);
       try {
         await navigator.clipboard.writeText(lines.join("\n"));
         btn.textContent = "Copied Plan & Link!";
@@ -2546,10 +2591,17 @@
       flame.scale.y = 0.92 + Math.sin(t * 3.1) * 0.12;
       fireLight.intensity = 1.05 + Math.sin(t * 4.2) * 0.18;
 
-      if (appMode === "explore") {
+      if (testCamOverride) {
+        camera.position.set(testCamOverride.x, testCamOverride.y, testCamOverride.z);
+        camera.lookAt(testCamOverride.lx, testCamOverride.ly, testCamOverride.lz);
+      } else if (appMode === "explore") {
         updateFPVPhysics(dt);
         const isIndoors = Math.abs(fpv.x) < 21.5 && fpv.z > -13.6 && fpv.z < 13.6;
         roofGroup.visible = !isIndoors;
+        upperFloorGroup.visible = isIndoors;
+        walkMainEnclosureGroup.visible = isIndoors;
+        walkUpperEnclosureGroup.visible = isIndoors;
+        upperExteriorCutawayGroup.visible = isIndoors;
         const eyeY = fpv.y + fpv.eyeHeight;
         camera.position.set(fpv.x, eyeY, fpv.z);
         const lookDist = 10;
@@ -2577,7 +2629,6 @@
         upperFloorGroup.position.y += (upperGoalY - upperFloorGroup.position.y) * 0.12;
 
         const sinPhi = Math.sin(camCtrl.phi);
-        // True horizontal-FOV compensation so narrow portrait phone screens fit the entire cabin width cleanly!
         const aspectScale = camera.aspect < 1.15
           ? Math.min(2.15, 1.12 / Math.pow(Math.max(0.36, camera.aspect), 0.62))
           : 1.0;
