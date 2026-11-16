@@ -67,11 +67,13 @@
       --cp-highlight: rgba(253, 142, 161, 0.12);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     html, body {
       width: 100%;
+      max-width: 100vw;
       height: 100%;
       overflow: hidden;
+      overscroll-behavior: none;
       background: var(--cp-bg);
       color: var(--cp-text);
       font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
@@ -80,38 +82,43 @@
     }
 
     .app-layout {
-      display: grid;
-      grid-template-rows: auto 1fr;
-      width: 100vw;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      max-width: 100vw;
       height: 100vh;
       height: 100dvh;
+      overflow: hidden;
     }
 
-    /* Top Header Bar with Primary 2-Mode Switcher */
+    /* Top Header Bar */
     .topbar {
+      flex-shrink: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      padding: 8px 14px;
+      gap: 8px;
+      padding: 8px 12px;
       background: var(--cp-surface);
       border-bottom: 1px solid var(--cp-border);
       z-index: 20;
-      flex-wrap: wrap;
+      width: 100%;
+      min-width: 0;
     }
-    .left-bar {
+    .top-row-main {
       display: flex;
       align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      flex-shrink: 0;
     }
     .mode-switch {
       display: inline-flex;
       background: var(--cp-bg-elevated);
       border: 1px solid var(--cp-border-strong);
       border-radius: 0.625rem;
-      padding: 3px;
-      gap: 3px;
+      padding: 2px;
+      gap: 2px;
     }
     .mode-btn {
       appearance: none;
@@ -121,22 +128,33 @@
       font-family: inherit;
       font-size: 12px;
       font-weight: 700;
-      padding: 5px 12px;
+      padding: 5px 11px;
       border-radius: 7px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
     }
     .mode-btn.active {
       background: var(--cp-accent);
       color: var(--cp-accent-fg);
     }
 
+    .top-quick-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .view-controls {
       display: flex;
       align-items: center;
       gap: 6px;
-      flex-wrap: wrap;
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
+    .view-controls::-webkit-scrollbar { display: none; }
+
     .btn {
       appearance: none;
       border: 1px solid var(--cp-border);
@@ -148,8 +166,8 @@
       padding: 5px 10px;
       border-radius: 0.625rem;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .btn:hover {
       border-color: var(--cp-border-strong);
@@ -170,24 +188,24 @@
       color: var(--cp-accent-fg);
     }
 
+    /* Main Workspace (Desktop side-by-side, Mobile stacked w/ collapsible sheet) */
     .workspace {
+      flex: 1;
+      min-height: 0;
+      min-width: 0;
       display: grid;
-      grid-template-columns: 1fr 372px;
+      grid-template-columns: minmax(0, 1fr) 372px;
       position: relative;
       overflow: hidden;
-      height: 100%;
-    }
-    @media (max-width: 900px) {
-      .workspace {
-        grid-template-columns: 1fr;
-        grid-template-rows: 54vh 1fr;
-      }
+      width: 100%;
     }
 
     .viewport-wrap {
       position: relative;
       width: 100%;
       height: 100%;
+      min-width: 0;
+      min-height: 0;
       overflow: hidden;
       background: var(--cp-bg);
       outline: none;
@@ -199,35 +217,9 @@
       cursor: grab;
       touch-action: none;
     }
-    #webgl-canvas:active {
-      cursor: grabbing;
-    }
+    #webgl-canvas:active { cursor: grabbing; }
 
-    @media (max-width: 768px) {
-      .topbar { padding: 6px 10px; gap: 6px; }
-      .view-controls {
-        width: 100%;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 2px;
-        -webkit-overflow-scrolling: touch;
-      }
-      .workspace {
-        grid-template-columns: 1fr;
-        grid-template-rows: 48dvh 1fr;
-      }
-      .hud-bottom-left { display: none; }
-      .fpv-pad {
-        grid-template-columns: repeat(3, 42px);
-        grid-template-rows: repeat(2, 40px);
-        right: 10px;
-        bottom: 10px;
-      }
-      .pad-btn { font-size: 16px; touch-action: none; }
-      .assign-select, .guest-input { font-size: 16px; }
-    }
-
-    /* FPV Live Location Pill + Crosshair */
+    /* FPV Badge, Reticle & Thumb D-Pad */
     .fpv-badge {
       position: absolute;
       top: 10px;
@@ -235,17 +227,15 @@
       background: var(--cp-panel-strong);
       border: 1px solid var(--cp-border-strong);
       border-radius: 0.625rem;
-      padding: 6px 12px;
+      padding: 5px 10px;
       font-size: 12px;
       font-weight: 700;
       color: var(--cp-text);
       box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
       pointer-events: none;
+      max-width: calc(100% - 20px);
     }
-    .fpv-badge span {
-      color: var(--cp-accent);
-      margin-left: 6px;
-    }
+    .fpv-badge span { color: var(--cp-accent); margin-left: 5px; }
     .fpv-reticle {
       position: absolute;
       left: 50%;
@@ -259,15 +249,13 @@
       background: var(--cp-sheen);
       pointer-events: none;
     }
-
-    /* FPV On-Screen D-Pad for quick mouse/touch walking */
     .fpv-pad {
       position: absolute;
       right: 12px;
       bottom: 12px;
       display: grid;
-      grid-template-columns: repeat(3, 34px);
-      grid-template-rows: repeat(2, 32px);
+      grid-template-columns: repeat(3, 38px);
+      grid-template-rows: repeat(2, 36px);
       gap: 4px;
       z-index: 15;
     }
@@ -278,15 +266,17 @@
       color: var(--cp-text);
       border-radius: 8px;
       font-weight: 700;
-      font-size: 13px;
+      font-size: 15px;
       cursor: pointer;
       user-select: none;
+      touch-action: none;
     }
     .pad-btn:active {
       background: var(--cp-accent);
       color: var(--cp-accent-fg);
     }
 
+    /* Floating 3D Labels */
     #labels-layer {
       position: absolute;
       inset: 0;
@@ -360,7 +350,7 @@
       gap: 10px;
       align-items: center;
       flex-wrap: wrap;
-      max-width: calc(100% - 140px);
+      max-width: calc(100% - 150px);
     }
     .legend-dot {
       display: inline-block;
@@ -374,7 +364,10 @@
     .dot-fam2 { background: var(--cp-link); }
     .dot-kids { background: var(--cp-success); }
 
-    /* Sidebar */
+    /* Mobile-only Full-3D floating toggle button */
+    .mobile-sheet-toggle { display: none; }
+
+    /* Sidebar / Bottom Sheet */
     .sidebar {
       background: var(--cp-surface);
       border-left: 1px solid var(--cp-border);
@@ -382,16 +375,26 @@
       flex-direction: column;
       overflow: hidden;
       height: 100%;
+      min-height: 0;
+      min-width: 0;
     }
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+    .tabs-bar {
+      display: flex;
+      align-items: center;
       border-bottom: 1px solid var(--cp-border);
       background: var(--cp-bg-elevated);
-      padding: 6px;
+      padding: 5px 6px;
       gap: 4px;
+      flex-shrink: 0;
+    }
+    .tabs {
+      flex: 1;
+      display: flex;
+      gap: 4px;
+      min-width: 0;
     }
     .tab-btn {
+      flex: 1;
       appearance: none;
       border: 1px solid transparent;
       background: transparent;
@@ -399,9 +402,10 @@
       font-family: inherit;
       font-size: 12px;
       font-weight: 600;
-      padding: 6px 8px;
+      padding: 6px 6px;
       border-radius: 0.625rem;
       cursor: pointer;
+      white-space: nowrap;
     }
     .tab-btn.active {
       background: var(--cp-surface);
@@ -412,11 +416,13 @@
 
     .sidebar-body {
       flex: 1;
+      min-height: 0;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
     }
 
     .card {
@@ -433,11 +439,7 @@
       margin-bottom: 8px;
       gap: 8px;
     }
-    .card-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--cp-text);
-    }
+    .card-title { font-size: 13px; font-weight: 700; color: var(--cp-text); }
     .pill {
       font-size: 11px;
       font-weight: 600;
@@ -446,6 +448,7 @@
       background: var(--cp-accent-soft);
       color: var(--cp-accent);
       border: 1px solid var(--cp-border);
+      white-space: nowrap;
     }
 
     .teleport-grid {
@@ -466,6 +469,7 @@
       border-radius: 0.625rem;
       padding: 8px;
       font-size: 11px;
+      min-width: 0;
     }
     .roster-box.fam1-box { border-left: 3px solid var(--cp-accent); }
     .roster-box.fam2-box { border-left: 3px solid var(--cp-link); }
@@ -505,11 +509,12 @@
     .bed-item:hover { border-color: var(--cp-border-strong); }
     .bed-name { font-weight: 700; font-size: 12px; color: var(--cp-text); }
     .bed-room { font-size: 11px; color: var(--cp-text-muted); }
-    .bed-controls { display: flex; gap: 6px; align-items: center; }
+    .bed-controls { display: flex; gap: 6px; align-items: center; min-width: 0; }
     .assign-select {
       flex: 1;
-      padding: 4px 6px;
-      font-size: 11px;
+      min-width: 0;
+      padding: 5px 6px;
+      font-size: 12px;
       font-family: inherit;
       border-radius: 0.625rem;
       border: 1px solid var(--cp-border);
@@ -517,9 +522,10 @@
       color: var(--cp-text);
     }
     .guest-input {
-      width: 126px;
-      padding: 4px 6px;
-      font-size: 11px;
+      width: 128px;
+      min-width: 0;
+      padding: 5px 6px;
+      font-size: 12px;
       font-family: inherit;
       border-radius: 0.625rem;
       border: 1px solid var(--cp-border);
@@ -530,7 +536,7 @@
     .photo-stage { position: relative; margin-bottom: 8px; cursor: zoom-in; }
     .room-photo {
       width: 100%;
-      height: 180px;
+      height: 176px;
       object-fit: cover;
       border-radius: 0.625rem;
       border: 1px solid var(--cp-border);
@@ -595,7 +601,7 @@
     .tip-item p { color: var(--cp-text-muted); font-size: 11px; }
     .full-width-btn { width: 100%; text-align: center; }
 
-    /* Full-Screen Image Lightbox Modal */
+    /* Lightbox Modal */
     .lightbox {
       position: fixed;
       inset: 0;
@@ -604,74 +610,188 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 12px;
     }
     .lightbox-card {
       background: var(--cp-surface);
       border: 1px solid var(--cp-border-strong);
       border-radius: 16px;
       padding: 12px;
-      max-width: 94vw;
-      max-height: 92vh;
+      width: min(96vw, 960px);
+      max-height: 92dvh;
       display: flex;
       flex-direction: column;
       gap: 8px;
       box-shadow: var(--cp-shadow);
     }
-    .lightbox-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-    .lightbox-img-wrap { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .lightbox-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .lightbox-img-wrap { position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 1; min-height: 0; }
     #lightbox-img {
-      max-width: 88vw;
-      max-height: 76vh;
+      max-width: 100%;
+      max-height: 72dvh;
       object-fit: contain;
       border-radius: 0.625rem;
       display: block;
     }
     .lb-nav-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .hidden { display: none !important; }
+
+    /* ==================== MOBILE PHONE LAYOUT (PLACED LAST SO IT ALWAYS WINS!) ==================== */
+    @media (max-width: 820px) {
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 6px 8px;
+        gap: 6px;
+      }
+      .top-row-main {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .mode-btn {
+        font-size: 11.5px;
+        padding: 5px 9px;
+      }
+      .view-controls {
+        width: 100%;
+        padding-bottom: 1px;
+      }
+      .btn {
+        font-size: 11.5px;
+        padding: 5px 9px;
+      }
+
+      /* Mobile Split: 3D on top, collapsible bottom sheet below */
+      .workspace {
+        display: flex;
+        flex-direction: column;
+      }
+      .viewport-wrap {
+        flex: 1 1 auto;
+        min-height: 180px;
+      }
+      .sidebar {
+        flex: 0 0 46dvh;
+        height: 46dvh;
+        border-left: none;
+        border-top: 1px solid var(--cp-border-strong);
+        transition: flex-basis 0.2s ease, height 0.2s ease;
+      }
+      /* Collapsed sheet -> 3D takes nearly full phone screen! */
+      .workspace.sheet-collapsed .sidebar {
+        flex: 0 0 43px;
+        height: 43px;
+      }
+      .workspace.sheet-collapsed .sidebar-body {
+        display: none !important;
+      }
+
+      .mobile-sheet-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 8px;
+        font-size: 11px;
+        font-weight: 700;
+        border-radius: 0.625rem;
+        border: 1px solid var(--cp-border-strong);
+        background: var(--cp-surface);
+        color: var(--cp-text);
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .hud-bottom-left {
+        left: 8px;
+        bottom: 8px;
+        padding: 4px 8px;
+        font-size: 10px;
+        gap: 6px;
+        max-width: calc(100% - 16px);
+      }
+      .hud-controls-desktop { display: none; }
+
+      .pin-label {
+        font-size: 9.5px;
+        padding: 2px 5px;
+        border-radius: 6px;
+      }
+      .pin-label .pin-tag {
+        font-size: 9px;
+        padding: 0 4px;
+      }
+
+      .fpv-pad {
+        grid-template-columns: repeat(3, 44px);
+        grid-template-rows: repeat(2, 42px);
+        gap: 5px;
+        right: 10px;
+        bottom: 10px;
+      }
+      .pad-btn { font-size: 17px; }
+
+      .sidebar-body { padding: 10px; gap: 8px; }
+      .card { padding: 10px; border-radius: 12px; }
+      .bed-controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      /* 16px prevents iOS Safari auto-zoom on input focus */
+      .assign-select, .guest-input {
+        width: 100%;
+        font-size: 16px;
+        padding: 6px 8px;
+      }
+      .room-photo { height: 150px; }
+      .lb-hint-text { display: none; }
+    }
   </style>
 </head>
 <body>
   <div class="app-layout">
     <header class="topbar">
-      <div class="left-bar">
-        <div class="mode-switch" role="tablist" aria-label="App Mode">
-          <button class="mode-btn active" id="mode-planning">Planning Mode</button>
-          <button class="mode-btn" id="mode-explore">Exploration Mode (Walk)</button>
+      <div class="top-row-main">
+        <div class="mode-switch" role="tablist" aria-label="Mode">
+          <button class="mode-btn active" id="mode-planning">Planning</button>
+          <button class="mode-btn" id="mode-explore">Walk Inside</button>
+        </div>
+
+        <div class="top-quick-actions">
+          <button class="btn btn-outline-accent" id="btn-barn-door">Game Door: Open</button>
+          <button class="btn" id="btn-theme">Theme</button>
         </div>
       </div>
 
-      <!-- Controls shown in Planning Mode -->
+      <!-- Second scrollable strip of floor / spawn pills -->
       <div class="view-controls" id="planning-controls">
         <button class="btn active" data-view="both">Both Floors</button>
         <button class="btn" data-view="downstairs">Downstairs</button>
         <button class="btn" data-view="upstairs">Upstairs</button>
-        <button class="btn" data-view="outside">Outside &amp; Yard</button>
+        <button class="btn" data-view="outside">Outside</button>
         <button class="btn" data-view="top">Top View</button>
-        <button class="btn btn-outline-accent" id="btn-barn-door">Game Door: Open</button>
         <button class="btn" id="btn-labels">Labels: On</button>
-        <button class="btn" id="btn-theme">Theme</button>
       </div>
 
-      <!-- Controls shown in Exploration (FPV Walk) Mode -->
       <div class="view-controls hidden" id="explore-controls">
-        <button class="btn" data-spawn="front_yard">Start Outside</button>
+        <button class="btn" data-spawn="front_yard">Outside</button>
         <button class="btn" data-spawn="entry">Front Door</button>
-        <button class="btn" data-spawn="stairs_bottom">Walk Up Stairs</button>
-        <button class="btn" data-spawn="up_hall">Upstairs Hall</button>
-        <button class="btn btn-outline-accent" id="btn-barn-door-fpv">Game Door: Open</button>
-        <button class="btn" id="btn-theme-fpv">Theme</button>
+        <button class="btn" data-spawn="dining">Kitchen &amp; Dining</button>
+        <button class="btn" data-spawn="living">Living &amp; Game</button>
+        <button class="btn" data-spawn="stairs_bottom">Stairs</button>
+        <button class="btn" data-spawn="up_west">Upstairs West</button>
+        <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
+        <button class="btn" data-spawn="patio">Hot Tub</button>
       </div>
     </header>
 
-    <div class="workspace">
+    <div class="workspace" id="workspace">
       <div class="viewport-wrap" id="viewport" tabindex="0">
         <canvas id="webgl-canvas"></canvas>
         <div id="labels-layer"></div>
 
         <!-- FPV Overlays -->
         <div class="fpv-badge hidden" id="fpv-badge">
-          Walking In:<span id="fpv-loc-text">Front Porch</span>
+          In:<span id="fpv-loc-text">Front Porch</span>
         </div>
         <div class="fpv-reticle hidden" id="fpv-reticle"></div>
         <div class="fpv-pad hidden" id="fpv-pad">
@@ -684,48 +804,29 @@
         </div>
 
         <div class="hud-bottom-left" id="hud-help">
-          <span id="hud-controls-text"><strong>Move:</strong> Arrow Keys • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll</span>
+          <span class="hud-controls-desktop" id="hud-controls-text"><strong>Move:</strong> Arrows • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll</span>
           <span><i class="legend-dot dot-fam1"></i>Elad's Family</span>
           <span><i class="legend-dot dot-fam2"></i>Eitan's Family</span>
-          <span><i class="legend-dot dot-kids"></i>Kids Shared</span>
+          <span><i class="legend-dot dot-kids"></i>Kids</span>
         </div>
       </div>
 
-      <aside class="sidebar">
-        <!-- Quick Jump Card visible ONLY during Exploration Mode -->
-        <div style="padding: 12px 12px 0 12px;" class="hidden" id="fpv-sidebar-card">
-          <div class="card">
-            <div class="card-header">
-              <span class="card-title">First-Person Walk</span>
-              <span class="pill" id="fpv-floor-pill">Downstairs</span>
-            </div>
-            <p style="font-size:11px; color:var(--cp-text-muted); margin-bottom:8px;">
-              Use <strong>↑ / ↓</strong> (or <strong>W / S</strong>) to walk, <strong>← / →</strong> or <strong>drag</strong> to look around, and <strong>A / D</strong> to step sideways. Walk right up the log stairs to reach the 2nd floor—or jump straight to a spot:
-            </p>
-            <div class="teleport-grid">
-              <button class="btn" data-spawn="front_yard">Front Yard &amp; Fire Pit</button>
-              <button class="btn" data-spawn="dining">Dining &amp; Kitchen</button>
-              <button class="btn" data-spawn="living">Living &amp; Game Room</button>
-              <button class="btn" data-spawn="down_bed">Downstairs Bedroom</button>
-              <button class="btn" data-spawn="up_west">Upstairs West Room</button>
-              <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
-              <button class="btn" data-spawn="up_bath">Upstairs Bathroom</button>
-              <button class="btn" data-spawn="patio">Patio &amp; Hot Tub</button>
-            </div>
-          </div>
+      <aside class="sidebar" id="sidebar">
+        <div class="tabs-bar">
+          <nav class="tabs">
+            <button class="tab-btn active" data-tab="planner">Plan</button>
+            <button class="tab-btn" data-tab="inspector">Photos</button>
+            <button class="tab-btn" data-tab="kids">Kid Tips</button>
+            <button class="tab-btn hidden" data-tab="jump" id="tab-btn-jump">Jump</button>
+          </nav>
+          <button class="mobile-sheet-toggle" id="btn-sheet-toggle" title="Expand or collapse panel">Full 3D ▼</button>
         </div>
-
-        <nav class="tabs">
-          <button class="tab-btn active" data-tab="planner">Sleeping Plan</button>
-          <button class="tab-btn" data-tab="inspector">Room Photos</button>
-          <button class="tab-btn" data-tab="kids">Kid Tips</button>
-        </nav>
 
         <!-- TAB 1: SLEEPING PLAN -->
         <div class="sidebar-body" id="tab-planner">
           <div class="card">
             <div class="card-header">
-              <span class="card-title">Who's Coming (7 People)</span>
+              <span class="card-title">7 Guests</span>
               <span class="pill" id="assigned-pill">5 of 6 Beds Used</span>
             </div>
             <div class="roster-grid">
@@ -738,12 +839,12 @@
                 <span>Maya (3)</span>
               </div>
             </div>
-            <button class="btn btn-outline-accent full-width-btn" id="btn-copy-plan">Copy Plan Summary</button>
+            <button class="btn btn-outline-accent full-width-btn" id="btn-copy-plan">Copy Plan &amp; Share Link</button>
           </div>
 
           <div class="card">
             <div class="card-header">
-              <span class="card-title">3 Easy Ways to Arrange Everybody</span>
+              <span class="card-title">3 Easy Layouts</span>
             </div>
             <div class="preset-list">
               <button class="preset-btn active" data-preset="opt1">
@@ -763,7 +864,7 @@
 
           <div class="card">
             <div class="card-header">
-              <span class="card-title">All 6 Beds in the House</span>
+              <span class="card-title">All 6 Beds</span>
             </div>
             <datalist id="family-names">
               <option value="Elad &amp; Annie"></option>
@@ -786,9 +887,9 @@
               <span class="card-title" id="insp-title">Room</span>
               <span class="pill" id="insp-floor">Floor</span>
             </div>
-            <div class="photo-stage" id="photo-open-trigger" title="Click to view full size">
+            <div class="photo-stage" id="photo-open-trigger" title="Tap to view full size">
               <img id="insp-photo" class="room-photo" src="" alt="Room photo" />
-              <span class="zoom-hint">Click photo to enlarge</span>
+              <span class="zoom-hint">Tap to enlarge</span>
             </div>
             <div class="photo-thumbs" id="insp-thumbs"></div>
             <p id="insp-desc" style="font-size:12px; color:var(--cp-text); margin-bottom:8px;"></p>
@@ -797,7 +898,7 @@
 
           <div class="card">
             <div class="card-header">
-              <span class="card-title">Click a Room to Focus</span>
+              <span class="card-title">Tap a Room to Focus</span>
             </div>
             <div class="room-list-grid" id="room-jump-list"></div>
           </div>
@@ -807,25 +908,52 @@
         <div class="sidebar-body hidden" id="tab-kids">
           <div class="card">
             <div class="card-header">
-              <span class="card-title">Practical Notes for Galileo (4), Maya (3) &amp; Ada (2)</span>
+              <span class="card-title">Notes for Galileo (4), Maya (3) &amp; Ada (2)</span>
             </div>
             <div class="tip-list">
               <div class="tip-item">
-                <strong>No Cribs Needed — Low Kid Beds Upstairs</strong>
-                <p>Upstairs West Room has a King bed plus two low kid-friendly beds right across from it: a 3-wall enclosed <strong>Built-In Twin Bed</strong> (great for Galileo or Ada) and a low <strong>Fold-Out Twin Bed</strong>.</p>
+                <strong>Low Kid Beds Upstairs (No Cribs)</strong>
+                <p>Upstairs West Room has a King bed plus two low kid beds right across from it: a 3-wall enclosed <strong>Built-In Twin Bed</strong> and a low <strong>Fold-Out Twin Bed</strong>.</p>
               </div>
               <div class="tip-item">
                 <strong>Separate-Floor Afternoon Naps</strong>
-                <p>In Options 1 &amp; 2, the <strong>Downstairs Bedroom</strong> stays unassigned—so Ada (2) and Maya (3) can nap on different floors without waking each other up.</p>
+                <p>In Options 1 &amp; 2, the <strong>Downstairs Bedroom</strong> stays unassigned—so Ada (2) and Maya (3) can nap on different floors without waking each other.</p>
               </div>
               <div class="tip-item">
-                <strong>Bathtub Is Downstairs; Laundry Is Upstairs</strong>
-                <p><strong>Downstairs Bathroom</strong> has the bathtub for kid bath time. <strong>Upstairs Bathroom</strong> has 2 sinks, a large 2-head walk-in shower, and the washer &amp; dryer right outside the upstairs bedrooms.</p>
+                <strong>Bathtub Downstairs; Laundry Upstairs</strong>
+                <p><strong>Downstairs Bathroom</strong> has the bathtub for kid bath time. <strong>Upstairs Bathroom</strong> has 2 sinks, a 2-head walk-in shower, and the washer &amp; dryer right outside the upstairs bedrooms.</p>
               </div>
               <div class="tip-item">
                 <strong>Stair Gate &amp; Sliding Game Room Door</strong>
-                <p>The cabin includes a <strong>baby gate</strong> for the stairs, a <strong>high chair</strong> + kids' plates in the kitchen, a <strong>sliding barn door</strong> to close off the Foosball Game Room, and ping-pong out in the garage.</p>
+                <p>Includes a <strong>baby gate</strong> for the stairs, a <strong>high chair</strong> + kids' plates in the kitchen, a <strong>sliding barn door</strong> to close off the Foosball Game Room, and ping-pong in the garage.</p>
               </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: WALK TELEPORT SPOTS -->
+        <div class="sidebar-body hidden" id="tab-jump">
+          <div class="card">
+            <div class="card-header">
+              <span class="card-title">Jump to Spot</span>
+              <span class="pill" id="fpv-floor-pill">Downstairs</span>
+            </div>
+            <p style="font-size:11px; color:var(--cp-text-muted); margin-bottom:8px;">
+              Drag the 3D screen to look around and use the corner arrows (or keyboard arrows) to walk—including right up the log stairs:
+            </p>
+            <div class="teleport-grid">
+              <button class="btn" data-spawn="front_yard">Front Yard</button>
+              <button class="btn" data-spawn="entry">Front Door</button>
+              <button class="btn" data-spawn="dining">Dining &amp; Kitchen</button>
+              <button class="btn" data-spawn="living">Living &amp; Game</button>
+              <button class="btn" data-spawn="down_bed">Downstairs Bed</button>
+              <button class="btn" data-spawn="stairs_bottom">Bottom of Stairs</button>
+              <button class="btn" data-spawn="up_hall">Upstairs Hall</button>
+              <button class="btn" data-spawn="up_west">Upstairs West</button>
+              <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
+              <button class="btn" data-spawn="up_bath">Upstairs Bath</button>
+              <button class="btn" data-spawn="patio">Patio &amp; Hot Tub</button>
+              <button class="btn" data-spawn="garage">Garage</button>
             </div>
           </div>
         </div>
@@ -838,18 +966,18 @@
     <div class="lightbox-card">
       <div class="lightbox-top">
         <div>
-          <strong id="lb-title" style="font-size:14px;">Room Photo</strong>
-          <span id="lb-count" style="margin-left:8px; font-size:12px; color:var(--cp-text-muted);">1 / 1</span>
+          <strong id="lb-title" style="font-size:13.5px;">Room Photo</strong>
+          <span id="lb-count" style="margin-left:6px; font-size:12px; color:var(--cp-text-muted);">1 / 1</span>
         </div>
-        <button class="btn" id="lb-close">Close (Esc)</button>
+        <button class="btn" id="lb-close">Close</button>
       </div>
-      <div class="lightbox-img-wrap">
+      <div class="lightbox-img-wrap" id="lb-swipe-zone">
         <img id="lightbox-img" src="" alt="Enlarged room photo" />
       </div>
       <div class="lb-nav-row">
-        <button class="btn" id="lb-prev">← Previous Photo</button>
-        <span style="font-size:11px; color:var(--cp-text-muted);">Use Left / Right arrows to browse</span>
-        <button class="btn" id="lb-next">Next Photo →</button>
+        <button class="btn" id="lb-prev">← Prev</button>
+        <span class="lb-hint-text" style="font-size:11px; color:var(--cp-text-muted);">Swipe or use arrows</span>
+        <button class="btn" id="lb-next">Next →</button>
       </div>
     </div>
   </div>
@@ -865,7 +993,7 @@
 
   <script>
   (() => {
-    const PHOTO_BASE = "https://media.vrbo.com/lodging/134000000/133930000/133923800/133923719/";
+    const PHOTO_BASE = "https://media.vrbo.com/lodging/134000000/133930000/133930000/".includes("x") ? "" : "https://media.vrbo.com/lodging/134000000/133930000/133923800/133923719/";
     const pThumb = (id) => `${PHOTO_BASE}${id}?impolicy=resizecrop&rw=800&ra=fit`;
     const pLarge = (id) => `${PHOTO_BASE}${id}?impolicy=resizecrop&rw=1600&ra=fit`;
 
@@ -957,12 +1085,12 @@
     };
 
     const BEDS = [
-      { id: "king_up",  name: "King Bed",           short: "King Bed",      room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-15.2, 10.9, 6.8], size: [6.0, 1.4, 6.8], rotY: Math.PI },
-      { id: "nook_up",  name: "Built-In Twin Bed",  short: "Built-In Twin", room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-17.8, 10.7, -3.2], size: [3.5, 1.1, 6.2], rotY: Math.PI / 2 },
-      { id: "fold_up",  name: "Fold-Out Twin Bed",  short: "Fold-Out Twin", room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-11.8, 10.6, -2.8], size: [3.8, 1.0, 5.4], rotY: 0 },
+      { id: "king_up",  name: "King Bed",           short: "King",          room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-15.2, 10.9, 6.8], size: [6.0, 1.4, 6.8], rotY: Math.PI },
+      { id: "nook_up",  name: "Built-In Twin Bed",  short: "Twin Nook",     room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-17.8, 10.7, -3.2], size: [3.5, 1.1, 6.2], rotY: Math.PI / 2 },
+      { id: "fold_up",  name: "Fold-Out Twin Bed",  short: "Fold-Out",      room: "up_west",  roomName: "Upstairs West Bedroom",    level: 2, pos: [-11.8, 10.6, -2.8], size: [3.8, 1.0, 5.4], rotY: 0 },
       { id: "queen_e1", name: "Queen Bed 1",        short: "Queen 1",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [10.0, 10.9, -6.8], size: [5.1, 1.3, 6.5], rotY: 0 },
       { id: "queen_e2", name: "Queen Bed 2",        short: "Queen 2",       room: "up_east",  roomName: "Upstairs 2-Queen Bedroom", level: 2, pos: [16.8, 10.9, -6.8], size: [5.1, 1.3, 6.5], rotY: 0 },
-      { id: "queen_dn", name: "Downstairs Queen",   short: "Downstairs Bed",room: "down_bed", roomName: "Downstairs Bedroom",       level: 1, pos: [-6.8, 1.7, -9.5],  size: [5.1, 1.3, 6.5], rotY: 0 }
+      { id: "queen_dn", name: "Downstairs Queen",   short: "Downstairs",    room: "down_bed", roomName: "Downstairs Bedroom",       level: 1, pos: [-6.8, 1.7, -9.5],  size: [5.1, 1.3, 6.5], rotY: 0 }
     ];
 
     const PRESETS = {
@@ -992,7 +1120,7 @@
       }
     };
 
-    let appMode = "planning"; // "planning" | "explore"
+    let appMode = "planning";
     let bedState = JSON.parse(JSON.stringify(PRESETS.opt1));
     let currentView = "both";
     let barnDoorOpen = true;
@@ -1134,15 +1262,10 @@
     sunLight.shadow.bias = -0.0005;
     scene.add(sunLight);
 
-    // Warm interior ceiling lights so First-Person Walkthrough is bright & cozy inside!
     const interiorLights = new THREE.Group();
     [
-      [13, 8.6, 5, 0.65],   // Dining & Kitchen warm light
-      [-11, 8.6, 6, 0.65],  // Living Room warm light
-      [-7, 8.6, -7, 0.45],  // Downstairs Bedroom light
-      [-13, 17.5, 2, 0.65], // Upstairs West Bedroom light
-      [13, 17.5, 0, 0.65],  // Upstairs East 2-Queen light
-      [0, 17.5, -3, 0.50]   // Upstairs Hall & Bath light
+      [13, 8.6, 5, 0.65], [-11, 8.6, 6, 0.65], [-7, 8.6, -7, 0.45],
+      [-13, 17.5, 2, 0.65], [13, 17.5, 0, 0.65], [0, 17.5, -3, 0.50]
     ].forEach(([lx, ly, lz, intensity]) => {
       const pl = new THREE.PointLight(0xffe6c7, intensity, 32);
       pl.position.set(lx, ly, lz);
@@ -1191,9 +1314,9 @@
     const siteGroup = new THREE.Group();
     const mainFloorGroup = new THREE.Group();
     const mainTallWallsGroup = new THREE.Group();
-    const walkMainEnclosureGroup = new THREE.Group(); // Full-height interior walls & ceilings for Walk Mode!
+    const walkMainEnclosureGroup = new THREE.Group();
     const upperFloorGroup = new THREE.Group();
-    const walkUpperEnclosureGroup = new THREE.Group(); // Full-height upper walls & ceiling for Walk Mode!
+    const walkUpperEnclosureGroup = new THREE.Group();
     upperFloorGroup.add(walkUpperEnclosureGroup);
     const explodedGuidesGroup = new THREE.Group();
     const roofGroup = new THREE.Group();
@@ -1201,7 +1324,6 @@
 
     const pickables = [];
     const bedMeshes = {};
-    // 2D Wall Colliders for smooth First-Person Walking: { level: 1|2|0, x1, z1, x2, z2 }
     const COLLIDERS = [];
 
     function addCollider(level, x1, z1, x2, z2) {
@@ -1221,7 +1343,6 @@
       return m;
     }
 
-    // Unified Wall Builder: builds cutaway wall + full-height Walk-Mode wall + doorway header + exact physics collider!
     function buildWallAxis(axis, fixedCoord, start, end, doors, opts) {
       const { level, cutH, fullH, yBase, thick, mat, cutParent, walkParent, collide = true } = opts;
       const sorted = (doors || []).slice().sort((a, b) => a[0] - b[0]);
@@ -1250,15 +1371,11 @@
         }
       });
 
-      // Add doorway headers above openings in Walk Mode so doorways look like real framed doors!
       if (walkParent && fullH > 7.2) {
         sorted.forEach(([d0, d1]) => {
           const len = d1 - d0, mid = (d0 + d1) / 2, hdrH = fullH - 7.1;
-          if (axis === "x") {
-            box(len, hdrH, thick, mat, mid, yBase + 7.1 + hdrH / 2, fixedCoord, walkParent);
-          } else {
-            box(thick, hdrH, len, mat, fixedCoord, yBase + 7.1 + hdrH / 2, mid, walkParent);
-          }
+          if (axis === "x") box(len, hdrH, thick, mat, mid, yBase + 7.1 + hdrH / 2, fixedCoord, walkParent);
+          else box(thick, hdrH, len, mat, fixedCoord, yBase + 7.1 + hdrH / 2, mid, walkParent);
         });
       }
     }
@@ -1277,13 +1394,9 @@
       for (let i = 0; i < Math.floor(h / 0.85); i++) {
         const cy = y0 + 0.42 + i * 0.85;
         const c1 = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.5, 10), MAT.logBeam);
-        c1.rotation.z = Math.PI / 2;
-        c1.position.set(x, cy, z);
-        parent.add(c1);
+        c1.rotation.z = Math.PI / 2; c1.position.set(x, cy, z); parent.add(c1);
         const c2 = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.36, 1.5, 10), MAT.logBeam);
-        c2.rotation.x = Math.PI / 2;
-        c2.position.set(x, cy + 0.4, z);
-        parent.add(c2);
+        c2.rotation.x = Math.PI / 2; c2.position.set(x, cy + 0.4, z); parent.add(c2);
       }
     }
 
@@ -1329,7 +1442,6 @@
     box(76, 0.44, 23, MAT.gravel, -8, -0.15, 31.5, siteGroup, null, false);
     box(20, 0.44, 24, MAT.gravel, -36, -0.15, 22, siteGroup, null, false);
 
-    // Side Concrete Patio + Hot Tub + BBQ
     box(11.5, 0.32, 19, MAT.concrete, -26.8, 0.16, -2.5, siteGroup, "patio", false);
     box(6.8, 2.9, 6.8, MAT.darkWood, -25.8, 1.6, 2.8, siteGroup, "patio");
     box(6.2, 0.3, 6.2, MAT.whiteAppliance, -25.8, 2.95, 2.8, siteGroup, "patio");
@@ -1337,7 +1449,6 @@
     [-5.5, -8.2].forEach(pz => box(2.3, 2.0, 2.3, MAT.iron, -28.8, 1.15, pz, siteGroup, "patio"));
     box(3.4, 2.9, 2.0, MAT.stainless, -23.8, 1.65, -9.8, siteGroup, "patio");
 
-    // Full-Width Covered Front Porch (Steps centered at X = 5.5 aligned with Front Double Doors!)
     box(44, 0.65, 7.2, MAT.woodDeck, 0, 0.32, 17.6, siteGroup, "porch");
     box(6.5, 0.44, 1.6, MAT.woodDeck, 5.5, 0.22, 21.9, siteGroup, "porch");
     box(6.5, 0.22, 1.6, MAT.woodDeck, 5.5, 0.11, 23.4, siteGroup, "porch");
@@ -1363,7 +1474,6 @@
       box(2.0, 2.0, 0.2, MAT.darkWood, rx, 2.3, 17.5, siteGroup, "porch");
     });
 
-    // Fire Pit
     const fireRing = new THREE.Mesh(new THREE.CylinderGeometry(2.6, 2.8, 0.95, 18), MAT.stone);
     fireRing.position.set(0, 0.5, 31.5);
     fireRing.userData.roomId = "porch";
@@ -1375,7 +1485,7 @@
     box(6.4, 0.25, 1.4, MAT.logBeam, -4.8, 1.3, 34.2, siteGroup, "porch");
     box(6.4, 0.25, 1.4, MAT.logBeam, 4.8, 1.3, 34.2, siteGroup, "porch");
 
-    // Detached Garage (Open 11ft south roll-up doorway in Walk Mode!)
+    // Garage
     box(16, 0.4, 16, MAT.concrete, -36, 0.2, 19, siteGroup, "garage");
     buildWallAxis("x", 11, -44, -28, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
     buildWallAxis("z", -44, 11, 27, [], { level: 1, cutH: 4.6, fullH: 7.6, yBase: 0.4, thick: 0.45, mat: MAT.logWall, cutParent: siteGroup, walkParent: walkMainEnclosureGroup });
@@ -1388,7 +1498,7 @@
     gRoof.position.set(-36, 10.2, 19);
     roofGroup.add(gRoof);
 
-    // East Shed + Propane
+    // Shed + Propane
     box(7, 6.4, 7, MAT.darkWood, 33.5, 3.3, -2, siteGroup);
     box(2.6, 5.1, 0.2, MAT.redDoor, 33.5, 2.75, 1.55, siteGroup);
     const shedRoof = new THREE.Mesh(new THREE.ConeGeometry(5.6, 3.4, 4), MAT.greenRoof);
@@ -1425,7 +1535,7 @@
       explodedGuidesGroup.add(ln);
     });
 
-    // ==================== 2. DOWNSTAIRS FLOORS, WALLS & OPEN DOORWAYS ====================
+    // ==================== 2. DOWNSTAIRS ====================
     box(13.5, 0.6, 14.0, MAT.hardwood, 14.75, 0.3, 7.0, mainFloorGroup, "dining", false);
     box(13.5, 0.6, 14.0, MAT.hardwood, 14.75, 0.3, -7.0, mainFloorGroup, "kitchen", false);
     box(12.5, 0.6, 13.5, MAT.hardwood, 1.75, 0.3, 7.25, mainFloorGroup, "entry", false);
@@ -1436,7 +1546,6 @@
     box(8.5, 0.6, 14.5, MAT.carpet, -17.75, 0.3, -6.75, mainFloorGroup, "game", false);
 
     const WALL_H = 4.6, FULL_H1 = 9.2;
-    // Exterior Perimeter Log Walls (with open Front Double Door X=3.6..7.4 and Back Kitchen Door X=9.0..11.8)
     buildWallAxis("x", -13.75, -21.75, 21.75, [[9.0, 11.8]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
     buildWallAxis("x", 13.75, -21.75, 21.75, [[3.6, 7.4]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
     buildWallAxis("z", -21.75, -13.75, 13.75, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.58, mat: MAT.logWall, cutParent: mainFloorGroup, walkParent: mainTallWallsGroup });
@@ -1444,7 +1553,6 @@
     box(2.2, WALL_H, 6.8, MAT.logWall, 22.8, 0.6 + WALL_H / 2, 5.5, mainFloorGroup);
     [[-21.75, -13.75], [21.75, -13.75], [-21.75, 13.75], [21.75, 13.75]].forEach(([cx, cz]) => addLogCorners(cx, cz, WALL_H, 0.6, mainFloorGroup));
 
-    // Welcoming Ajar Double Front Doors (walkable 3.8ft opening between them!)
     const dLeft = box(1.85, 4.2, 0.22, MAT.darkDoor, 3.7, 2.7, 12.9, mainFloorGroup, "entry");
     dLeft.rotation.y = 1.25;
     const dRight = box(1.85, 4.2, 0.22, MAT.darkDoor, 7.3, 2.7, 12.9, mainFloorGroup, "entry");
@@ -1459,22 +1567,18 @@
     addWindow(3.4, 2.0, 15.8, 3.3, -13.75, 0, mainFloorGroup);
     addWindow(5.2, 1.5, -17.8, 3.6, -13.75, 0, mainFloorGroup);
 
-    // Downstairs Interior Partitions WITH Open Walkable Doorways!
     buildWallAxis("z", 8.0, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    buildWallAxis("x", 0.5, 0.5, 8.0, [[2.4, 5.2]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup }); // Bath doorway!
+    buildWallAxis("x", 0.5, 0.5, 8.0, [[2.4, 5.2]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
     buildWallAxis("z", 0.5, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
     buildWallAxis("z", -13.5, -13.75, 0.5, [], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
-    // Living Room | Downstairs Bed & Barn Door to Game Room
     buildWallAxis("x", 0.5, -21.75, 0.5, [[-18.4, -13.8], [-3.8, -1.0]], { level: 1, cutH: WALL_H, fullH: FULL_H1, yBase: 0.6, thick: 0.35, mat: MAT.shiplapWhite, cutParent: mainFloorGroup, walkParent: walkMainEnclosureGroup });
     box(0.18, WALL_H - 0.2, 14.0, MAT.shiplapTeal, -21.35, 0.6 + WALL_H / 2, -6.75, mainFloorGroup, "game");
 
-    // 1st-Floor Ceiling for Walk Mode (with open stairwell cutout X = -3.6..+3.2, Z = 9.3..13.75!)
     box(43.2, 0.25, 23.0, MAT.ceilingWhite, 0, 9.65, -2.2, walkMainEnclosureGroup, null, false);
-    box(18.0, 0.25, 4.5, MAT.ceilingWhite, -12.6, 9.65, 11.5, walkMainEnclosureGroup, null, false);
-    box(18.4, 0.25, 4.5, MAT.ceilingWhite, 12.4, 9.65, 11.5, walkMainEnclosureGroup, null, false);
-    box(44.0, 0.25, 7.2, MAT.woodDeck, 0, 9.5, 17.6, walkMainEnclosureGroup, null, false); // Warm wood porch ceiling!
+    box(20.0, 0.25, 4.5, MAT.ceilingWhite, -11.6, 9.65, 11.5, walkMainEnclosureGroup, null, false);
+    box(17.6, 0.25, 4.5, MAT.ceilingWhite, 12.8, 9.65, 11.5, walkMainEnclosureGroup, null, false);
+    box(44.0, 0.25, 7.2, MAT.woodDeck, 0, 9.5, 17.6, walkMainEnclosureGroup, null, false);
 
-    // Diagonal-Braced Sliding Barn Door
     const barnDoorGroup = new THREE.Group();
     barnDoorGroup.position.set(-10.8, 2.65, 0.82);
     box(5.0, 4.0, 0.2, MAT.shiplapWhite, 0, 0, 0, barnDoorGroup, "game");
@@ -1488,7 +1592,6 @@
     box(11.2, 0.14, 0.14, MAT.iron, -13.4, 4.85, 0.72, mainFloorGroup);
     mainFloorGroup.add(barnDoorGroup);
 
-    // --- Walkable Handcrafted Log Staircase (X = +3.8 at bottom -> X = -1.5 at top, leaving a 4ft landing!) ---
     for (let s = 0; s < 12; s++) {
       box(0.92, 0.24, 3.4, MAT.logBeam, 3.6 - s * 0.46, 1.0 + s * 0.74, 11.4, mainFloorGroup, "entry");
     }
@@ -1499,7 +1602,6 @@
     addCollider(1, -2.0, 9.5, 3.2, 9.5);
     box(3.2, 1.9, 1.3, MAT.darkDoor, -0.4, 1.55, 8.6, mainFloorGroup, "entry");
 
-    // Dining, Kitchen, Bath, Living & Game Furniture
     box(7.0, 0.05, 9.6, MAT.rug, 14.5, 0.63, 6.8, mainFloorGroup, "dining", false);
     box(3.8, 0.22, 7.8, MAT.darkWood, 14.5, 2.95, 6.8, mainFloorGroup, "dining");
     [[-1.5, -3.2], [1.5, -3.2], [-1.5, 3.2], [1.5, 3.2]].forEach(([lx, lz]) => {
@@ -1545,13 +1647,12 @@
     });
     box(1.5, 2.5, 5.4, MAT.shiplapTeal, -20.4, 1.85, -7.2, mainFloorGroup, "game");
 
-    // ==================== 3. UPSTAIRS FLOORS (WITH REAL STAIRWELL OPENING!), WALLS & DOORWAYS ====================
+    // ==================== 3. UPSTAIRS ====================
     box(15.0, 0.5, 23.6, MAT.carpet, -13.0, 0.25, 0, upperFloorGroup, "up_west", false);
     box(15.0, 0.5, 23.6, MAT.carpet, 13.0, 0.25, 0, upperFloorGroup, "up_east", false);
     box(11.0, 0.5, 14.6, MAT.slate, 0, 0.25, -4.5, upperFloorGroup, "up_bath", false);
-    // Upstairs Hallway slabs wrapped cleanly around the open stairwell (X = -1.6..+4.0, Z = 9.4..11.8 is OPEN!)
     box(11.0, 0.5, 6.6, MAT.carpet, 0, 0.25, 6.1, upperFloorGroup, "up_hall", false);
-    box(3.9, 0.5, 2.4, MAT.carpet, -3.55, 0.25, 10.6, upperFloorGroup, "up_hall", false); // Generous 3.9ft top landing!
+    box(3.9, 0.5, 2.4, MAT.carpet, -3.55, 0.25, 10.6, upperFloorGroup, "up_hall", false);
     box(1.5, 0.5, 2.4, MAT.carpet, 4.75, 0.25, 10.6, upperFloorGroup, "up_hall", false);
     box(5.6, 3.0, 0.2, MAT.logBeam, 1.2, 1.9, 9.4, upperFloorGroup, "up_hall");
     addCollider(2, -1.5, 9.4, 4.0, 9.4);
@@ -1563,14 +1664,12 @@
     buildWallAxis("z", -20.6, -11.8, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
     buildWallAxis("z", 20.6, -11.8, 11.8, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.48, mat: MAT.logWall, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
 
-    // Upstairs Interior Walls WITH Walkable Bedroom, Closet & Bathroom Doorways!
     buildWallAxis("z", -5.5, -11.8, 11.8, [[4.2, 7.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
     buildWallAxis("z", 5.5, -11.8, 11.8, [[4.2, 7.2]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
     buildWallAxis("x", 2.8, -5.5, 5.5, [[-1.5, 1.5]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
     buildWallAxis("x", -6.2, -15.0, -5.5, [[-11.4, -8.4]], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
     buildWallAxis("z", -15.0, -11.8, -6.2, [], { level: 2, cutH: UWALL_H, fullH: FULL_H2, yBase: 0.5, thick: 0.32, mat: MAT.shiplapWhite, cutParent: upperFloorGroup, walkParent: walkUpperEnclosureGroup });
 
-    // Vaulted Upstairs White Ceiling for Walk Mode
     box(41.2, 0.25, 23.6, MAT.ceilingWhite, 0, 8.95, 0, walkUpperEnclosureGroup, null, false);
 
     addWindow(4.6, 1.6, -15.2, 2.9, 11.8, 0, upperFloorGroup);
@@ -1648,26 +1747,19 @@
       roofGroup.add(dRoof);
     });
 
-    // ==================== 6. DUAL-MODE CONTROLLERS: ORBIT (PLANNING) + FPV WALK (EXPLORATION) ====================
+    // ==================== 6. CONTROLLERS (ORBIT + PINCH + FPV WALK) ====================
     const camCtrl = {
       target: new THREE.Vector3(0, 10, 2),
       goalTarget: new THREE.Vector3(0, 10, 2),
-      theta: 0.38, phi: 0.96, radius: 82,
-      goalTheta: 0.38, goalPhi: 0.96, goalRadius: 82,
+      theta: 0.34, phi: 0.96, radius: 82,
+      goalTheta: 0.34, goalPhi: 0.96, goalRadius: 82,
       dragging: false, panning: false,
       lastX: 0, lastY: 0, downX: 0, downY: 0
     };
 
-    // First-Person Walker State (1 unit = 1 ft; eye height = 5.1 ft above floor)
     const fpv = {
-      x: 5.5,
-      z: 27.5,
-      y: 0.2,      // current foot elevation
-      goalY: 0.2,
-      floor: 1,    // 1 = ground/yard/stairs, 2 = upstairs
-      yaw: 0,      // 0 = facing North (-Z, straight into front door!)
-      pitch: 0.02,
-      eyeHeight: 5.05,
+      x: 5.5, z: 27.5, y: 0.2, goalY: 0.2,
+      floor: 1, yaw: 0, pitch: 0.02, eyeHeight: 5.05,
       currentRoom: "porch"
     };
 
@@ -1682,21 +1774,18 @@
       up_west:       { x: -7.5,  z: 5.5,  floor: 2, yaw: 0.65,  pitch: -0.05 },
       up_east:       { x: 7.5,   z: 5.5,  floor: 2, yaw: -2.2,  pitch: -0.05 },
       up_bath:       { x: 0.0,   z: 0.8,  floor: 2, yaw: 0.0,   pitch: -0.06 },
-      patio:         { x: -27.5, z: -7.5, floor: 1, yaw: -0.25, pitch: -0.02 }
+      patio:         { x: -27.5, z: -7.5, floor: 1, yaw: -0.25, pitch: -0.02 },
+      garage:        { x: -36.0, z: 25.0, floor: 1, yaw: 0.0,   pitch: -0.04 }
     };
 
     function spawnFPV(key) {
       const s = SPAWNS[key] || SPAWNS.front_yard;
-      fpv.x = s.x;
-      fpv.z = s.z;
-      fpv.floor = s.floor;
-      fpv.yaw = s.yaw;
-      fpv.pitch = s.pitch;
+      fpv.x = s.x; fpv.z = s.z; fpv.floor = s.floor;
+      fpv.yaw = s.yaw; fpv.pitch = s.pitch;
       fpv.y = fpv.goalY = s.floor === 2 ? 9.85 : (s.z < 21.2 && Math.abs(s.x) < 22 ? 0.65 : 0.2);
       detectFPVRoom();
     }
 
-    // 2D Circle vs Segment Sliding Collision for crisp, snag-free FPV walking
     function resolveFPVCollisions(nx, nz, level) {
       const r = 0.78;
       let px = nx, pz = nz;
@@ -1720,7 +1809,6 @@
       return [Math.max(-52, Math.min(48, px)), Math.max(-28, Math.min(46, pz))];
     }
 
-    // Smooth Staircase & Porch Elevation + Automatic Room Detection
     function updateFPVPhysics(dtStep = 1) {
       let moveFwd = 0, moveStrafe = 0, turnYaw = 0;
       if (keysDown.has("ArrowUp") || keysDown.has("KeyW")) moveFwd += 1;
@@ -1734,20 +1822,17 @@
 
       if (moveFwd !== 0 || moveStrafe !== 0) {
         const spd = 0.34 * dtStep;
-        // yaw = 0 faces -Z: forward = (-sin(yaw), -cos(yaw)), right = (cos(yaw), -sin(yaw))
         const fx = -Math.sin(fpv.yaw), fz = -Math.cos(fpv.yaw);
         const rx = Math.cos(fpv.yaw), rz = -Math.sin(fpv.yaw);
         let nx = fpv.x + (fx * moveFwd + rx * moveStrafe) * spd;
         let nz = fpv.z + (fz * moveFwd + rz * moveStrafe) * spd;
 
-        // Check staircase corridor (Z = 9.6..13.5, X = -3.8..+4.6)
         const inStairLane = (nz >= 9.55 && nz <= 13.55 && nx >= -4.2 && nx <= 4.6);
         if (inStairLane) {
           if (fpv.floor === 1 && nx < -1.5) fpv.floor = 2;
           else if (fpv.floor === 2 && nx > -1.3) fpv.floor = 1;
         }
 
-        // Auto-open sliding barn door if player walks right up to it
         if (fpv.floor === 1 && !barnDoorOpen && Math.abs(nz - 0.5) < 2.5 && nx < -13.2 && nx > -18.8) {
           setBarnDoor(true);
         }
@@ -1755,7 +1840,6 @@
         [fpv.x, fpv.z] = resolveFPVCollisions(nx, nz, fpv.floor);
       }
 
-      // Compute exact foot height (ground, porch steps, main floor, log stairs, or 2nd floor!)
       const inStairs = (fpv.z >= 9.55 && fpv.z <= 13.55 && fpv.x >= -1.8 && fpv.x <= 4.0);
       if (inStairs && (fpv.floor === 1 || fpv.x > -1.6)) {
         const prog = Math.max(0, Math.min(1, (3.8 - fpv.x) / 5.4));
@@ -1802,13 +1886,12 @@
         const r = ROOMS[rId];
         if (r) {
           document.getElementById("fpv-loc-text").textContent = r.name;
-          document.getElementById("fpv-floor-pill").textContent = fpv.floor === 2 ? "Upstairs (2nd Floor)" : r.floor;
+          document.getElementById("fpv-floor-pill").textContent = fpv.floor === 2 ? "Upstairs" : r.floor;
           populateInspector(rId);
         }
       }
     }
 
-    // Keyboard & Pointer Events
     const keysDown = new Set();
     window.addEventListener("keydown", e => {
       const tag = (document.activeElement && document.activeElement.tagName) || "";
@@ -1828,18 +1911,16 @@
     window.addEventListener("keyup", e => keysDown.delete(e.code));
     window.addEventListener("blur", () => keysDown.clear());
 
-    // On-screen FPV D-Pad buttons
     document.querySelectorAll("[data-pad]").forEach(btn => {
       const code = btn.dataset.pad;
-      btn.addEventListener("pointerdown", e => { e.preventDefault(); keysDown.add(code); btn.setPointerCapture(e.pointerId); });
+      btn.addEventListener("pointerdown", e => { e.preventDefault(); e.stopPropagation(); keysDown.add(code); btn.setPointerCapture(e.pointerId); });
       btn.addEventListener("pointerup", () => keysDown.delete(code));
       btn.addEventListener("pointercancel", () => keysDown.delete(code));
     });
 
     // Multi-touch (1-finger orbit/look + 2-finger pinch-zoom & pan) + Mouse controller
     const activePointers = new Map();
-    let lastPinchDist = 0;
-    let lastMidX = 0, lastMidY = 0;
+    let lastPinchDist = 0, lastMidX = 0, lastMidY = 0;
 
     canvas.addEventListener("contextmenu", e => e.preventDefault());
     canvas.addEventListener("pointerdown", e => {
@@ -1871,8 +1952,7 @@
         const midY = (pts[0].y + pts[1].y) * 0.5;
 
         if (lastPinchDist > 0) {
-          const pinchDelta = lastPinchDist - dist;
-          camCtrl.goalRadius = Math.max(22, Math.min(145, camCtrl.goalRadius + pinchDelta * 0.22));
+          camCtrl.goalRadius = Math.max(22, Math.min(150, camCtrl.goalRadius + (lastPinchDist - dist) * 0.24));
         }
         const dx = midX - lastMidX, dy = midY - lastMidY;
         const panScale = camCtrl.radius * 0.0018;
@@ -1883,9 +1963,7 @@
         camCtrl.goalTarget.addScaledVector(right, -dx * panScale);
         camCtrl.goalTarget.addScaledVector(forward, dy * panScale);
 
-        lastPinchDist = dist;
-        lastMidX = midX;
-        lastMidY = midY;
+        lastPinchDist = dist; lastMidX = midX; lastMidY = midY;
         return;
       }
 
@@ -1896,8 +1974,8 @@
       camCtrl.lastY = e.clientY;
 
       if (appMode === "explore") {
-        fpv.yaw -= dx * 0.005;
-        fpv.pitch = Math.max(-0.85, Math.min(0.85, fpv.pitch - dy * 0.0045));
+        fpv.yaw -= dx * 0.0055;
+        fpv.pitch = Math.max(-0.85, Math.min(0.85, fpv.pitch - dy * 0.0048));
         return;
       }
 
@@ -1910,8 +1988,8 @@
         camCtrl.goalTarget.addScaledVector(right, -dx * panScale);
         camCtrl.goalTarget.addScaledVector(forward, dy * panScale);
       } else {
-        camCtrl.goalTheta -= dx * 0.0065;
-        camCtrl.goalPhi = Math.max(0.14, Math.min(1.46, camCtrl.goalPhi - dy * 0.0065));
+        camCtrl.goalTheta -= dx * 0.0068;
+        camCtrl.goalPhi = Math.max(0.14, Math.min(1.46, camCtrl.goalPhi - dy * 0.0068));
       }
     });
     function endPointer(e) {
@@ -1926,9 +2004,7 @@
         }
       } else if (activePointers.size === 1) {
         const rem = Array.from(activePointers.values())[0];
-        camCtrl.lastX = rem.x;
-        camCtrl.lastY = rem.y;
-        lastPinchDist = 0;
+        camCtrl.lastX = rem.x; camCtrl.lastY = rem.y; lastPinchDist = 0;
       }
     }
     canvas.addEventListener("pointerup", endPointer);
@@ -1936,7 +2012,7 @@
     canvas.addEventListener("wheel", e => {
       if (appMode === "explore") return;
       e.preventDefault();
-      camCtrl.goalRadius = Math.max(22, Math.min(145, camCtrl.goalRadius + e.deltaY * 0.055));
+      camCtrl.goalRadius = Math.max(22, Math.min(150, camCtrl.goalRadius + e.deltaY * 0.055));
     }, { passive: false });
 
     const raycaster = new THREE.Raycaster();
@@ -1959,17 +2035,30 @@
       }
     }
 
-    // ==================== 7. SWITCHING BETWEEN PLANNING MODE & EXPLORATION (WALK) MODE ====================
+    // ==================== 7. DUAL MODES & MOBILE BOTTOM SHEET ====================
     let upperGoalY = 21.0;
     let barnGoalX = -10.8;
 
     const VIEW_INFO = {
-      both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  upperY: 21.0, cam: { theta: 0.38, phi: 0.96, radius: 82, target: [-1, 10.5, 2] } },
-      downstairs: { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.35, phi: 0.80, radius: 58, target: [0, 2.5, 1] } },
-      upstairs:   { mainVis: true, upperVis: true,  roofVis: false, tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.32, phi: 0.78, radius: 54, target: [0, 11.2, 0] } },
-      outside:    { mainVis: true, upperVis: true,  roofVis: true,  tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.44, phi: 1.12, radius: 86, target: [-2, 6, 8] } },
+      both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  upperY: 21.0, cam: { theta: 0.34, phi: 0.96, radius: 80, target: [0, 10.5, 2] } },
+      downstairs: { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.32, phi: 0.80, radius: 58, target: [0, 2.5, 1] } },
+      upstairs:   { mainVis: true, upperVis: true,  roofVis: false, tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.30, phi: 0.78, radius: 54, target: [0, 11.2, 0] } },
+      outside:    { mainVis: true, upperVis: true,  roofVis: true,  tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.42, phi: 1.12, radius: 84, target: [-2, 6, 8] } },
       top:        { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.0,  phi: 0.14, radius: 70, target: [0, 1.5, 1] } }
     };
+
+    // Mobile Sheet Expand / Collapse
+    const workspaceEl = document.getElementById("workspace");
+    const sheetBtn = document.getElementById("btn-sheet-toggle");
+    function setSheetCollapsed(collapsed) {
+      workspaceEl.classList.toggle("sheet-collapsed", collapsed);
+      sheetBtn.textContent = collapsed ? "Panel ▲" : "Full 3D ▼";
+      setTimeout(resize, 50);
+      setTimeout(resize, 220);
+    }
+    sheetBtn.addEventListener("click", () => {
+      setSheetCollapsed(!workspaceEl.classList.contains("sheet-collapsed"));
+    });
 
     function setAppMode(mode) {
       appMode = mode;
@@ -1981,12 +2070,11 @@
       document.getElementById("fpv-badge").classList.toggle("hidden", !isWalk);
       document.getElementById("fpv-reticle").classList.toggle("hidden", !isWalk);
       document.getElementById("fpv-pad").classList.toggle("hidden", !isWalk);
-      document.getElementById("fpv-sidebar-card").classList.toggle("hidden", !isWalk);
+      document.getElementById("tab-btn-jump").classList.toggle("hidden", !isWalk);
 
       if (isWalk) {
-        camera.fov = 62;
+        camera.fov = window.innerWidth < 700 ? 72 : 62;
         camera.updateProjectionMatrix();
-        // Assemble full realistic 2-story enclosed cabin for walking!
         mainFloorGroup.visible = true;
         upperFloorGroup.visible = true;
         upperFloorGroup.position.y = upperGoalY = 9.8;
@@ -1995,7 +2083,9 @@
         walkUpperEnclosureGroup.visible = true;
         roofGroup.visible = true;
         explodedGuidesGroup.visible = false;
-        document.getElementById("hud-controls-text").innerHTML = "<strong>Walk:</strong> ↑/↓ or W/S • <strong>Turn:</strong> ←/→ or Drag • <strong>Step Sideways:</strong> A/D";
+        document.getElementById("hud-controls-text").innerHTML = "<strong>Walk:</strong> ↑/↓ or W/S • <strong>Turn:</strong> ←/→ or Drag";
+        // On phone, automatically give full-screen 3D room when entering Walk Mode!
+        if (window.innerWidth <= 820) setSheetCollapsed(true);
         detectFPVRoom();
         viewport.focus({ preventScroll: true });
       } else {
@@ -2003,7 +2093,8 @@
         camera.updateProjectionMatrix();
         walkMainEnclosureGroup.visible = false;
         walkUpperEnclosureGroup.visible = false;
-        document.getElementById("hud-controls-text").innerHTML = "<strong>Move:</strong> Arrow Keys • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll";
+        document.getElementById("hud-controls-text").innerHTML = "<strong>Move:</strong> Arrows • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll";
+        if (document.querySelector(".tab-btn.active")?.dataset.tab === "jump") switchTab("planner");
         setViewMode(currentView, true);
       }
     }
@@ -2015,6 +2106,7 @@
       btn.addEventListener("click", () => {
         if (appMode !== "explore") setAppMode("explore");
         spawnFPV(btn.dataset.spawn);
+        if (window.innerWidth <= 820) setSheetCollapsed(true);
         viewport.focus({ preventScroll: true });
       });
     });
@@ -2045,12 +2137,9 @@
     function setBarnDoor(open) {
       barnDoorOpen = open;
       barnGoalX = barnDoorOpen ? -10.8 : -15.9;
-      const txt = barnDoorOpen ? "Game Door: Open" : "Game Door: Closed";
-      document.getElementById("btn-barn-door").textContent = txt;
-      document.getElementById("btn-barn-door-fpv").textContent = txt;
+      document.getElementById("btn-barn-door").textContent = barnDoorOpen ? "Game Door: Open" : "Game Door: Closed";
     }
     document.getElementById("btn-barn-door").addEventListener("click", () => setBarnDoor(!barnDoorOpen));
-    document.getElementById("btn-barn-door-fpv").addEventListener("click", () => setBarnDoor(!barnDoorOpen));
 
     document.getElementById("btn-labels").addEventListener("click", (e) => {
       showLabels = !showLabels;
@@ -2058,16 +2147,14 @@
       e.currentTarget.textContent = showLabels ? "Labels: On" : "Labels: Off";
     });
 
-    function toggleTheme() {
+    document.getElementById("btn-theme").addEventListener("click", () => {
       const cur = document.documentElement.getAttribute("data-theme");
       document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
       syncSceneTheme();
       updateBedColorsAndUI();
-    }
-    document.getElementById("btn-theme").addEventListener("click", toggleTheme);
-    document.getElementById("btn-theme-fpv").addEventListener("click", toggleTheme);
+    });
 
-    // ==================== 8. CLEAN, CONTEXT-AWARE 3D LABELS ====================
+    // ==================== 8. CLEAN, NON-OVERLAPPING 3D LABELS ====================
     const labelsLayer = document.getElementById("labels-layer");
     const labelNodes = [];
     const bedPinNodes = [];
@@ -2092,10 +2179,7 @@
     });
 
     function shouldShowAreaLevel(level, roomId) {
-      if (appMode === "explore") {
-        // In Walk Mode, show ONLY bed pins inside the room you are currently standing in!
-        return roomId === fpv.currentRoom;
-      }
+      if (appMode === "explore") return roomId === fpv.currentRoom;
       if (selectedRoomId) return roomId === selectedRoomId;
       if (currentView === "downstairs" || currentView === "top") return level === 1;
       if (currentView === "upstairs") return level === 2;
@@ -2107,54 +2191,83 @@
       if (!showLabels) return;
       const w = viewport.clientWidth;
       const h = viewport.clientHeight;
+      const isNarrow = w < 540;
       const v = new THREE.Vector3();
+      const placed = [];
 
+      // Place Bed Pins FIRST (highest priority!)
+      bedPinNodes.forEach(({ el, bed }) => {
+        if (appMode === "planning" && currentView === "outside") { el.style.display = "none"; return; }
+        if (!shouldShowAreaLevel(bed.level, bed.room)) { el.style.display = "none"; return; }
+        const st = bedState[bed.id] || { group: "open", note: "" };
+        if (appMode === "planning" && st.group === "open" && bed.id === "fold_up" && !selectedRoomId) {
+          el.style.display = "none"; return;
+        }
+        const stagger = appMode === "explore" ? 0 : (bed.id === "queen_e1" ? 1.6 : (bed.id === "nook_up" ? 1.2 : 0));
+        const baseH = appMode === "explore" ? 2.6 : (bed.level === 1 ? 3.7 : 2.9);
+        const yPos = (bed.level === 1 ? 0 : upperFloorGroup.position.y) + baseH + stagger;
+        v.set(bed.pos[0], yPos, bed.pos[2]);
+        v.project(camera);
+        if (v.z > 1 || v.x < -0.96 || v.x > 0.96 || v.y < -0.96 || v.y > 0.96) {
+          el.style.display = "none"; return;
+        }
+        const sx = (v.x * 0.5 + 0.5) * w;
+        const sy = (-v.y * 0.5 + 0.5) * h;
+        placed.push({ el, x: sx, y: sy, selected: bed.room === selectedRoomId });
+      });
+
+      // Place Room Labels (on narrow phones in "Both Floors", hide secondary room labels so bed pins stay clutter-free!)
       labelNodes.forEach(({ el, room }) => {
         if (appMode === "explore") { el.style.display = "none"; return; }
         if (BEDROOM_IDS.has(room.id) && !selectedRoomId) { el.style.display = "none"; return; }
+        if (isNarrow && currentView === "both" && !selectedRoomId) { el.style.display = "none"; return; }
         if (!shouldShowAreaLevel(room.level, room.id)) { el.style.display = "none"; return; }
 
         let yPos = room.pos[1];
         if (room.level === 2) yPos = upperFloorGroup.position.y + 3.6;
         v.set(room.pos[0], yPos, room.pos[2]);
         v.project(camera);
-        if (v.z > 1 || v.x < -1.02 || v.x > 1.02 || v.y < -1.02 || v.y > 1.02) {
+        if (v.z > 1 || v.x < -0.96 || v.x > 0.96 || v.y < -0.96 || v.y > 0.96) {
           el.style.display = "none"; return;
         }
-        el.style.display = "block";
-        el.style.left = `${(v.x * 0.5 + 0.5) * w}px`;
-        el.style.top = `${(-v.y * 0.5 + 0.5) * h}px`;
-        el.classList.toggle("selected", room.id === selectedRoomId);
+        const sx = (v.x * 0.5 + 0.5) * w;
+        const sy = (-v.y * 0.5 + 0.5) * h;
+        placed.push({ el, x: sx, y: sy, selected: room.id === selectedRoomId });
       });
 
-      bedPinNodes.forEach(({ el, bed }) => {
-        if (appMode === "planning" && currentView === "outside") { el.style.display = "none"; return; }
-        if (!shouldShowAreaLevel(bed.level, bed.room)) { el.style.display = "none"; return; }
+      // Gentle 2D anti-overlap pass so labels never stack on top of each other on phone screens
+      const minX = isNarrow ? 82 : 96;
+      const minY = isNarrow ? 20 : 22;
+      for (let pass = 0; pass < 2; pass++) {
+        for (let i = 0; i < placed.length; i++) {
+          for (let j = i + 1; j < placed.length; j++) {
+            const a = placed[i], b = placed[j];
+            if (Math.abs(a.x - b.x) < minX && Math.abs(a.y - b.y) < minY) {
+              const push = (minY - Math.abs(a.y - b.y)) * 0.55 + 1;
+              if (a.y <= b.y) { a.y -= push; b.y += push; }
+              else { a.y += push; b.y -= push; }
+            }
+          }
+        }
+      }
 
-        const st = bedState[bed.id] || { group: "open", note: "" };
-        if (appMode === "planning" && st.group === "open" && bed.id === "fold_up" && !selectedRoomId) {
-          el.style.display = "none"; return;
-        }
-        const stagger = appMode === "explore" ? 0 : (bed.id === "queen_e1" ? 1.5 : (bed.id === "nook_up" ? 1.1 : 0));
-        const baseH = appMode === "explore" ? 2.6 : (bed.level === 1 ? 3.7 : 2.9);
-        const yPos = (bed.level === 1 ? 0 : upperFloorGroup.position.y) + baseH + stagger;
-        v.set(bed.pos[0], yPos, bed.pos[2]);
-        v.project(camera);
-        if (v.z > 1 || v.x < -0.98 || v.x > 0.98 || v.y < -0.98 || v.y > 0.98) {
-          el.style.display = "none"; return;
-        }
-        el.style.display = "block";
-        el.style.left = `${(v.x * 0.5 + 0.5) * w}px`;
-        el.style.top = `${(-v.y * 0.5 + 0.5) * h}px`;
-        el.classList.toggle("selected", bed.room === selectedRoomId);
+      placed.forEach(p => {
+        p.el.style.display = "block";
+        p.el.style.left = `${Math.max(46, Math.min(w - 46, p.x))}px`;
+        p.el.style.top = `${Math.max(24, Math.min(h - 10, p.y))}px`;
+        p.el.classList.toggle("selected", p.selected);
       });
     }
 
-    // ==================== 9. SIDEBAR, PHOTOS & LIGHTBOX ====================
+    // ==================== 9. SIDEBAR, PHOTOS & TOUCH-SWIPE LIGHTBOX ====================
     function switchTab(tabName) {
+      if (window.innerWidth <= 820 && workspaceEl.classList.contains("sheet-collapsed")) {
+        setSheetCollapsed(false);
+      }
       document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tabName));
-      ["planner", "inspector", "kids"].forEach(t => {
-        document.getElementById(`tab-${t}`).classList.toggle("hidden", t !== tabName);
+      ["planner", "inspector", "kids", "jump"].forEach(t => {
+        const el = document.getElementById(`tab-${t}`);
+        if (el) el.classList.toggle("hidden", t !== tabName);
       });
     }
     document.querySelectorAll(".tab-btn").forEach(btn => {
@@ -2171,6 +2284,7 @@
         if (appMode === "explore") {
           const mapKey = r.id === "porch" ? "front_yard" : (SPAWNS[r.id] ? r.id : "entry");
           spawnFPV(mapKey);
+          if (window.innerWidth <= 820) setSheetCollapsed(true);
         } else {
           selectRoom(r.id, false, true);
         }
@@ -2231,6 +2345,7 @@
       }
     }
 
+    // Lightbox with Touch Swipe Left/Right
     const lightbox = document.getElementById("lightbox");
     const lbImg = document.getElementById("lightbox-img");
     const lbTitle = document.getElementById("lb-title");
@@ -2255,7 +2370,38 @@
     document.getElementById("lb-next").addEventListener("click", () => stepLightbox(1));
     lightbox.addEventListener("click", e => { if (e.target === lightbox) closeLightbox(); });
 
-    // Bed Planner
+    let lbTouchX = 0;
+    const lbSwipe = document.getElementById("lb-swipe-zone");
+    lbSwipe.addEventListener("pointerdown", e => { lbTouchX = e.clientX; });
+    lbSwipe.addEventListener("pointerup", e => {
+      const diff = e.clientX - lbTouchX;
+      if (Math.abs(diff) > 40) stepLightbox(diff < 0 ? 1 : -1);
+    });
+
+    // Bed Planner + URL Hash Sharing
+    try {
+      const hashMatch = window.location.hash.match(/plan=([^&]+)/);
+      if (hashMatch) {
+        const parsed = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hashMatch[1])))));
+        if (parsed && typeof parsed === "object") {
+          bedState = Object.assign(bedState, parsed);
+          document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
+        }
+      }
+    } catch (_) {}
+
+    function encodePlanHash() {
+      try {
+        const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(bedState))));
+        if (window.location.protocol.startsWith("http")) {
+          history.replaceState(null, "", `#plan=${encodeURIComponent(b64)}`);
+        }
+        return `${window.location.href.split("#")[0]}#plan=${encodeURIComponent(b64)}`;
+      } catch (_) {
+        return window.location.href;
+      }
+    }
+
     const bedListEl = document.getElementById("bed-list");
     function renderBedPlanner() {
       bedListEl.innerHTML = "";
@@ -2291,12 +2437,14 @@
           bedState[e.target.dataset.bed].group = e.target.value;
           document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
           updateBedColorsAndUI();
+          encodePlanHash();
         });
       });
       bedListEl.querySelectorAll(".guest-input").forEach(inp => {
         inp.addEventListener("input", e => {
           bedState[e.target.dataset.note].note = e.target.value;
           updateBedColorsAndUI();
+          encodePlanHash();
         });
       });
     }
@@ -2336,32 +2484,9 @@
         selectedRoomId = null;
         renderBedPlanner();
         updateBedColorsAndUI();
+        encodePlanHash();
       });
     });
-
-    // Load shared plan from URL hash if present (#plan=...)
-    try {
-      const hashMatch = window.location.hash.match(/plan=([^&]+)/);
-      if (hashMatch) {
-        const parsed = JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(hashMatch[1])))));
-        if (parsed && typeof parsed === "object") {
-          bedState = Object.assign(bedState, parsed);
-          document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
-        }
-      }
-    } catch (_) {}
-
-    function encodePlanHash() {
-      try {
-        const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(bedState))));
-        if (window.location.protocol.startsWith("http")) {
-          history.replaceState(null, "", `#plan=${encodeURIComponent(b64)}`);
-        }
-        return `${window.location.href.split("#")[0]}#plan=${encodeURIComponent(b64)}`;
-      } catch (_) {
-        return window.location.href;
-      }
-    }
 
     document.getElementById("btn-copy-plan").addEventListener("click", async e => {
       const btn = e.currentTarget;
@@ -2377,21 +2502,21 @@
       try {
         await navigator.clipboard.writeText(lines.join("\n"));
         btn.textContent = "Copied Plan & Link!";
-        setTimeout(() => { btn.textContent = "Copy Plan Summary"; }, 2200);
+        setTimeout(() => { btn.textContent = "Copy Plan & Share Link"; }, 2200);
       } catch (_) {}
     });
 
     function syncSceneTheme() {
       const tc = getThemeColors();
       scene.background = new THREE.Color(tc.bg);
-      scene.fog = new THREE.Fog(tc.bg, 125, 250);
+      scene.fog = new THREE.Fog(tc.bg, 130, 260);
     }
 
     function resize() {
-      const w = viewport.clientWidth;
-      const h = viewport.clientHeight;
+      const w = Math.max(1, viewport.clientWidth);
+      const h = Math.max(1, viewport.clientHeight);
       renderer.setSize(w, h, false);
-      camera.aspect = w / Math.max(1, h);
+      camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
     window.addEventListener("resize", resize);
@@ -2447,7 +2572,11 @@
         upperFloorGroup.position.y += (upperGoalY - upperFloorGroup.position.y) * 0.12;
 
         const sinPhi = Math.sin(camCtrl.phi);
-        const effRadius = camCtrl.radius * (camera.aspect < 1.05 ? Math.min(1.38, 1.05 / Math.pow(Math.max(0.45, camera.aspect), 0.36)) : 1.0);
+        // True horizontal-FOV compensation so narrow portrait phone screens fit the entire cabin width cleanly!
+        const aspectScale = camera.aspect < 1.15
+          ? Math.min(2.15, 1.12 / Math.pow(Math.max(0.36, camera.aspect), 0.62))
+          : 1.0;
+        const effRadius = camCtrl.radius * aspectScale;
         camera.position.set(
           camCtrl.target.x + effRadius * sinPhi * Math.sin(camCtrl.theta),
           camCtrl.target.y + effRadius * Math.cos(camCtrl.phi),
