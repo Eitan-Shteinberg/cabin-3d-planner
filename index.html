@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Cabin 3D Planner &amp; Walkthrough — Elad &amp; Annie + Eitan &amp; Ola</title>
+  <meta name="apple-mobile-web-app-title" content="Thanksgiving pajama party" />
+  <meta property="og:title" content="Thanksgiving pajama party" />
+  <meta property="og:description" content="Interactive 3D Cabin Room Planner &amp; Walkthrough — Elad &amp; Annie + Eitan &amp; Ola" />
+  <title>Thanksgiving pajama party</title>
   <script>
     (() => {
       const param = new URLSearchParams(window.location.search).get("scoutTheme");
@@ -82,27 +85,43 @@
 
     .topbar {
       flex-shrink: 0; display: flex; align-items: center; justify-content: space-between;
-      gap: 8px; padding: 8px 12px; background: var(--cp-surface);
-      border-bottom: 1px solid var(--cp-border); z-index: 20; width: 100%; min-width: 0;
+      gap: 10px; padding: 7px 14px; background: var(--cp-surface);
+      border-bottom: 1px solid var(--cp-border); z-index: 25; width: 100%; min-width: 0;
     }
-    .top-row-main { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-shrink: 0; }
+    .brand-wrap { display: flex; align-items: baseline; gap: 8px; min-width: 0; flex-shrink: 1; overflow: hidden; }
+    .brand-title {
+      font-size: 14.5px; font-weight: 700; color: var(--cp-text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .brand-sub { font-size: 11.5px; color: var(--cp-text-muted); white-space: nowrap; }
+
     .mode-switch {
       display: inline-flex; background: var(--cp-bg-elevated); border: 1px solid var(--cp-border-strong);
-      border-radius: 0.625rem; padding: 2px; gap: 2px;
+      border-radius: 0.625rem; padding: 3px; gap: 3px; flex-shrink: 0;
     }
     .mode-btn {
       appearance: none; border: none; background: transparent; color: var(--cp-text-muted);
-      font-family: inherit; font-size: 12px; font-weight: 700; padding: 5px 11px;
-      border-radius: 7px; cursor: pointer; white-space: nowrap;
+      font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 6px 14px;
+      border-radius: 8px; cursor: pointer; white-space: nowrap; transition: background 0.15s ease, color 0.15s ease;
     }
+    .mode-btn:hover { color: var(--cp-text); }
     .mode-btn.active { background: var(--cp-accent); color: var(--cp-accent-fg); }
 
-    .top-quick-actions { display: flex; align-items: center; gap: 6px; }
+    .top-quick-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+    .canvas-top-dock {
+      position: absolute; top: 10px; left: 10px; right: 10px; z-index: 16;
+      display: flex; pointer-events: none; min-width: 0; overflow: hidden;
+    }
     .view-controls {
-      display: flex; align-items: center; gap: 6px; min-width: 0;
+      pointer-events: auto; display: flex; align-items: center; gap: 5px;
+      margin: 0 auto; min-width: 0; max-width: 100%;
       overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+      background: var(--cp-panel-strong); border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem; padding: 4px 6px; box-shadow: var(--cp-shadow);
     }
     .view-controls::-webkit-scrollbar { display: none; }
+    .dock-sep { width: 1px; height: 18px; background: var(--cp-border); flex-shrink: 0; margin: 0 2px; }
 
     .btn {
       appearance: none; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
@@ -113,10 +132,11 @@
     .btn.active { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
     .btn-outline-accent { border-color: var(--cp-accent); color: var(--cp-accent); background: var(--cp-accent-soft); }
     .btn-outline-accent:hover { background: var(--cp-accent); color: var(--cp-accent-fg); }
+    .btn-sm { padding: 4px 9px; font-size: 11.5px; border-radius: 8px; }
 
     .workspace {
       flex: 1; min-height: 0; min-width: 0; display: grid;
-      grid-template-columns: minmax(0, 1fr) 372px; position: relative; overflow: hidden; width: 100%;
+      grid-template-columns: minmax(0, 1fr) 384px; position: relative; overflow: hidden; width: 100%;
     }
 
     .viewport-wrap {
@@ -127,24 +147,41 @@
     #webgl-canvas:active { cursor: grabbing; }
 
     .fpv-badge {
-      position: absolute; top: 10px; left: 10px; background: var(--cp-panel-strong);
-      border: 1px solid var(--cp-border-strong); border-radius: 0.625rem; padding: 5px 10px;
-      font-size: 12px; font-weight: 700; color: var(--cp-text);
-      box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
-      pointer-events: none; max-width: calc(100% - 20px);
+      position: absolute; left: 12px; bottom: 12px; z-index: 16;
+      background: var(--cp-panel-strong); border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem; padding: 6px 10px; display: flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 700; color: var(--cp-text); box-shadow: var(--cp-shadow);
+      max-width: calc(100% - 168px); flex-wrap: wrap;
     }
-    .fpv-badge span { color: var(--cp-accent); margin-left: 5px; }
+    .fpv-loc-label { color: var(--cp-accent); }
+    .fpv-coach {
+      position: absolute; top: 54px; left: 50%; transform: translateX(-50%); z-index: 15;
+      background: var(--cp-panel-strong); border: 1px solid var(--cp-border);
+      color: var(--cp-text-muted); border-radius: 0.625rem; padding: 4px 11px;
+      font-size: 11.5px; font-weight: 600; white-space: nowrap; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .fpv-coach.fade-out { opacity: 0; }
+
+    .room-focus-bar {
+      position: absolute; left: 50%; bottom: 44px; transform: translateX(-50%); z-index: 16;
+      background: var(--cp-panel-strong); border: 1px solid var(--cp-border-strong);
+      border-radius: 0.625rem; padding: 6px 10px; display: flex; align-items: center; gap: 8px;
+      box-shadow: var(--cp-shadow); max-width: calc(100% - 20px); white-space: nowrap;
+    }
+    .room-focus-name { font-size: 12px; font-weight: 700; color: var(--cp-text); overflow: hidden; text-overflow: ellipsis; }
+
     .fpv-reticle {
       position: absolute; left: 50%; top: 50%; width: 8px; height: 8px; margin-left: -4px; margin-top: -4px;
       border-radius: 50%; border: 1.5px solid var(--cp-accent); background: var(--cp-sheen); pointer-events: none;
     }
     .fpv-pad {
       position: absolute; right: 12px; bottom: 12px; display: grid;
-      grid-template-columns: repeat(3, 38px); grid-template-rows: repeat(2, 36px); gap: 4px; z-index: 15;
+      grid-template-columns: repeat(3, 40px); grid-template-rows: repeat(2, 38px); gap: 4px; z-index: 16;
     }
     .pad-btn {
       appearance: none; border: 1px solid var(--cp-border-strong); background: var(--cp-panel-strong);
-      color: var(--cp-text); border-radius: 8px; font-weight: 700; font-size: 15px;
+      color: var(--cp-text); border-radius: 8px; font-weight: 700; font-size: 14px;
       cursor: pointer; user-select: none; touch-action: none;
     }
     .pad-btn:active { background: var(--cp-accent); color: var(--cp-accent-fg); }
@@ -188,8 +225,10 @@
     .tabs-bar {
       display: flex; align-items: center; border-bottom: 1px solid var(--cp-border);
       background: var(--cp-bg-elevated); padding: 5px 6px; gap: 4px; flex-shrink: 0;
+      min-width: 0; max-width: 100%; overflow: hidden;
     }
-    .tabs { flex: 1; display: flex; gap: 4px; min-width: 0; }
+    .tabs { flex: 1; display: flex; gap: 3px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+    .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
       flex: 1; appearance: none; border: 1px solid transparent; background: transparent;
       color: var(--cp-text-muted); font-family: inherit; font-size: 12px; font-weight: 600;
@@ -240,19 +279,37 @@
     .bed-list { display: flex; flex-direction: column; gap: 8px; }
     .bed-item {
       background: var(--cp-surface); border: 1px solid var(--cp-border); border-radius: 0.625rem;
-      padding: 8px 10px; display: flex; flex-direction: column; gap: 6px; cursor: pointer;
+      padding: 9px 10px; display: flex; flex-direction: column; gap: 7px; cursor: pointer;
     }
     .bed-item:hover { border-color: var(--cp-border-strong); }
-    .bed-name { font-weight: 700; font-size: 12px; color: var(--cp-text); }
+    .bed-top-row { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+    .bed-name { font-weight: 700; font-size: 12.5px; color: var(--cp-text); }
     .bed-room { font-size: 11px; color: var(--cp-text-muted); }
+    .bed-walk-chip {
+      appearance: none; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
+      color: var(--cp-accent); font-family: inherit; font-size: 11px; font-weight: 700;
+      padding: 3px 8px; border-radius: 8px; cursor: pointer; flex-shrink: 0;
+    }
+    .bed-walk-chip:hover { background: var(--cp-accent); color: var(--cp-accent-fg); border-color: var(--cp-accent); }
+    .quick-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+    .q-chip {
+      appearance: none; border: 1px solid var(--cp-border); background: var(--cp-surface-soft);
+      color: var(--cp-text-muted); font-family: inherit; font-size: 11px; font-weight: 600;
+      padding: 3px 7px; border-radius: 7px; cursor: pointer;
+    }
+    .q-chip:hover { border-color: var(--cp-border-strong); color: var(--cp-text); }
+    .q-chip.active-fam1 { background: var(--cp-accent); border-color: var(--cp-accent); color: var(--cp-accent-fg); }
+    .q-chip.active-fam2 { background: var(--cp-link); border-color: var(--cp-link); color: var(--cp-surface); }
+    .q-chip.active-kids { background: var(--cp-success); border-color: var(--cp-success); color: var(--cp-surface); }
+    .q-chip.active-open { background: var(--cp-bg-elevated); border-color: var(--cp-border-strong); color: var(--cp-text); }
     .bed-controls { display: flex; gap: 6px; align-items: center; min-width: 0; }
     .assign-select {
-      flex: 1; min-width: 0; padding: 5px 6px; font-size: 12px; font-family: inherit;
-      border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text);
+      width: 118px; flex-shrink: 0; padding: 4px 6px; font-size: 11.5px; font-family: inherit;
+      border-radius: 8px; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); color: var(--cp-text);
     }
     .guest-input {
-      width: 128px; min-width: 0; padding: 5px 6px; font-size: 12px; font-family: inherit;
-      border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
+      flex: 1; min-width: 0; padding: 4px 7px; font-size: 11.5px; font-family: inherit;
+      border-radius: 8px; border: 1px solid var(--cp-border); background: var(--cp-surface); color: var(--cp-text);
     }
 
     .photo-stage { position: relative; margin-bottom: 8px; cursor: zoom-in; }
@@ -298,16 +355,32 @@
     .lb-nav-row { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
     .hidden { display: none !important; }
 
+    .toast-msg {
+      position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); z-index: 120;
+      background: var(--cp-accent); color: var(--cp-accent-fg); padding: 7px 14px;
+      border-radius: 0.625rem; font-size: 12px; font-weight: 700; box-shadow: var(--cp-shadow);
+    }
+
     @media (max-width: 820px) {
-      .topbar { flex-direction: column; align-items: stretch; padding: 6px 8px; gap: 6px; }
-      .top-row-main { width: 100%; justify-content: space-between; }
-      .mode-btn { font-size: 11.5px; padding: 5px 9px; }
-      .view-controls { width: 100%; padding-bottom: 1px; }
-      .btn { font-size: 11.5px; padding: 5px 9px; }
-      .workspace { display: flex; flex-direction: column; }
-      .viewport-wrap { flex: 1 1 auto; min-height: 180px; }
+      .topbar {
+        display: grid; grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas: "brand actions" "modes modes";
+        padding: 6px 10px; gap: 6px; width: 100%; max-width: 100vw;
+      }
+      .brand-wrap { grid-area: brand; }
+      .brand-sub { display: none; }
+      .brand-title { font-size: 13.5px; max-width: 100%; }
+      .top-quick-actions { grid-area: actions; }
+      .mode-switch { grid-area: modes; display: grid; grid-template-columns: 1fr 1fr; width: 100%; min-width: 0; }
+      .mode-btn { font-size: 12px; padding: 6px 6px; text-align: center; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+      .tab-btn { font-size: 11.5px; padding: 5px 4px; }
+      .btn { font-size: 11.5px; padding: 5px 8px; }
+      .canvas-top-dock { top: 7px; left: 6px; right: 6px; }
+      .view-controls { padding: 3px 5px; gap: 4px; max-width: calc(100vw - 12px); }
+      .workspace { display: flex; flex-direction: column; width: 100%; max-width: 100vw; }
+      .viewport-wrap { flex: 1 1 auto; min-height: 210px; width: 100%; max-width: 100vw; }
       .sidebar {
-        flex: 0 0 46dvh; height: 46dvh; border-left: none;
+        flex: 0 0 41dvh; height: 41dvh; width: 100%; max-width: 100vw; border-left: none;
         border-top: 1px solid var(--cp-border-strong); transition: flex-basis 0.2s ease, height 0.2s ease;
       }
       .workspace.sheet-collapsed .sidebar { flex: 0 0 43px; height: 43px; }
@@ -317,16 +390,19 @@
         font-size: 11px; font-weight: 700; border-radius: 0.625rem; border: 1px solid var(--cp-border-strong);
         background: var(--cp-surface); color: var(--cp-text); cursor: pointer; flex-shrink: 0;
       }
-      .hud-bottom-left { left: 8px; bottom: 8px; padding: 4px 8px; font-size: 10px; gap: 6px; max-width: calc(100% - 16px); }
+      .hud-bottom-left { left: 8px; bottom: 8px; padding: 4px 8px; font-size: 10px; gap: 6px; max-width: calc(100vw - 16px); }
       .hud-controls-desktop { display: none; }
+      .room-focus-bar { bottom: 38px; padding: 5px 8px; gap: 5px; max-width: calc(100vw - 16px); }
+      .fpv-badge { left: 8px; bottom: 8px; padding: 5px 8px; gap: 5px; max-width: calc(100vw - 152px); font-size: 11px; }
+      .fpv-coach { top: 46px; font-size: 10.5px; padding: 3px 9px; max-width: calc(100vw - 16px); overflow: hidden; text-overflow: ellipsis; }
       .pin-label { font-size: 9.5px; padding: 2px 5px; border-radius: 6px; }
       .pin-label .pin-tag { font-size: 9px; padding: 0 4px; }
-      .fpv-pad { grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(2, 42px); gap: 5px; right: 10px; bottom: 10px; }
-      .pad-btn { font-size: 17px; }
-      .sidebar-body { padding: 10px; gap: 8px; }
-      .card { padding: 10px; border-radius: 12px; }
-      .bed-controls { flex-direction: column; align-items: stretch; }
-      .assign-select, .guest-input { width: 100%; font-size: 16px; padding: 6px 8px; }
+      .fpv-pad { grid-template-columns: repeat(3, 41px); grid-template-rows: repeat(2, 38px); gap: 4px; right: 8px; bottom: 8px; }
+      .pad-btn { font-size: 14px; }
+      .sidebar-body { padding: 10px; gap: 8px; width: 100%; max-width: 100vw; overflow-x: hidden; }
+      .card { padding: 10px; border-radius: 12px; min-width: 0; max-width: 100%; }
+      .assign-select { width: 104px; font-size: 16px; padding: 5px 5px; }
+      .guest-input { font-size: 16px; padding: 5px 7px; }
       .room-photo { height: 150px; }
       .lb-hint-text { display: none; }
     }
@@ -335,63 +411,87 @@
 <body>
   <div class="app-layout">
     <header class="topbar">
-      <div class="top-row-main">
-        <div class="mode-switch" role="tablist" aria-label="Mode">
-          <button class="mode-btn active" id="mode-planning">Planning</button>
-          <button class="mode-btn" id="mode-explore">Walk Inside</button>
-        </div>
-
-        <div class="top-quick-actions">
-          <button class="btn btn-outline-accent" id="btn-barn-door">Game Door: Open</button>
-          <button class="btn" id="btn-theme">Theme</button>
-        </div>
+      <div class="brand-wrap">
+        <span class="brand-title">Thanksgiving pajama party</span>
+        <span class="brand-sub">Elad &amp; Annie • Eitan &amp; Ola</span>
       </div>
 
-      <div class="view-controls" id="planning-controls">
-        <button class="btn active" data-view="both">Both Floors</button>
-        <button class="btn" data-view="downstairs">Downstairs</button>
-        <button class="btn" data-view="upstairs">Upstairs</button>
-        <button class="btn" data-view="outside">Outside</button>
-        <button class="btn" data-view="top">Top View</button>
-        <button class="btn" id="btn-labels">Labels: On</button>
+      <div class="mode-switch" role="tablist" aria-label="View Mode">
+        <button class="mode-btn active" id="mode-planning">Plan Beds</button>
+        <button class="mode-btn" id="mode-explore">Walk Inside 3D</button>
       </div>
 
-      <div class="view-controls hidden" id="explore-controls">
-        <button class="btn" data-spawn="front_yard">Outside</button>
-        <button class="btn" data-spawn="entry">Front Door</button>
-        <button class="btn" data-spawn="dining">Dining &amp; Kitchen</button>
-        <button class="btn" data-spawn="living">Living &amp; Game</button>
-        <button class="btn" data-spawn="down_bed">Downstairs Bed</button>
-        <button class="btn" data-spawn="stairs_bottom">Stairs</button>
-        <button class="btn" data-spawn="up_west">Upstairs West</button>
-        <button class="btn" data-spawn="up_east">Upstairs 2-Queen</button>
-        <button class="btn" data-spawn="up_bath">Upstairs Bath</button>
-        <button class="btn" data-spawn="patio">Hot Tub</button>
+      <div class="top-quick-actions">
+        <button class="btn btn-outline-accent" id="btn-top-share" title="Copy sleeping plan &amp; shareable link">Share</button>
+        <button class="btn" id="btn-theme" title="Switch light or dark theme">◐</button>
       </div>
     </header>
 
     <div class="workspace" id="workspace">
       <div class="viewport-wrap" id="viewport" tabindex="0">
+        <!-- FLOATING ON-CANVAS NAVIGATION DOCK (CONTEXTUAL TO CURRENT MODE!) -->
+        <div class="canvas-top-dock">
+          <div class="view-controls" id="planning-controls">
+            <button class="btn btn-sm active" data-view="both">All Floors</button>
+            <button class="btn btn-sm" data-view="downstairs">1st Floor</button>
+            <button class="btn btn-sm" data-view="upstairs">2nd Floor</button>
+            <button class="btn btn-sm" data-view="outside">Yard &amp; Hot Tub</button>
+            <button class="btn btn-sm" data-view="top">Top Map</button>
+            <span class="dock-sep"></span>
+            <button class="btn btn-sm" id="btn-labels">Labels: On</button>
+            <button class="btn btn-sm" id="btn-barn-door">Game Door: Open</button>
+          </div>
+
+          <div class="view-controls hidden" id="explore-controls">
+            <button class="btn btn-sm" data-spawn="front_yard" data-room-chip="porch">Fire Pit</button>
+            <button class="btn btn-sm" data-spawn="patio" data-room-chip="patio">Hot Tub</button>
+            <button class="btn btn-sm" data-spawn="garage" data-room-chip="garage">Ping-Pong</button>
+            <span class="dock-sep"></span>
+            <button class="btn btn-sm" data-spawn="entry" data-room-chip="entry">Front Door</button>
+            <button class="btn btn-sm" data-spawn="dining" data-room-chip="dining">Dining &amp; Kitchen</button>
+            <button class="btn btn-sm" data-spawn="living" data-room-chip="living">Living Room</button>
+            <button class="btn btn-sm" data-spawn="game" data-room-chip="game">Foosball</button>
+            <button class="btn btn-sm" data-spawn="down_bed" data-room-chip="down_bed">1st-Flr Bed</button>
+            <button class="btn btn-sm" data-spawn="stairs_bottom">Stairs</button>
+            <span class="dock-sep"></span>
+            <button class="btn btn-sm" data-spawn="up_west" data-room-chip="up_west">Upstairs King</button>
+            <button class="btn btn-sm" data-spawn="up_east" data-room-chip="up_east">Upstairs 2-Queen</button>
+            <button class="btn btn-sm" data-spawn="up_bath" data-room-chip="up_bath">Upstairs Bath</button>
+          </div>
+        </div>
+
         <canvas id="webgl-canvas"></canvas>
         <div id="labels-layer"></div>
 
+        <!-- CONTEXTUAL ROOM QUICK-ACTION BAR IN PLAN MODE -->
+        <div class="room-focus-bar hidden" id="room-focus-bar">
+          <span class="room-focus-name" id="focus-room-name">Room</span>
+          <button class="btn btn-sm" id="btn-focus-photos">Photos</button>
+          <button class="btn btn-sm btn-outline-accent" id="btn-focus-walk">Walk Here →</button>
+          <button class="btn btn-sm" id="btn-focus-clear" title="Show all labels">✕</button>
+        </div>
+
+        <!-- WALK INSIDE HUD BADGE, COACH HINT & 6-WAY THUMB PAD -->
+        <div class="fpv-coach hidden" id="fpv-coach">Drag to look around • Tap any floor spot or use arrows to walk</div>
         <div class="fpv-badge hidden" id="fpv-badge">
-          In:<span id="fpv-loc-text">Front Porch</span>
+          <span>In: <span class="fpv-loc-label" id="fpv-loc-text">Front Porch &amp; Fire Pit</span></span>
+          <button class="btn btn-sm" id="btn-fpv-photo">Real Photo</button>
+          <button class="btn btn-sm btn-outline-accent" id="btn-fpv-map">Plan Map</button>
         </div>
         <div class="fpv-reticle hidden" id="fpv-reticle"></div>
         <div class="fpv-pad hidden" id="fpv-pad">
-          <div></div>
-          <button class="pad-btn" data-pad="ArrowUp" title="Walk Forward">↑</button>
-          <div></div>
           <button class="pad-btn" data-pad="ArrowLeft" title="Turn Left">↺</button>
-          <button class="pad-btn" data-pad="ArrowDown" title="Walk Back">↓</button>
+          <button class="pad-btn" data-pad="ArrowUp" title="Walk Forward">↑</button>
           <button class="pad-btn" data-pad="ArrowRight" title="Turn Right">↻</button>
+          <button class="pad-btn" data-pad="KeyA" title="Step Left">◀</button>
+          <button class="pad-btn" data-pad="ArrowDown" title="Walk Back">↓</button>
+          <button class="pad-btn" data-pad="KeyD" title="Step Right">▶</button>
         </div>
 
         <div class="hud-bottom-left" id="hud-help">
-          <span class="hud-controls-desktop" id="hud-controls-text"><strong>Move:</strong> Arrows • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll</span>
-          <span><i class="legend-dot dot-fam1"></i>Elad's Family</span>
-          <span><i class="legend-dot dot-fam2"></i>Eitan's Family</span>
+          <span class="hud-controls-desktop" id="hud-controls-text"><strong>Drag:</strong> Rotate • <strong>Scroll:</strong> Zoom • <strong>Tap Room:</strong> Inspect</span>
+          <span><i class="legend-dot dot-fam1"></i>Elad &amp; Annie</span>
+          <span><i class="legend-dot dot-fam2"></i>Eitan &amp; Ola</span>
           <span><i class="legend-dot dot-kids"></i>Kids</span>
         </div>
       </div>
@@ -478,7 +578,8 @@
             </div>
             <div class="photo-thumbs" id="insp-thumbs"></div>
             <p id="insp-desc" style="font-size:12px; color:var(--cp-text); margin-bottom:8px;"></p>
-            <div id="insp-kid-note" class="tip-item"></div>
+            <div id="insp-kid-note" class="tip-item" style="margin-bottom:8px;"></div>
+            <button class="btn btn-outline-accent full-width-btn" id="btn-insp-walk">Walk Inside This Area →</button>
           </div>
 
           <div class="card">
@@ -547,6 +648,8 @@
       </aside>
     </div>
   </div>
+
+  <div class="toast-msg hidden" id="toast-msg">Copied!</div>
 
   <!-- LARGE PHOTO LIGHTBOX MODAL -->
   <div class="lightbox hidden" id="lightbox">
@@ -1114,6 +1217,8 @@
     };
 
     const siteGroup = new THREE.Group();
+    const treesGroup = new THREE.Group();
+    siteGroup.add(treesGroup);
     const mainFloorGroup = new THREE.Group();
     const mainTallWallsGroup = new THREE.Group();
     const walkMainEnclosureGroup = new THREE.Group();
@@ -1743,14 +1848,19 @@
     }
     const BOUGH_GEOS = [0, 1, 2, 3].map(k => makeFeatheryBough(1.0, 1.0, k + 1));
 
+    const TREE_RECORDS = [];
     function addPonderosaPine(x, z, s = 1, isFir = false) {
       const h = (isFir ? 48 : 60) * s;
-      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.32 * s, 0.94 * s, h, 9), MAT.pineTrunk);
+      const trunkMat = MAT.pineTrunk.clone();
+      const folBase = deepFoliageMats[Math.abs(Math.round(x + z)) % 3];
+      const folMat = folBase.clone();
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.32 * s, 0.94 * s, h, 9), trunkMat);
       trunk.position.set(x, h / 2, z);
       trunk.rotation.z = (((Math.round(x * 7 + z * 3) % 5) - 2) * 0.011);
       trunk.castShadow = true;
       trunk.receiveShadow = true;
-      siteGroup.add(trunk);
+      treesGroup.add(trunk);
+      const boughs = [];
       // Slender, feathery, naturally tapering Pacific Northwest conifer spires (keeps bottom 26-32ft bare furrowed bark just like Photos #1, #2, #4, #5!)
       const startFrac = isFir ? 0.36 : 0.52;
       const whorls = isFir ? 10 : 8;
@@ -1762,13 +1872,15 @@
         const bh = (isFir ? 8.2 : 7.4) * (1.0 - t * 0.45) * s;
         const ang = wi * 2.35 + x * 0.4;
         const off = (1.0 - t) * 0.32 * s;
-        const bough = new THREE.Mesh(BOUGH_GEOS[(wi + Math.abs(Math.round(z))) % 4], deepFoliageMats[(wi + Math.abs(Math.round(x))) % 3]);
+        const bough = new THREE.Mesh(BOUGH_GEOS[(wi + Math.abs(Math.round(z))) % 4], folMat);
         bough.scale.set(rad, bh, rad);
         bough.position.set(x + Math.cos(ang) * off, h * frac, z + Math.sin(ang) * off);
         bough.rotation.y = ang;
         bough.castShadow = true;
-        siteGroup.add(bough);
+        treesGroup.add(bough);
+        boughs.push(bough);
       }
+      TREE_RECORDS.push({ x, z, trunk, boughs, trunkMat, folMat, op: 1.0 });
       if (Math.hypot(x, z - 20) < 65) addCollider(1, x - 0.55, z - 0.55, x + 0.55, z + 0.55);
     }
 
@@ -1801,7 +1913,7 @@
           siteGroup.add(b);
         }
       }
-      siteGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), wireMat));
+      treesGroup.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), wireMat));
     });
 
     // Woven Tan Rope Hammock slung between Pines G3 (14.5, 65.5) & G4 (3.5, 66.5) behind the Fire Pit (Photo #11 center!)
@@ -1814,7 +1926,7 @@
     const hamMesh = new THREE.Mesh(new THREE.TubeGeometry(hamCurve, 14, 0.55, 6, false), MAT.couchBeige);
     hamMesh.scale.set(1, 0.25, 1.35);
     hamMesh.position.y = 3.1;
-    siteGroup.add(hamMesh);
+    treesGroup.add(hamMesh);
 
     // Full 360-Degree Dense Eastern-Cascade Forest Ring around the Cabin, Backyard, Shed & Garage (clear of driveway & patio!)
     [
@@ -2454,6 +2566,19 @@
     };
 
     let fpvWalkGoal = null; // Optional tap/click-on-floor target in Walk Mode
+    const walkTargetRing = new THREE.Mesh(
+      new THREE.RingGeometry(0.45, 0.72, 24),
+      new THREE.MeshBasicMaterial({ color: 0xfd8ea1, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })
+    );
+    walkTargetRing.rotation.x = -Math.PI / 2;
+    walkTargetRing.visible = false;
+    scene.add(walkTargetRing);
+
+    function roomToSpawnKey(roomId) {
+      if (roomId === "porch") return "front_yard";
+      if (roomId === "up_closet") return "up_west";
+      return SPAWNS[roomId] ? roomId : "entry";
+    }
 
     function spawnFPV(key) {
       testCamOverride = null;
@@ -2635,6 +2760,10 @@
           document.getElementById("fpv-floor-pill").textContent = fpv.floor === 2 ? "Upstairs" : r.floor;
           populateInspector(rId);
         }
+        document.querySelectorAll("[data-room-chip]").forEach(b => {
+          const match = b.dataset.roomChip === rId || (b.dataset.roomChip === "dining" && rId === "kitchen");
+          b.classList.toggle("active", match);
+        });
       }
     }
 
@@ -2716,6 +2845,7 @@
       camCtrl.lastY = e.clientY;
 
       if (appMode === "explore") {
+        dismissFPVCoach();
         fpv.yaw -= dx * 0.0055;
         fpv.pitch = Math.max(-0.85, Math.min(0.85, fpv.pitch - dy * 0.0048));
         return;
@@ -2745,14 +2875,15 @@
           if (appMode === "planning") {
             handleCanvasClick(e);
           } else {
-            // In Walk Mode, tapping/clicking on a visible floor spot glides smoothly toward it!
+            // In Walk Mode, tapping/clicking on ANY visible floor or outdoor ground glides smoothly toward it!
             const rect = canvas.getBoundingClientRect();
             mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
             mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
             raycaster.setFromCamera(mouse, camera);
-            const hits = raycaster.intersectObjects(pickables, false);
-            if (hits.length > 0 && hits[0].point.y < fpv.y + 2.8 && hits[0].point.y > fpv.y - 2.8) {
-              fpvWalkGoal = { x: hits[0].point.x, z: hits[0].point.z };
+            const hits = raycaster.intersectObjects([forestBase, ...pickables], false);
+            if (hits.length > 0 && hits[0].point.y < fpv.y + 3.2 && hits[0].point.y > fpv.y - 3.2) {
+              dismissFPVCoach();
+              fpvWalkGoal = { x: hits[0].point.x, z: hits[0].point.z, y: hits[0].point.y };
             }
           }
         }
@@ -2783,9 +2914,10 @@
       });
       const hits = raycaster.intersectObjects(activeObjects, false);
       if (hits.length > 0 && hits[0].object.userData.roomId) {
-        selectRoom(hits[0].object.userData.roomId, true, true);
+        selectRoom(hits[0].object.userData.roomId, false, true);
       } else {
         selectedRoomId = null;
+        updateFocusBar();
       }
     }
 
@@ -2794,18 +2926,75 @@
     let barnGoalX = -15.65;
 
     const VIEW_INFO = {
-      both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  upperY: 21.0, cam: { theta: 0.34, phi: 0.96, radius: 80, target: [0, 10.5, 2] } },
-      downstairs: { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.32, phi: 0.80, radius: 58, target: [0, 2.5, 1] } },
-      upstairs:   { mainVis: true, upperVis: true,  roofVis: false, tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.30, phi: 0.78, radius: 54, target: [0, 11.2, 0] } },
-      outside:    { mainVis: true, upperVis: false, roofVis: true,  tallVis: true,  guidesVis: false, upperY: 9.8,  cam: { theta: 0.42, phi: 1.12, radius: 84, target: [-2, 6, 8] } },
-      top:        { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, upperY: 9.8,  cam: { theta: 0.0,  phi: 0.14, radius: 70, target: [0, 1.5, 1] } }
+      both:       { mainVis: true, upperVis: true,  roofVis: false, tallVis: false, guidesVis: true,  treesVis: true, upperY: 21.0, cam: { theta: 0.34, phi: 0.96, radius: 78, target: [0, 10.5, 2] } },
+      downstairs: { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, treesVis: true, upperY: 9.8,  cam: { theta: 0.32, phi: 0.80, radius: 56, target: [0, 2.5, 1] } },
+      upstairs:   { mainVis: true, upperVis: true,  roofVis: false, tallVis: true,  guidesVis: false, treesVis: true, upperY: 9.8,  cam: { theta: 0.30, phi: 0.78, radius: 54, target: [0, 11.2, 0] } },
+      outside:    { mainVis: true, upperVis: false, roofVis: true,  tallVis: true,  guidesVis: false, treesVis: true, upperY: 9.8,  cam: { theta: 0.34, phi: 1.08, radius: 84, target: [-2, 6, 16] } },
+      top:        { mainVis: true, upperVis: false, roofVis: false, tallVis: false, guidesVis: false, treesVis: true, upperY: 9.8,  cam: { theta: 0.0,  phi: 0.14, radius: 68, target: [0, 1.5, 1] } }
     };
 
     const workspaceEl = document.getElementById("workspace");
     const sheetBtn = document.getElementById("btn-sheet-toggle");
+    const focusBarEl = document.getElementById("room-focus-bar");
+    const coachEl = document.getElementById("fpv-coach");
+    let coachTimer = null;
+
+    function showToast(text) {
+      const el = document.getElementById("toast-msg");
+      el.textContent = text;
+      el.classList.remove("hidden");
+      clearTimeout(el._tid);
+      el._tid = setTimeout(() => el.classList.add("hidden"), 2300);
+    }
+
+    function dismissFPVCoach() {
+      coachEl.classList.add("fade-out");
+      clearTimeout(coachTimer);
+      coachTimer = setTimeout(() => coachEl.classList.add("hidden"), 380);
+    }
+
+    function updateFocusBar() {
+      if (appMode !== "planning" || !selectedRoomId || !ROOMS[selectedRoomId]) {
+        focusBarEl.classList.add("hidden");
+        return;
+      }
+      const r = ROOMS[selectedRoomId];
+      document.getElementById("focus-room-name").textContent = r.name;
+      document.getElementById("btn-focus-photos").textContent = `Photos (${r.photos.length})`;
+      focusBarEl.classList.remove("hidden");
+    }
+
+    document.getElementById("btn-focus-photos").addEventListener("click", () => {
+      if (!selectedRoomId) return;
+      openLightbox(selectedRoomId, 0);
+    });
+    document.getElementById("btn-focus-walk").addEventListener("click", () => {
+      const targetKey = roomToSpawnKey(selectedRoomId || activeInspectorRoomId);
+      setAppMode("explore");
+      spawnFPV(targetKey);
+    });
+    document.getElementById("btn-focus-clear").addEventListener("click", () => {
+      selectedRoomId = null;
+      updateFocusBar();
+    });
+    document.getElementById("btn-insp-walk").addEventListener("click", () => {
+      const targetKey = roomToSpawnKey(activeInspectorRoomId);
+      setAppMode("explore");
+      spawnFPV(targetKey);
+    });
+    document.getElementById("btn-fpv-photo").addEventListener("click", () => {
+      openLightbox(fpv.currentRoom || "porch", 0);
+    });
+    document.getElementById("btn-fpv-map").addEventListener("click", () => {
+      const curRoom = fpv.currentRoom;
+      setAppMode("planning");
+      if (curRoom && ROOMS[curRoom]) selectRoom(curRoom, false, true);
+    });
+
     function setSheetCollapsed(collapsed) {
+      workspaceEl.classList.remove("sheet-expanded");
       workspaceEl.classList.toggle("sheet-collapsed", collapsed);
-      sheetBtn.textContent = collapsed ? "Panel ▲" : "Full 3D ▼";
+      sheetBtn.textContent = collapsed ? "Open Plan ▲" : "Full 3D ▼";
       setTimeout(resize, 50);
       setTimeout(resize, 220);
     }
@@ -2822,27 +3011,37 @@
       document.getElementById("fpv-badge").classList.toggle("hidden", !isWalk);
       document.getElementById("fpv-reticle").classList.toggle("hidden", !isWalk);
       document.getElementById("fpv-pad").classList.toggle("hidden", !isWalk);
+      document.getElementById("hud-help").classList.toggle("hidden", isWalk);
       document.getElementById("tab-btn-jump").classList.toggle("hidden", !isWalk);
 
       if (isWalk) {
+        focusBarEl.classList.add("hidden");
+        coachEl.classList.remove("hidden", "fade-out");
+        clearTimeout(coachTimer);
+        coachTimer = setTimeout(dismissFPVCoach, 4800);
         camera.fov = window.innerWidth < 700 ? 72 : 64;
         camera.updateProjectionMatrix();
         barnDoorGroup.scale.y = 1.0;
-        barnDoorGroup.position.y = 3.7;
+        barnDoorGroup.position.y = 3.65;
         mainFloorGroup.visible = true;
         upperFloorGroup.visible = true;
         upperFloorGroup.position.y = upperGoalY = 9.8;
         mainTallWallsGroup.visible = true;
         walkMainEnclosureGroup.visible = true;
-        walkUpperEnclosureGroup.visible = true;
-        upperExteriorCutawayGroup.visible = true;
-        roofGroup.visible = true;
+        walkUpperEnclosureGroup.visible = fpv.y > 4.5;
+        upperExteriorCutawayGroup.visible = fpv.y > 4.5;
+        roofGroup.visible = fpv.y <= 4.5;
+        treesGroup.visible = true;
         explodedGuidesGroup.visible = false;
-        document.getElementById("hud-controls-text").innerHTML = "<strong>Walk:</strong> ↑/↓ or W/S • <strong>Turn:</strong> ←/→ or Drag";
         if (window.innerWidth <= 820) setSheetCollapsed(true);
+        else if (document.querySelector(".tab-btn.active")?.dataset.tab === "planner") switchTab("inspector");
+        fpv.currentRoom = "";
         detectFPVRoom();
         viewport.focus({ preventScroll: true });
       } else {
+        walkTargetRing.visible = false;
+        fpvWalkGoal = null;
+        coachEl.classList.add("hidden");
         camera.fov = 40;
         camera.updateProjectionMatrix();
         barnDoorGroup.scale.y = 0.66;
@@ -2850,9 +3049,9 @@
         walkMainEnclosureGroup.visible = false;
         walkUpperEnclosureGroup.visible = false;
         upperExteriorCutawayGroup.visible = true;
-        document.getElementById("hud-controls-text").innerHTML = "<strong>Move:</strong> Arrows • <strong>Rotate:</strong> Drag • <strong>Zoom:</strong> Scroll";
-        if (document.querySelector(".tab-btn.active")?.dataset.tab === "jump") switchTab("planner");
-        setViewMode(currentView, true);
+        if (window.innerWidth > 820 || !workspaceEl.classList.contains("sheet-collapsed")) switchTab("planner");
+        setViewMode(currentView, false);
+        updateFocusBar();
       }
     }
 
@@ -2870,7 +3069,10 @@
 
     function setViewMode(mode, clearSelectedRoom = true) {
       currentView = mode;
-      if (clearSelectedRoom) selectedRoomId = null;
+      if (clearSelectedRoom) {
+        selectedRoomId = null;
+        updateFocusBar();
+      }
       const cfg = VIEW_INFO[mode];
       document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("active", b.dataset.view === mode));
 
@@ -2878,6 +3080,7 @@
       upperFloorGroup.visible = cfg.upperVis;
       upperExteriorCutawayGroup.visible = !cfg.roofVis;
       roofGroup.visible = cfg.roofVis;
+      treesGroup.visible = cfg.treesVis;
       mainTallWallsGroup.visible = cfg.tallVis;
       explodedGuidesGroup.visible = cfg.guidesVis;
       upperGoalY = cfg.upperY;
@@ -3010,7 +3213,7 @@
       placed.forEach(p => {
         p.el.style.display = "block";
         p.el.style.left = `${Math.max(46, Math.min(w - 46, p.x))}px`;
-        p.el.style.top = `${Math.max(24, Math.min(h - 10, p.y))}px`;
+        p.el.style.top = `${Math.max(54, Math.min(h - 46, p.y))}px`;
         p.el.classList.toggle("selected", p.selected);
       });
     }
@@ -3083,15 +3286,18 @@
       if (!r) return;
       selectedRoomId = roomId;
       populateInspector(roomId);
+      updateFocusBar();
       if (openInspectorTab) switchTab("inspector");
 
       if (focusCam && appMode === "planning") {
         if (r.level === 2 && !upperFloorGroup.visible) setViewMode("upstairs", false);
         else if (r.level === 1 && currentView === "outside") setViewMode("downstairs", false);
+        else if (r.level === 0 && currentView !== "outside") setViewMode("outside", false);
         selectedRoomId = roomId;
+        updateFocusBar();
         const targetY = r.level === 2 ? upperGoalY + 2.2 : r.pos[1];
         camCtrl.goalTarget.set(r.pos[0], targetY, r.pos[2]);
-        camCtrl.goalRadius = Math.min(camCtrl.goalRadius, 52);
+        camCtrl.goalRadius = Math.min(camCtrl.goalRadius, r.level === 0 ? 72 : 50);
       }
     }
 
@@ -3146,6 +3352,17 @@
       } catch (_) { return window.location.href; }
     }
 
+    const QUICK_ASSIGNS = [
+      { label: "Elad & Annie", group: "fam1", note: "Elad & Annie" },
+      { label: "Galileo (4)",  group: "fam1", note: "Galileo (4)" },
+      { label: "Ada (2)",      group: "fam1", note: "Ada (2)" },
+      { label: "Galileo & Ada",group: "fam1", note: "Galileo (4) & Ada (2)" },
+      { label: "Eitan & Ola",  group: "fam2", note: "Eitan & Ola" },
+      { label: "Maya (3)",     group: "fam2", note: "Maya (3)" },
+      { label: "Kids Shared",  group: "kids", note: "Galileo (4) & Maya (3)" },
+      { label: "Free / Nap",   group: "open", note: "Free / Nap Bed" }
+    ];
+
     const bedListEl = document.getElementById("bed-list");
     function renderBedPlanner() {
       bedListEl.innerHTML = "";
@@ -3153,33 +3370,65 @@
         const st = bedState[b.id] || { group: "open", note: "" };
         const div = document.createElement("div");
         div.className = "bed-item";
+        const chipsHtml = QUICK_ASSIGNS.map((qa, qi) => {
+          const isAct = (st.note || "").trim() === qa.note && st.group === qa.group;
+          const actCls = isAct ? ` active-${qa.group}` : "";
+          return `<button type="button" class="q-chip${actCls}" data-qbed="${b.id}" data-qidx="${qi}">${qa.label}</button>`;
+        }).join("");
+
         div.innerHTML = `
-          <div>
-            <div class="bed-name">${b.name}</div>
-            <div class="bed-room">${b.roomName}</div>
+          <div class="bed-top-row">
+            <div>
+              <div class="bed-name">${b.name}</div>
+              <div class="bed-room">${b.roomName}</div>
+            </div>
+            <button type="button" class="bed-walk-chip" data-walk-bed="${b.room}">Walk 3D →</button>
           </div>
+          <div class="quick-chips">${chipsHtml}</div>
           <div class="bed-controls">
             <select class="assign-select" data-bed="${b.id}">
-              <option value="fam1" ${st.group === "fam1" ? "selected" : ""}>Elad &amp; Annie's Family</option>
-              <option value="fam2" ${st.group === "fam2" ? "selected" : ""}>Eitan &amp; Ola's Family</option>
+              <option value="fam1" ${st.group === "fam1" ? "selected" : ""}>Elad &amp; Annie</option>
+              <option value="fam2" ${st.group === "fam2" ? "selected" : ""}>Eitan &amp; Ola</option>
               <option value="kids" ${st.group === "kids" ? "selected" : ""}>Kids Shared</option>
-              <option value="open" ${st.group === "open" ? "selected" : ""}>Free / Nap Bed</option>
+              <option value="open" ${st.group === "open" ? "selected" : ""}>Free / Nap</option>
             </select>
-            <input class="guest-input" list="family-names" type="text" placeholder="Names..." value="${st.note || ""}" data-note="${b.id}" />
+            <input class="guest-input" list="family-names" type="text" placeholder="Custom note..." value="${st.note || ""}" data-note="${b.id}" />
           </div>
         `;
         div.addEventListener("click", ev => {
-          if (ev.target.tagName === "SELECT" || ev.target.tagName === "INPUT") return;
+          if (ev.target.closest("select, input, button")) return;
           if (appMode === "explore") spawnFPV(b.room);
           else selectRoom(b.room, false, true);
         });
         bedListEl.appendChild(div);
       });
 
+      bedListEl.querySelectorAll("[data-walk-bed]").forEach(wBtn => {
+        wBtn.addEventListener("click", e => {
+          e.stopPropagation();
+          setAppMode("explore");
+          spawnFPV(roomToSpawnKey(wBtn.dataset.walkBed));
+        });
+      });
+
+      bedListEl.querySelectorAll("[data-qbed]").forEach(cBtn => {
+        cBtn.addEventListener("click", e => {
+          e.stopPropagation();
+          const bedId = cBtn.dataset.qbed;
+          const qa = QUICK_ASSIGNS[Number(cBtn.dataset.qidx)];
+          bedState[bedId] = { group: qa.group, note: qa.note };
+          document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
+          renderBedPlanner();
+          updateBedColorsAndUI();
+          encodePlanHash();
+        });
+      });
+
       bedListEl.querySelectorAll(".assign-select").forEach(sel => {
         sel.addEventListener("change", e => {
           bedState[e.target.dataset.bed].group = e.target.value;
           document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
+          renderBedPlanner();
           updateBedColorsAndUI();
           encodePlanHash();
         });
@@ -3187,6 +3436,7 @@
       bedListEl.querySelectorAll(".guest-input").forEach(inp => {
         inp.addEventListener("input", e => {
           bedState[e.target.dataset.note].note = e.target.value;
+          document.querySelectorAll(".preset-btn").forEach(p => p.classList.remove("active"));
           updateBedColorsAndUI();
           encodePlanHash();
         });
@@ -3232,10 +3482,9 @@
       });
     });
 
-    document.getElementById("btn-copy-plan").addEventListener("click", async e => {
-      const btn = e.currentTarget;
+    async function copyShareLink() {
       const shareUrl = encodePlanHash();
-      const lines = ["Cabin Room Plan — Elad & Annie + Eitan & Ola:"];
+      const lines = ["Thanksgiving pajama party — Cabin Room Plan:"];
       BEDS.forEach(b => {
         const st = bedState[b.id];
         lines.push(`• ${b.roomName} — ${b.name}: ${st.note || "Free"}`);
@@ -3243,10 +3492,13 @@
       if (shareUrl.startsWith("http")) lines.push(`\nOpen 3D Cabin & Walk Inside: ${shareUrl}`);
       try {
         await navigator.clipboard.writeText(lines.join("\n"));
-        btn.textContent = "Copied Plan & Link!";
-        setTimeout(() => { btn.textContent = "Copy Plan & Share Link"; }, 2200);
-      } catch (_) {}
-    });
+        showToast("Copied room plan & shareable link!");
+      } catch (_) {
+        showToast("Share link updated in address bar!");
+      }
+    }
+    document.getElementById("btn-copy-plan").addEventListener("click", copyShareLink);
+    document.getElementById("btn-top-share").addEventListener("click", copyShareLink);
 
     function syncSceneTheme() {
       const tc = getThemeColors();
@@ -3283,8 +3535,18 @@
       t += dt * 2.4;
 
       barnDoorGroup.position.x += (barnGoalX - barnDoorGroup.position.x) * (1 - Math.exp(-9 * dt));
-      flame.scale.y = 0.92 + Math.sin(t * 3.1) * 0.12;
-      fireLight.intensity = 1.05 + Math.sin(t * 4.2) * 0.18;
+      if (flameOuter) flameOuter.scale.y = 0.92 + Math.sin(t * 3.1) * 0.12;
+      if (flameCore) flameCore.scale.y = 0.90 + Math.cos(t * 4.3) * 0.15;
+      fireLight.intensity = 1.15 + Math.sin(t * 4.2) * 0.18;
+
+      if (appMode === "explore" && fpvWalkGoal) {
+        walkTargetRing.visible = true;
+        walkTargetRing.position.set(fpvWalkGoal.x, (fpvWalkGoal.y || fpv.y) + 0.08, fpvWalkGoal.z);
+        const pulse = 0.85 + Math.sin(t * 4.0) * 0.15;
+        walkTargetRing.scale.set(pulse, pulse, 1);
+      } else {
+        walkTargetRing.visible = false;
+      }
 
       if (testCamOverride) {
         camera.position.set(testCamOverride.x, testCamOverride.y, testCamOverride.z);
@@ -3344,8 +3606,47 @@
         camera.lookAt(camCtrl.target);
       }
 
+      updateTreeTransparency(dt);
       renderer.render(scene, camera);
       updateLabels3D();
+    }
+
+    function updateTreeTransparency(dt) {
+      const cx = camera.position.x, cz = camera.position.z;
+      const tx = appMode === "planning" ? camCtrl.target.x : fpv.x;
+      const tz = appMode === "planning" ? camCtrl.target.z : fpv.z;
+      const vx = tx - cx, vz = tz - cz;
+      const vLenSq = Math.max(1, vx * vx + vz * vz);
+
+      for (let i = 0; i < TREE_RECORDS.length; i++) {
+        const rec = TREE_RECORDS[i];
+        let goalOp = 1.0;
+        if (appMode === "planning" && !testCamOverride) {
+          // Trees in front of the house (z > 13.5) OR sitting between the orbit camera and the house fade softly to 0.18!
+          const dx = rec.x - cx, dz = rec.z - cz;
+          const proj = (dx * vx + dz * vz) / vLenSq;
+          const perpDist = Math.hypot(dx - proj * vx, dz - proj * vz);
+          const blocksCam = proj > -0.05 && proj < 1.05 && perpDist < 28.0;
+          const inFrontYard = rec.z > 13.5 && Math.abs(rec.x) < 42.0;
+          if (blocksCam || inFrontYard) goalOp = 0.18;
+        }
+        if (Math.abs(rec.op - goalOp) > 0.005) {
+          rec.op += (goalOp - rec.op) * Math.min(1, dt * 10);
+          const isTrans = rec.op < 0.98;
+          if (rec.trunkMat.transparent !== isTrans) {
+            rec.trunkMat.transparent = isTrans;
+            rec.trunkMat.depthWrite = !isTrans;
+            rec.trunkMat.needsUpdate = true;
+            rec.folMat.transparent = isTrans;
+            rec.folMat.depthWrite = !isTrans;
+            rec.folMat.needsUpdate = true;
+            rec.trunk.castShadow = !isTrans;
+            for (let b = 0; b < rec.boughs.length; b++) rec.boughs[b].castShadow = !isTrans;
+          }
+          rec.trunkMat.opacity = rec.op;
+          rec.folMat.opacity = rec.op;
+        }
+      }
     }
     animate();
   })();
